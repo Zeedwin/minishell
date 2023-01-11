@@ -9,15 +9,22 @@
 
 
 
-void currpath(t_var s) 
+void currpath(t_var *var) 
 {
-   
-    if ( getcwd( s.promt, PATH_MAX ) == NULL ) {
+	char promt1[PATH_MAX];
+	int i;
+
+    if ( getcwd(promt1, PATH_MAX ) == NULL ) {
         fprintf( stderr, "Cannot get current working directory path\n" );
         if ( errno == ERANGE ) {
             fprintf( stderr, "Buffer size is too small.\n" );
         }
         exit( EXIT_FAILURE );
 	}
-    printf( "Current working directory: %s\n", s.promt);
+	var->promt = malloc((ft_strlen(promt1) + 2) * sizeof(char));
+	i = ft_strlen(promt1);
+	var->promt = ft_strcpy(var->promt, promt1);
+	var->promt[i] = '>';
+	var->promt[i + 1] = '\0';
+    //printf( "%s\n", s.promt);
 }

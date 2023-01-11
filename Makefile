@@ -10,11 +10,19 @@
 NAME        := minishell
 CC        := gcc
 FLAGS    := -Wall -Wextra -Werror 
+LDFLAG = -lreadline
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
-SRCS        :=      main.c \
+SRCS        :=      find_path.c \
+                          ft_putstr.c \
+                          ft_split.c \
+                          ft_strcpy.c \
+                          ft_strjoin.c \
+                          ft_strncmp.c \
+                          main.c \
+                          pathrefresh.c \
                           
 OBJS        := $(SRCS:.c=.o)
 
@@ -36,7 +44,7 @@ RM		    := rm -f
 
 ${NAME}:	${OBJS}
 			@echo "$(GREEN)Compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
-			${CC} ${FLAGS} -o ${NAME} ${OBJS}
+			${CC} ${FLAGS} -o ${NAME} ${OBJS} ${LDFLAG}
 			@echo "$(GREEN)$(NAME) created[0m ✔️"
 
 all:		${NAME}
