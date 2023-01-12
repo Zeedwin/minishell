@@ -14,7 +14,7 @@
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "../libft/libft.h" 
+# include "libft/libft.h" 
 
 
 typedef struct s_var {

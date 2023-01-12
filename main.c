@@ -57,14 +57,16 @@ int main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	t_var var;
-	
+
 	currpath(&var);
 	var.line = readline(var.promt);
-	add_history(var.line);
+	//add_history(var.line);
 	//var.line = readline("$>");
 	init_cmd(&var);
 	find_path(envp, &var);
 	cmd1_process(&var, envp);
+	printf("oui");
+	fflush(stdout);
 	
 }
 //https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf

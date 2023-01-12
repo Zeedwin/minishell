@@ -3,31 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 15:32:22 by jgirard-          #+#    #+#             */
-/*   Updated: 2022/03/29 18:31:32 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/01/12 14:11:30 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char	*str)
+size_t	ft_strlcat(char *dst, const char *src, int s)
 {
 	int	i;
-
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-		i ++;
-	return (i);
-}
-
-size_t	ft_strlcat(char *dst, const char *src, size_t s)
-{
-	size_t	i;
-	size_t	j;
+	int	j;
 
 	i = 0;
 	j = 0;
