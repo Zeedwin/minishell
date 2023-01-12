@@ -43,12 +43,54 @@ void init_cmd(t_var *var)
 	var->cmd1 = ft_split(var->cmd, ' ');
 }
 
+int testspace(t_var *var)
+{
+	int i;
+
+	i = 0;
+	while (var->line[i] != '\0')
+	{
+		if (var->line[i] != ' ')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void historyset(t_var *var)
+{
+	if (ft_strlen(var->line) != 0 && testspace(var) == 1)
+	{
+		//printf("%d\n", ft_strlen(var->line));
+		//fflush(stdout);
+		add_history(var->line);
+	}
+}
+
 void	cmd1_process(t_var *var, char **envp)
 {
+	currpath(var);
+	var->line = readline(var->promt);
+	historyset(var);
+	init_cmd(var);
+	find_path(envp, var);
 	var->cmdpath = find_cmd_path(var, var->cmd1[0]);
 	if (var->cmdpath == 0)
-		ft_putstr("invalide cmd\n");
-	execve(var->cmdpath, var->cmd1, envp);
+	{
+		printf("invalide cmd\n");
+		fflush(stdout);
+		cmd1_process(var, envp);
+	}
+	else
+	{
+		var->shell = fork();
+		if (var->shell == 0)
+			execve(var->cmdpath, var->cmd1, envp);
+			waitpid(var->shell, NULL, 0);
+		if (var->shell != 0)
+			cmd1_process(var, envp);
+	}
+
 }
 
 
@@ -57,16 +99,8 @@ int main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	t_var var;
-
-	currpath(&var);
-	var.line = readline(var.promt);
-	//add_history(var.line);
-	//var.line = readline("$>");
-	init_cmd(&var);
-	find_path(envp, &var);
+	
 	cmd1_process(&var, envp);
-	printf("oui");
-	fflush(stdout);
 	
 }
 //https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf

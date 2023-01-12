@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isprint.c                                       :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/21 17:28:11 by jgirard-          #+#    #+#             */
-/*   Updated: 2022/03/26 20:20:06 by jgirard-         ###   ########.fr       */
+/*   Created: 2022/01/31 21:17:33 by hdelmann          #+#    #+#             */
+/*   Updated: 2022/11/25 14:37:52 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-int	ft_isprint(int s)
+int	ft_strncmp(char *s1, char *s2, int n)
 {
-	if (!(s >= 32 && s <= 126))
-	{
+	int	i;
+
+	i = 0;
+	while (s1[i] == s2[i]
+		&& s1[i] != '\0' && s2[i] != '\0' && i < n)
+		i++;
+	if (i == n)
+		return (1);
+	else
 		return (0);
-	}
-	return (1);
 }
