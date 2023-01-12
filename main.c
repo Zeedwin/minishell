@@ -60,6 +60,7 @@ int main(int ac, char **av, char **envp)
 	
 	currpath(&var);
 	var.line = readline(var.promt);
+	add_history(var.line);
 	//var.line = readline("$>");
 	init_cmd(&var);
 	find_path(envp, &var);
