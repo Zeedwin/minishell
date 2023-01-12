@@ -27,6 +27,7 @@ typedef struct s_var {
 	char *cmdpath;
 	char *promt;
 	char *line;
+	char **line2;
 	pid_t	shell;
 }		t_var;
 
@@ -40,6 +41,7 @@ void	ft_putstr(char *s);
 int		ft_strlen(const char *a);
 void	find_path(char **envp, t_var *var);
 char	*ft_strcpy(char *dest, char *src);
+int 	quotecheker(char *s, char c);
 
 
 #endif

@@ -37,19 +37,27 @@ void	find_path(char **envp, t_var *var)
 	}	
 }
 
+int check_path(char *s)
+{
+	int i;
+
+	i = ft_strlen(s) - 1;
+	if (s[i] != '/')
+		return (0);
+	return (1);
+}
+
 char	*find_cmd_path(t_var *var, char *cmd)
 {
 	int		i;
 	char	*cmd_path;
 
 	i = 0;
-	while (var->path[i])
+	while (var->path[i] && check_path(var->path[i]) == 1)
 	{
 		cmd_path = ft_strjoin(var->path[i], cmd);
 		if (access(cmd_path, F_OK | X_OK) == 0)
-		{
 			return (cmd_path);
-		}
 		free(cmd_path);
 		i++;
 	}

@@ -60,11 +60,7 @@ int testspace(t_var *var)
 void historyset(t_var *var)
 {
 	if (ft_strlen(var->line) != 0 && testspace(var) == 1)
-	{
-		//printf("%d\n", ft_strlen(var->line));
-		//fflush(stdout);
 		add_history(var->line);
-	}
 }
 
 void	cmd1_process(t_var *var, char **envp)
@@ -74,11 +70,13 @@ void	cmd1_process(t_var *var, char **envp)
 	historyset(var);
 	init_cmd(var);
 	find_path(envp, var);
-	var->cmdpath = find_cmd_path(var, var->cmd1[0]);
+	var->cmdpath = var->cmd1[0];
+	if (access(var->cmd1[0], F_OK | X_OK) != 0)
+		var->cmdpath = find_cmd_path(var, var->cmd1[0]);
 	if (var->cmdpath == 0)
 	{
-		printf("invalide cmd\n");
-		fflush(stdout);
+		if (ft_strlen(var->line) != 0 && testspace(var) == 1)
+			printf("invalide cmd\n");
 		cmd1_process(var, envp);
 	}
 	else
@@ -86,12 +84,13 @@ void	cmd1_process(t_var *var, char **envp)
 		var->shell = fork();
 		if (var->shell == 0)
 			execve(var->cmdpath, var->cmd1, envp);
-			waitpid(var->shell, NULL, 0);
+		waitpid(var->shell, NULL, 0);
 		if (var->shell != 0)
 			cmd1_process(var, envp);
 	}
 
 }
+
 
 
 int main(int ac, char **av, char **envp)
