@@ -14,7 +14,6 @@ int	*cd(t_var *var)
 	}
 	else if ((strncmp(var->line, "cd", 2) == 0) && ft_strlen(var->line) == 2)
 	{
-		//printf("dasdasdas\n");
 		chdir(ft_strjoin("/Users/", usr));
 	}
 	else if(strncmp(var->line, "cd ", 3) == 0)

@@ -57,14 +57,6 @@ int testspace(t_var *var)
 	return (0);
 }
 
-//char	*getdir(char *c)
-//{
-//	t_var var;
-//
-//	var.dir = ft_strtrim(c, "cd ");
-//	return (var.dir);
-//}
-
 void historyset(t_var *var)
 {
 	if (ft_strlen(var->line) != 0 && testspace(var) == 1)
@@ -84,7 +76,7 @@ void	cmd1_process(t_var *var, char **envp)
 	if (var->cmdpath == 0)
 	{
 		if (ft_strlen(var->line) != 0 && testspace(var) == 1)
-			printf("invalide cmd\n");
+			printf("bash: %s: command not found\n",var->line);
 		cmd1_process(var, envp);
 	}
 	else
@@ -95,11 +87,6 @@ void	cmd1_process(t_var *var, char **envp)
 		waitpid(var->shell, NULL, 0);
 		if (var->shell != 0)
 		{
-		//if (ft_strncmp(var->line, "cd", 2) == 1)
-		//{
-		//	chdir(getdir(var->line));
-		//}
-			//printf("%s|\n", var->line);
 			cd(var);
 			cmd1_process(var, envp);
 		}
@@ -118,5 +105,3 @@ int main(int ac, char **av, char **envp)
 	cmd1_process(&var, envp);
 	
 }
-//https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
-//copie ca
