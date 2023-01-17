@@ -10,19 +10,27 @@
 NAME        := minishell
 CC        := gcc
 FLAGS    := -Wall -Wextra -Werror 
-LDFLAG = -lreadline
+LDFLAGS := -lreadline
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
-SRCS        :=      find_path.c \
-                          ft_putstr.c \
-                          ft_split.c \
-                          ft_strcpy.c \
-                          ft_strjoin.c \
-                          ft_strncmp.c \
-                          main.c \
-                          pathrefresh.c \
+SRCS		:=            parsing/find_path.c \
+                          parsing/ft_putstr.c \
+                          parsing/ft_split.c \
+                          parsing/ft_strcpy.c \
+                          parsing/ft_strjoin.c \
+                          parsing/ft_strncmp.c \
+                          parsing/main.c \
+                          parsing/pathrefresh.c \
+						  parsing/ft_strtrim.c \
+						  parsing/ft_strchr.c \
+						  parsing/ft_substr.c \
+						  parsing/ft_strlcpy.c \
+						  built-ins/cd.c \
+						  parsing/ft_strnstr.c \
+                          #parsing/test.c \
+                          #parsing/∞shell.c \
                           
 OBJS        := $(SRCS:.c=.o)
 
@@ -44,7 +52,7 @@ RM		    := rm -f
 
 ${NAME}:	${OBJS}
 			@echo "$(GREEN)Compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
-			${CC} ${FLAGS} -o ${NAME} ${OBJS} ${LDFLAG}
+			${CC} ${FLAGS} -o ${NAME} ${OBJS} ${LDFLAGS}
 			@echo "$(GREEN)$(NAME) created[0m ✔️"
 
 all:		${NAME}
