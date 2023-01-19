@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/31 21:17:33 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/01/18 17:54:28 by jgirard-         ###   ########.fr       */
+/*   Created: 2023/01/18 18:05:53 by jgirard-          #+#    #+#             */
+/*   Updated: 2023/01/18 18:14:52 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
-int ft_strncmp(const char *s1, const char *s2, size_t n) 
+void	ft_exit(t_var *var)
 {
-    for (size_t i = 0; i < n; i++) {
-        if (s1[i] != s2[i]) {
-            return (unsigned char)s1[i] - (unsigned char)s2[i];
-        }
-    }
-    return 0;
+	if(ft_strnstr(var->line, "exit", ft_strlen(var->line)))
+	{
+		printf("exit\n");
+		exit(1);
+	}
 }

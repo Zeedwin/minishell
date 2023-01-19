@@ -5,18 +5,15 @@
 
 int	*cd(t_var *var)
 {
-	char *usr;
-
-	usr = getenv("USER");
 	if (ft_strnstr(var->line, "..", 2))
 	{
 		chdir("..");
 	}
-	else if ((strncmp(var->line, "cd", 2) == 0) && ft_strlen(var->line) == 2)
+	else if ((ft_strncmp(var->line, "cd", 2) == 0) && ft_strlen(var->line) == 2)
 	{
-		chdir(ft_strjoin("/Users/", usr));
+		chdir(getenv("HOME"));
 	}
-	else if(strncmp(var->line, "cd ", 3) == 0)
+	else if(ft_strncmp(var->line, "cd ", 3) == 0)
 	{
 		var->dir = ft_strtrim(var->line, "cd ");
 		chdir(var->dir);

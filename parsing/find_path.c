@@ -22,7 +22,7 @@ void	find_path(char **envp, t_var *var)
 	i = 0;
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 1)
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 		{
 			path2 = ft_split(envp[i], ':');
 			var->path = (char **)malloc((c_s(path2) + 1) * sizeof(char *));

@@ -28,6 +28,7 @@ SRCS		:=            parsing/find_path.c \
 						  parsing/ft_substr.c \
 						  parsing/ft_strlcpy.c \
 						  built-ins/cd.c \
+						  built-ins/exit.c \
 						  parsing/ft_strnstr.c \
                           #parsing/test.c \
                           #parsing/∞shell.c \

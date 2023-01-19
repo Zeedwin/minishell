@@ -35,7 +35,7 @@ typedef struct s_var {
 
 void	free_this(char **tab);
 void 	currpath(t_var *var);
-int		ft_strncmp(char *s1, char *s2, int n);
+int 	ft_strncmp(const char *s1, const char *s2, size_t n);
 char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*find_cmd_path(t_var *var, char *cmd);
@@ -49,6 +49,7 @@ size_t	ft_strlcpy(char *restrict dst, const char *restrict src, size_t dstsize);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strnstr(const char *haystack, const char *needle, int len);
+void	ft_exit(t_var *var);
 
 //built-ins
 int	*cd(t_var *var);
