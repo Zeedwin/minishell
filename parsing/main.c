@@ -103,6 +103,7 @@ void process(t_var *var, char **envp)
 	currpath(var);
 	var->line = readline(var->promt);
 	init_tab(&lex, var->line); //apres ca la ligne de commande est decoupe dans lex.s1
+	tokencolector(lex.s1);
 	int	j;
 	j = 0;
 	while (lex.s1[j])
@@ -119,7 +120,7 @@ int main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	t_var var;
-	
+	//t_lex *lex;
 	process(&var, envp); 
 	//echo(&var);
 	

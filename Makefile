@@ -16,6 +16,7 @@ LDFLAGS := -lreadline
 ################################################################################
 
 SRCS		:=            parsing/lexeur1.c \
+						  parsing/lexeur.c \
 						  parsing/find_path.c \
                           parsing/ft_putstr.c \
                           parsing/ft_split.c \
@@ -33,6 +34,7 @@ SRCS		:=            parsing/lexeur1.c \
 						  built-ins/echo.c \
 						  parsing/ft_strnstr.c \
 						  parsing/ft_strdup.c \
+						  parsing/tokenodes.c \
                           #parsing/test.c \
                           #parsing/∞shell.c \
                           

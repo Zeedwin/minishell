@@ -1,35 +1,29 @@
 #include "../includes/shell.h"
 
 
-void	ft_lexeurinit(t_var *var, token *token, lexer *lex)
+void	tokenrecon(char *token, t_token *tok)
 {
-	lex->input = var->line;
-	lex->pos = 0;
-	lex->size = 0;
-	while (lex->input[lex->pos])
-	{
-		if(lex->input[lex->pos] == "|")
-		{
-			token->type = TOKEN_PIPE;
-			token->c = ft_strjoin(token->c, lex->input[lex->pos]);
-		}
-		if(lex->input[lex->pos] >= '!' && <= '~')
-		{
-			token->type = TOKEN_WORD;
-			token->c;
-		}
-		if(lex->input[lex->pos] )
-		{
-
-		}
-		lex->pos++;
-	}
-}
-
-void first_lex(t_var *var)
-{
+	//t_token	tok;
 	int i;
 
 	i = 0;
-	while ()
+	while (token[i] != '\0')
+	{
+		//printf("arg: %s\n", &token[i]);
+		if (token[i] == '|')
+		{
+			tok->type = TOKEN_PIPE;
+		}
+		else if (token[i] == '>' || token[i] == '<')
+		{
+			tok->type = TOKEN_REDIR;
+		}
+		else if((token[i] >= 33 && token[i] <= 59) || (token[i] == 61) || 
+				(token[i] >= 63 && token[i] >= 123) || (token[i] >= 125))
+		{
+			tok->type = TOKEN_WORD;
+		}
+		i++;
+	}
+	printf("arg: %s type: %d\n", tok->data, tok->type);
 }

@@ -1,24 +1,21 @@
 #include "../includes/shell.h"
 
 
-typedef struct Node {
-    char *data;
-    struct Node *next;
-} Node;
 
 int tokencolector(char **tokens)
 {
-    Node *head = NULL;
-    Node *tail = NULL;
+    t_token *head = NULL;
+	t_token *tail = NULL;
 	int	i;
-	i = 1;
+	i = 0;
 
 
     while (tokens[i]) 
 	{
-        Node *new_node = (Node *)malloc(sizeof(Node));
+        t_token *new_node = (t_token *)malloc(sizeof(t_token));
         new_node->data = tokens[i];
         new_node->next = NULL;
+		tokenrecon(tokens[i], new_node);
 
         if (head == NULL) {
             head = new_node;
@@ -30,16 +27,17 @@ int tokencolector(char **tokens)
 		i++;
     }
 
-    Node *current = head;
-    while (current != NULL) {
-        printf("%s\n", current->data);
+    t_token *current = head;
+    while (current != NULL) 
+	{
+		printf("%s\n", current->data);
         current = current->next;
     }
 
     return 0;
 }
 
-int main(int ac, char **av)
+/*int main(int ac, char **av)
 {
 	tokencolector(av);
-}
+}*/

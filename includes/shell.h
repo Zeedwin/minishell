@@ -56,13 +56,11 @@ typedef struct lexeurinit
 	int	size;
 }			lexer;
 
-typedef struct token
-{
-	char	**c;
-	int		type;
-	int		pos;
-	struct token* next;
-}				token;
+typedef struct t_token {
+    char *data;
+	int	 type;
+    struct t_token *next;
+} t_token;
 
 typedef struct s_substr
 {
@@ -99,11 +97,13 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strnstr(const char *haystack, const char *needle, int len);
 void	ft_exit(t_var *var);
-token	*ft_lstnew(char **content);
+//token	*ft_lstnew(char **content);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 size_t	ft_strlcpy(char *restrict dst, const char *restrict src,
 		size_t dstsize);
 void	echo(t_var	*var);
+int 	tokencolector(char **tokens);
+void 	tokenrecon(char *token, t_token *tok);
 //built-ins
 int	*cd(t_var *var);
 
