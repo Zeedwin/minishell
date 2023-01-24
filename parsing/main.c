@@ -99,16 +99,22 @@ void process(t_var *var, char **envp)
 {
 	t_lex lex;
 	(void)envp;
+	char ***s;
+
+	//t_token *head = NULL;
 
 	currpath(var);
 	var->line = readline(var->promt);
 	init_tab(&lex, var->line); //apres ca la ligne de commande est decoupe dans lex.s1
-	tokencolector(lex.s1);
+	tokenizer(&lex);
+	s = separate_tok(var, &lex);
+	printf("oui");
+	fflush(stdout);
 	int	j;
 	j = 0;
 	while (lex.s1[j])
 	{
-		printf("-> %s\n", lex.s1[j]);
+		printf("-> %s ->token = %d\n", lex.s1[j], lex.stoken[j]);
 		j++;
 	}
 }

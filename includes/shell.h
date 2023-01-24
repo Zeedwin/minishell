@@ -46,7 +46,7 @@ enum {
 	TOKEN_PIPE,
 	TOKEN_REDIR,
 	TOKEN_CMD,
-	TOKEN_ARG,
+	TOKEN_DOLLAR,
 };
 
 typedef struct lexeurinit
@@ -73,6 +73,7 @@ typedef struct s_lex
 {
 	int x;
 	char **s1;
+	int *stoken;
 	int c;
 	int y;
 	int rap;
@@ -102,8 +103,11 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 size_t	ft_strlcpy(char *restrict dst, const char *restrict src,
 		size_t dstsize);
 void	echo(t_var	*var);
-int 	tokencolector(char **tokens);
-void 	tokenrecon(char *token, t_token *tok);
+t_token *tokencolector(char **tokens);
+void 	tokenrecon(t_token *tok);
+void tokenizer(t_lex *lex);
+char ***separate_tok(t_var *var, t_lex *lex);
+
 //built-ins
 int	*cd(t_var *var);
 

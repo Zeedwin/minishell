@@ -4,7 +4,7 @@ int count2(int i, char *s, int code)
 {
 	if (code == 0)
 	{
-		while (s[i] != '"' && s[i] != '\0' && s[i] != '\'')
+		while (s[i] != '"' && s[i] != '\0')// && s[i] != '\'')
 		{
 			i++;
 			if (s[i - 1] == '\\' && s[i] == '"')
@@ -13,7 +13,7 @@ int count2(int i, char *s, int code)
 	}
 	if (code == 3)
 	{
-		while (s[i] != '\'' && s[i] != '\0' && s[i] != '\'')
+		while (s[i] != '\'' && s[i] != '\0') //&& s[i] != '\'')
 		{
 			i++;
 			if (s[i - 1] == '\\' && s[i] == '\'')
@@ -30,7 +30,11 @@ int count2(int i, char *s, int code)
 	if (code == 2)
 	{
 		while (s[i] != ' ' && (s[i] != '"' || (s[i] == '"' && s[i - 1] == '\\')) && s[i] != '\0' 
-			&& (s[i] != '\'' || (s[i] == '\'' && s[i - 1] == '\\')))
+			&& (s[i] != '\'' || (s[i] == '\'' && s[i - 1] == '\\')) 
+			&& (s[i] != '|' || (s[i] == '|' && s[i - 1] == '\\'))
+			&& (s[i] != '>' || (s[i] == '>' && s[i - 1] == '\\'))
+			&& (s[i] != '<' || (s[i] == '<' && s[i - 1] == '\\')))
+
 		{
 			i++;
 		}
@@ -64,6 +68,18 @@ int count(char *s)
 		else if (s[i] == ' ')
 		{
 			i = count2(i, s , 1);
+		}
+		else if (s[i] == '|' || (s[i] == '<' && s[i + 1] != '<')
+				|| (s[i] == '>' && s[i + 1] != '>'))
+		{
+			i++;
+			j++;
+		}
+		else if ((s[i] == '<' && s[i + 1] == '<') 
+				|| (s[i] == '>' && s[i + 1] == '>'))
+		{
+			i = i + 2;
+			j++;
 		}
 		else
 		{
@@ -123,7 +139,10 @@ int lexer3(int i, char *s, int code)
 	if (code == 1)
 	{
 		while (s[i] != '\0' && s[i] != ' ' && (s[i] != '"' || (s[i] == '"' && s[i - 1] == '\\'))
-				 && (s[i] != '\'' || (s[i] == '\'' && s[i - 1] == '\\')))
+				&& (s[i] != '\'' || (s[i] == '\'' && s[i - 1] == '\\'))
+				&& (s[i] != '|' || (s[i] == '|' && s[i - 1] == '\\'))
+				&& (s[i] != '>' || (s[i] == '>' && s[i - 1] == '\\'))
+				&& (s[i] != '<' || (s[i] == '<' && s[i - 1] == '\\')))
 		{
 				i++;
 		}
@@ -153,9 +172,21 @@ int lexer1(char *s, t_lex *lex)
 			i = lexer3(i, s, 0);
 			s = lexer2(s, lex, i);
 		}
+		else if (s[i] == '|' || (s[i] == '<' && s[i + 1] != '<')
+				|| (s[i] == '>' && s[i + 1] != '>'))
+		{
+			i++;
+			s = lexer2(s, lex, i);
+		}
 		else if (s[i] == '\'' && ((i == 0 || s[i - 1] != '\\')))
 		{
 			i = lexer3(i, s, 2);
+			s = lexer2(s, lex, i);
+		}
+		else if ((s[i] == '<' && s[i + 1] == '<') 
+				|| (s[i] == '>' && s[i + 1] == '>'))
+		{
+			i = i + 2;
 			s = lexer2(s, lex, i);
 		}
 		else
@@ -281,6 +312,7 @@ void init_tab(t_lex *lex, char *s)
 	s = del_if_quote(s);
 	s = del_if_quote2(s);
 	lex->s1 = malloc((count(s) + 1) * sizeof(char *));
+	lex->stoken = malloc((count(s) + 1) * sizeof(int));
 	lex->x = 0;
 	lex->c = 0;
 	lex->rap = 0;

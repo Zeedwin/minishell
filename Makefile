@@ -10,7 +10,7 @@
 NAME        := minishell
 CC        := gcc
 FLAGS    := -Wall -Wextra -Werror 
-LDFLAGS := -lreadline
+LDFLAGS := -lreadline 
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
@@ -35,6 +35,7 @@ SRCS		:=            parsing/lexeur1.c \
 						  parsing/ft_strnstr.c \
 						  parsing/ft_strdup.c \
 						  parsing/tokenodes.c \
+						  parsing/testeur.c \
                           #parsing/test.c \
                           #parsing/∞shell.c \
                           
