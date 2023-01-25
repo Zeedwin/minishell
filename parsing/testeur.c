@@ -37,31 +37,41 @@ int ft_malloc(char *s1)
 {
 	int i;
 	int j;
+	int k;
 
-	j = 1;
+	j = 0;
 	i = 0;
+	k = 0;
 	while (s1[i] != '\0')
 	{
-		if (s1[i] == '|' || (s1[i] == '>' && s1[i + 1] != '>') || (s1[i] == '<' && s1[i + 1] == '<'))
-		{
-			i++;
-			j++;
-			if (check_vide2(s1, i) == 1)
-				j++;
-				//printf("uno %d\n", j);
-		}
-		else if ((s1[i] == '>' && s1[i + 1] == '>') || (s1[i] == '<' && s1[i + 1] == '<'))
-		{
-			i = i + 2;
-			j++;
-			if (check_vide2(s1, i) == 1)
-				j++;
-		}
-		else 
-			i++;
+		if (s1[i] == '|')
+			k++;
+		i++;
 	}
-	//printf("%d\n", j);
-	return (j);
+	printf("%d\n", k + 2);
+	
+	return (k + 2);
+}
+
+
+int linecopy(char **s1, char **dest, int j, int i)
+{
+	int k;
+
+	k = 0;
+	//printf("j:%d and i:%d\n", j, i);
+	while (j != i)
+	{
+		//printf("COPY %d: %s\n", j, s1[j]);		
+		dest[k] = malloc(sizeof(char) * ft_strlen(s1[j]) + 1);
+		ft_strlcpy(dest[k], s1[j], ft_strlen(s1[j]) + 1);
+		//printf("DEST %d: %s\n", k, dest[k]);
+		//dest[k] = s1[j];
+		k++;
+		j++;
+	}
+	dest[k] = NULL;
+	return (1);
 }
 
 char ***separate_tok(t_var *var, t_lex *lex)
@@ -72,27 +82,31 @@ char ***separate_tok(t_var *var, t_lex *lex)
 	int j;
 	int k;
 
+	
 	j = 0;
 	i = 0;
 	k = 0;
 	sf = (char ***)malloc(sizeof(char **) * ft_malloc(var->line));
-	printf("oui");
-	fflush(stdout);
+	//printf("oui");
+	//fflush(stdout);
+	// "ls" "-l" "|" "cat" "-e" NULL
 	while (lex->s1[i])
 	{
-		while (lex->stoken[i] != TOKEN_PIPE || lex->stoken[i] != TOKEN_REDIR)
+		if (ft_strncmp(lex->s1[i], "|", 1) == 0)
 		{
-			i++;
-		}
-		sf[j] = malloc(sizeof(char *) * (i + 1));
-		while (k <= i)
-		{
-			sf[j][k] = malloc(sizeof(char) * ft_strlen(lex->s1[k]));
-			sf[j][k] = ft_strcpy(sf[j][k], lex->s1[k]);
-			printf("%s\n", sf[j][k]);
+			//printf ("malloc i - j %d and k: %d\n", i - j, k);
+			sf[k] = malloc(sizeof(char *) * (i - j + 1));
+			linecopy(lex->s1, sf[k], j, i);
+			//printf("ICIIIII %s\n", sf[k][0]);
+			j = i + 1;
 			k++;
 		}
-		j++;
+		i++;
 	}
+	sf[k] = malloc(sizeof(char *) * (i - j + 1));
+	linecopy(lex->s1, sf[k], j, i);
+	k++;
+	sf[k] = NULL;
 	return (sf);
 }
+

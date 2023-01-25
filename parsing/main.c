@@ -95,6 +95,33 @@ void	cmd1_process(t_var *var, char **envp)
 
 }
 
+void printcharstar3(char ***s)
+{
+	int i;
+	int j;
+	//int k;
+
+	i = 0;
+	j = 0;
+	//k = 0;
+	//printf("s0 = %p\n", s[0]);
+	while (s[i])
+	{
+		j = 0;
+		printf("Num of char **: %d\n", i);
+		printf("-------------------\n");
+		while (s[i][j])
+		{
+			printf("Char *%p: %s, pos: %d\n", s[i][j],s[i][j], j);
+			j++;
+		}
+			printf("-------------------\n");
+		
+		//j++;
+		i++;
+	}
+}
+
 void process(t_var *var, char **envp)
 {
 	t_lex lex;
@@ -108,13 +135,15 @@ void process(t_var *var, char **envp)
 	init_tab(&lex, var->line); //apres ca la ligne de commande est decoupe dans lex.s1
 	tokenizer(&lex);
 	s = separate_tok(var, &lex);
-	printf("oui");
-	fflush(stdout);
+	//printf("oui");
+	//fflush(stdout);
+	printcharstar3(s);
 	int	j;
 	j = 0;
 	while (lex.s1[j])
 	{
-		printf("-> %s ->token = %d\n", lex.s1[j], lex.stoken[j]);
+
+		//printf("-> %s ->token = %d\n", lex.s1[j], lex.stoken[j]);
 		j++;
 	}
 }

@@ -8,7 +8,7 @@ void	tokenrecon(t_token *tok)
 	i = 0;
 	while(tok->data != NULL)
 	{	
-		printf("oui");
+		//printf("oui");
 		//fflush(stdout);
 		if (tok->data[i] == '|')
 		{
