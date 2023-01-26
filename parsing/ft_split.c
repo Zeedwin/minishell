@@ -73,7 +73,7 @@ static char	**ft_sep(char const *s, char c, char **s2, int num)
 		len = 0;
 		mot++;
 	}
-	s2[mot] = 0;
+	s2[mot] = NULL;
 	return (s2);
 }
 

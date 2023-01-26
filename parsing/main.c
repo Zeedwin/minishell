@@ -95,7 +95,7 @@ void	cmd1_process(t_var *var, char **envp)
 
 }
 
-void printcharstar3(char ***s)
+void printcharstar3(t_lex *lex)
 {
 	int i;
 	int j;
@@ -105,14 +105,14 @@ void printcharstar3(char ***s)
 	j = 0;
 	//k = 0;
 	//printf("s0 = %p\n", s[0]);
-	while (s[i])
+	while (lex->s[i])
 	{
 		j = 0;
 		printf("Num of char **: %d\n", i);
 		printf("-------------------\n");
-		while (s[i][j])
+		while (lex->s[i][j])
 		{
-			printf("Char *%p: %s, pos: %d\n", s[i][j],s[i][j], j);
+			printf("Char *%p: %s, pos: %d and token%d\n", lex->s[i][j], lex->s[i][j], j, lex->supatok[i]);
 			j++;
 		}
 			printf("-------------------\n");
@@ -126,30 +126,61 @@ void printcharstar3(char ***s)
 // 0x21
 // 0x22
 
+
+/*void dew(char ***cmd) {
+	int i = 0;
+	int pipes[2];
+
+	while (cmd[i])
+	{
+		if (cmd[i+1] != NULL) {
+			pipe(pipes);
+		}
+		fork()
+		if (pid== 0) {
+			if (pipes[0])
+				dup2()
+			if (pipes[1])
+			exevc
+		}
+	}
+}*/
+
 void process(t_var *var, char **envp)
 {
 	t_lex lex;
 	(void)envp;
-	char ***s;
-
+	int i;
 	//t_token *head = NULL;
 
+	i = 0;
 	currpath(var);
+	find_path(envp, var);
 	var->line = readline(var->promt);
 	init_tab(&lex, var->line); //apres ca la ligne de commande est decoupe dans lex.s1
 	tokenizer(&lex);
-	s = separate_tok(var, &lex);
+	lex.s = separate_tok(var, &lex, lex.s);
+	turbotokenizer(&lex);
+	while (lex.s[i])
+	{
+		if (lex.supatok[i + 1] == TOKEN_PIPE)
+		{
+			pipe()
+		}
+		lex.pipe_out[i] = pipes[1];
+		lex.pipe_in[i + 1] = pipes[0];
+	}
 	//printf("oui");
 	//fflush(stdout);
-	printcharstar3(s);
-	int	j;
+	//printcharstar3(&lex);
+	/*int	j;
 	j = 0;
 	while (lex.s1[j])
 	{
 
 		//printf("-> %s ->token = %d\n", lex.s1[j], lex.stoken[j]);
 		j++;
-	}
+	}*/
 }
 
 

@@ -16,7 +16,6 @@ LDFLAGS := -lreadline -fsanitize=address -g
 ################################################################################
 
 SRCS		:=            parsing/lexeur1.c \
-						  parsing/lexeur.c \
 						  parsing/find_path.c \
                           parsing/ft_putstr.c \
                           parsing/ft_split.c \
@@ -36,6 +35,7 @@ SRCS		:=            parsing/lexeur1.c \
 						  parsing/ft_strdup.c \
 						  parsing/tokenodes.c \
 						  parsing/testeur.c \
+						  parsing/exe.c \
                           #parsing/test.c \
                           #parsing/∞shell.c \
                           

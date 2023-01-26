@@ -88,9 +88,8 @@ int ft_malloc(t_lex *lex)
 }*/
 
 
-char ***separate_tok(t_var *var, t_lex *lex)
+char ***separate_tok(t_var *var, t_lex *lex, char ***sf)
 {
-	char ***sf;
 	
 	int i;
 	int j;
@@ -137,3 +136,25 @@ char ***separate_tok(t_var *var, t_lex *lex)
 	return (sf);
 }
 
+
+void	turbotokenizer(t_lex *lex)
+{
+	int i;
+	int j;
+	int k;
+
+	j = 0;
+	i = 0;
+	k = 0;
+	while (lex->s[i])
+	{
+		//printf("oui");
+		if(lex->s[i][j][k] == '|')
+			lex->supatok[i] = TOKEN_PIPE;
+		else if(lex->s[i][j][k] == '<' || lex->s[i][j][k] == '>')
+			lex->supatok[i] = TOKEN_REDIR;
+		else
+			lex->supatok[i] = TOKEN_WORD;
+		i++;
+	}
+}

@@ -22,6 +22,26 @@
 # include <stddef.h>
 # include <sys/wait.h>
 
+typedef struct cmd {
+	char **cmd;
+	int	 pipe_out;
+	int  pipe_in;
+}	cmd_t;
+
+typedef struct s_pipe {
+	int end[2];
+	pid_t pid;
+
+}
+
+enum {
+	TOKEN_WORD,
+	TOKEN_PIPE,
+	TOKEN_REDIR,
+	TOKEN_CMD,
+	TOKEN_DOLLAR,
+};
+
 typedef struct s_var {
 	char **path;
 	char *cmd;
@@ -35,46 +55,15 @@ typedef struct s_var {
 	pid_t	shell;
 }		t_var;
 
-typedef struct s_list
-{
-	char			*content;
-	struct s_list	*next;
-}				t_list;
 
-
-enum {
-	TOKEN_WORD,
-	TOKEN_PIPE,
-	TOKEN_REDIR,
-	TOKEN_CMD,
-	TOKEN_DOLLAR,
-};
-
-typedef struct lexeurinit
-{
-	int	pos;
-	char *input;
-	int	size;
-}			lexer;
-
-typedef struct t_token {
-    char *data;
-	int	 type;
-    struct t_token *next;
-} t_token;
-
-typedef struct s_substr
-{
-	size_t				i;
-	size_t				j;
-	char				*str;
-}			t_substr;	
 
 typedef struct s_lex
 {
 	int x;
 	char **s1;
+	char ***s;
 	int *stoken;
+	int *supatok;
 	int c;
 	int y;
 	int rap;
@@ -107,7 +96,9 @@ void	echo(t_var	*var);
 t_token *tokencolector(char **tokens);
 void 	tokenrecon(t_token *tok);
 void tokenizer(t_lex *lex);
-char ***separate_tok(t_var *var, t_lex *lex);
+char ***separate_tok(t_var *var, t_lex *lex, char ***s);
+void	turbotokenizer(t_lex *lex);
+void executeur(char **s, char **envp, t_var *var);
 
 //built-ins
 int	*cd(t_var *var);

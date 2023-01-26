@@ -26,11 +26,12 @@ void	find_path(char **envp, t_var *var)
 		{
 			path2 = ft_split(envp[i], ':');
 			var->path = (char **)malloc((c_s(path2) + 1) * sizeof(char *));
-			while (path2[j])
+			while (path2[j] != NULL)
 			{
 				var->path[j] = ft_strjoin(path2[j], "/");
 				j++;
 			}
+			var->path[j] = NULL;
 			free_this(path2);
 		}
 		i++;
