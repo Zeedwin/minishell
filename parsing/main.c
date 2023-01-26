@@ -122,6 +122,10 @@ void printcharstar3(char ***s)
 	}
 }
 
+// 0x20 [1] = NULL
+// 0x21
+// 0x22
+
 void process(t_var *var, char **envp)
 {
 	t_lex lex;

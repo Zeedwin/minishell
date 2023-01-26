@@ -10,7 +10,7 @@
 NAME        := minishell
 CC        := gcc
 FLAGS    := -Wall -Wextra -Werror 
-LDFLAGS := -lreadline 
+LDFLAGS := -lreadline -fsanitize=address -g
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
