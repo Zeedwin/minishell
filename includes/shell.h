@@ -20,6 +20,7 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <stddef.h>
+# include <sys/wait.h>
 
 typedef struct s_var {
 	char **path;

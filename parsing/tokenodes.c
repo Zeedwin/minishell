@@ -2,7 +2,7 @@
 
 
 
-t_token *tokencolector(char **tokens)
+/*t_token *tokencolector(char **tokens)
 {
     t_token *head = NULL;
 	t_token *tail = NULL;
@@ -53,7 +53,4 @@ t_token *tokencolector(char **tokens)
     return (curr);
 }
 
-/*int main(int ac, char **av)
-{
-	tokencolector(av);
-}*/
+*/

@@ -36,10 +36,8 @@ int check_vide2(char *s, int i)
 int ft_malloc(char *s1)
 {
 	int i;
-	int j;
 	int k;
 
-	j = 0;
 	i = 0;
 	k = 0;
 	while (s1[i] != '\0')
