@@ -36,6 +36,7 @@ SRCS		:=            parsing/lexeur1.c \
 						  parsing/tokenodes.c \
 						  parsing/testeur.c \
 						  parsing/exe.c \
+						  parsing/free.c \
                           #parsing/test.c \
                           #parsing/∞shell.c \
                           

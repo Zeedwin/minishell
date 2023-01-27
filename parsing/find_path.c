@@ -32,7 +32,7 @@ void	find_path(char **envp, t_var *var)
 				j++;
 			}
 			var->path[j] = NULL;
-			free_this(path2);
+			free_2(path2);
 		}
 		i++;
 	}	

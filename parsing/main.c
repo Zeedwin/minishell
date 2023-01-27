@@ -2,7 +2,7 @@
 #include "../includes/shell.h"
 
 
-void	free_this(char **tab)
+void	E3free_this(char **tab)
 {
 	int	x;
 
@@ -146,11 +146,13 @@ void printcharstar3(t_lex *lex)
 	}
 }*/
 
+
 void process(t_var *var, char **envp)
 {
 	t_lex lex;
 	(void)envp;
 	int i;
+	t_pipe pip;
 	//t_token *head = NULL;
 
 	i = 0;
@@ -161,18 +163,19 @@ void process(t_var *var, char **envp)
 	tokenizer(&lex);
 	lex.s = separate_tok(var, &lex, lex.s);
 	turbotokenizer(&lex);
+	minishellpipe(pip, lex, envp);
+	//if (pip.pid != 0)
+	//	process(var, envp);	
 	/*while (lex.s[i])
 	{
 		if (lex.supatok[i + 1] == TOKEN_PIPE)
 		{
-			pipe()
-			lex.pipe_out[i] = pipes[1];
-			lex.pipe_in[i + 1] = pipes[0];
+			pipe(pi)
 		}
 	}*/
 	//printf("oui");
 	//fflush(stdout);
-	printcharstar3(&lex);
+	//printcharstar3(&lex);
 	/*int	j;
 	j = 0;
 	while (lex.s1[j])
@@ -184,12 +187,73 @@ void process(t_var *var, char **envp)
 }
 
 
+void	minishellpipe(t_pipe	*pip, t_lex *lex, char **envp)
+{	
+	int i;
+	int res;
+
+	if (var->c == 0)
+	{
+		pip->firstcmd = open(lex->s[0], O_RDONLY);
+		var->c++;
+	}
+	i = 0;
+	while(lex->s[i])
+	{
+		pip->cmd2 = open(lex->s[i + 2], O_RDONLY);
+		if (lex->supatok[i + 1] == TOKEN_PIPE)
+		{
+			
+			pip->cmd2 = open(lex->s[i + 2], O_RDWR);
+			pipe(pip->pipe); //on a pipe[0] et pipe [1]
+			pip->pid = fork();
+			fork_error(pip.pid);
+			if (pip->pid == 0)
+			{
+				dup2(pip->cmd1[1], cmd2[0]);
+				close(pip->cmd1[0]);
+				close(pip->cmd2[1]);
+				//dup2(infile, 0);
+				res = executeur(lex->s[i], envp, var);
+				if(res == -1)
+				{
+					perror("execve");
+				}
+			}
+			if (pip->pid != 0)
+			{
+				dup2(pip->cmd1[0], cmd2[1]);
+				close(pip->cmd1[1]);
+				close(pip->cmd2[0]);
+				res = proce
+				if (res == -1)
+				{
+					perror("execve");
+				}
+			}
+		}
+		else
+		{
+			pip.pid = fork();
+			if (pip.pid == 0)
+				executeur(lex.s[0], envp, var);
+			waitpid(pip.pid, NULL, 0);
+			free_final(&lex);
+			if (pip.pid != 0)
+				process(var, envp);
+		}
+		i = i + 2;
+	}
+}
+
 
 int main(int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
 	t_var var;
+
+	var.c = 0;
 	//t_lex *lex;
 	process(&var, envp); 
 	//echo(&var);

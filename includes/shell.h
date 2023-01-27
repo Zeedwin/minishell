@@ -30,8 +30,12 @@ typedef struct cmd {
 
 typedef struct s_pipe {
 	int pipe[2];
+	int cmd1;
+	int cmd2;
+	int firstcmd;
+	int lastcmd;
 	pid_t pid;
-
+	int status;
 }	t_pipe;
 
 enum {
@@ -53,6 +57,7 @@ typedef struct s_var {
 	char *dir;
 	char *echo;
 	pid_t	shell;
+	int c;
 }		t_var;
 
 
@@ -95,6 +100,8 @@ void tokenizer(t_lex *lex);
 char ***separate_tok(t_var *var, t_lex *lex, char ***s);
 void	turbotokenizer(t_lex *lex);
 void executeur(char **s, char **envp, t_var *var);
+void free_final(t_lex *lex);
+void free_2(char **s);
 
 //built-ins
 int	*cd(t_var *var);
