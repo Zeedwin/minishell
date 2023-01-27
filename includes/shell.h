@@ -29,10 +29,10 @@ typedef struct cmd {
 }	cmd_t;
 
 typedef struct s_pipe {
-	int end[2];
+	int pipe[2];
 	pid_t pid;
 
-}
+}	t_pipe;
 
 enum {
 	TOKEN_WORD,
@@ -89,12 +89,8 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strnstr(const char *haystack, const char *needle, int len);
 void	ft_exit(t_var *var);
 //token	*ft_lstnew(char **content);
-void	ft_lstadd_back(t_list **lst, t_list *new);
-size_t	ft_strlcpy(char *restrict dst, const char *restrict src,
-		size_t dstsize);
+size_t	ft_strlcpy(char *restrict dst, const char *restrict src, size_t dstsize);
 void	echo(t_var	*var);
-t_token *tokencolector(char **tokens);
-void 	tokenrecon(t_token *tok);
 void tokenizer(t_lex *lex);
 char ***separate_tok(t_var *var, t_lex *lex, char ***s);
 void	turbotokenizer(t_lex *lex);

@@ -161,18 +161,18 @@ void process(t_var *var, char **envp)
 	tokenizer(&lex);
 	lex.s = separate_tok(var, &lex, lex.s);
 	turbotokenizer(&lex);
-	while (lex.s[i])
+	/*while (lex.s[i])
 	{
 		if (lex.supatok[i + 1] == TOKEN_PIPE)
 		{
 			pipe()
+			lex.pipe_out[i] = pipes[1];
+			lex.pipe_in[i + 1] = pipes[0];
 		}
-		lex.pipe_out[i] = pipes[1];
-		lex.pipe_in[i + 1] = pipes[0];
-	}
+	}*/
 	//printf("oui");
 	//fflush(stdout);
-	//printcharstar3(&lex);
+	printcharstar3(&lex);
 	/*int	j;
 	j = 0;
 	while (lex.s1[j])
