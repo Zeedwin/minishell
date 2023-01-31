@@ -146,6 +146,23 @@ void printcharstar3(t_lex *lex)
 	}
 }*/
 
+int count_pipe(int *supatok, t_lex *lex)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	while (lex->s[i])
+	{
+		if (supatok[i] == TOKEN_PIPE)
+		{
+			j++;
+		} 
+		i++;
+	}
+	return (j);
+}
 
 void process(t_var *var, char **envp)
 {
@@ -154,16 +171,20 @@ void process(t_var *var, char **envp)
 	int i;
 	t_pipe pip;
 	//t_token *head = NULL;
+	
 
 	i = 0;
 	currpath(var);
+	//historyset(var);
 	find_path(envp, var);
 	var->line = readline(var->promt);
+	//historyset(var);
 	init_tab(&lex, var->line); //apres ca la ligne de commande est decoupe dans lex.s1
 	tokenizer(&lex);
 	lex.s = separate_tok(var, &lex, lex.s);
 	turbotokenizer(&lex);
-	minishellpipe(pip, lex, envp);
+	pip.pipe = malloc((count_pipe(lex.supatok, &lex) + 1) *  sizeof(int *));
+	exe_s(&lex, var, &pip, envp);
 	//if (pip.pid != 0)
 	//	process(var, envp);	
 	/*while (lex.s[i])
@@ -187,65 +208,114 @@ void process(t_var *var, char **envp)
 }
 
 
-void	minishellpipe(t_pipe	*pip, t_lex *lex, char **envp)
+void	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var)
 {	
 	int i;
-	int res;
 
-	if (var->c == 0)
-	{
-		pip->firstcmd = open(lex->s[0], O_RDONLY);
-		var->c++;
-	}
 	i = 0;
-	while(lex->s[i])
+	pip->prevpipe = dup(0);
+	if (lex->supatok[var->z + 1] == TOKEN_PIPE)
 	{
-		pip->cmd2 = open(lex->s[i + 2], O_RDONLY);
-		if (lex->supatok[i + 1] == TOKEN_PIPE)
+		var->z = var->z + 2;
+		pip->pipe[i] = malloc(2);
+		pipe(pip->pipe[i]);
+		pip->pid = fork();
+		if (pip->pid == 0)
 		{
-			
-			pip->cmd2 = open(lex->s[i + 2], O_RDWR);
-			pipe(pip->pipe); //on a pipe[0] et pipe [1]
-			pip->pid = fork();
-			fork_error(pip.pid);
-			if (pip->pid == 0)
-			{
-				dup2(pip->cmd1[1], cmd2[0]);
-				close(pip->cmd1[0]);
-				close(pip->cmd2[1]);
-				//dup2(infile, 0);
-				res = executeur(lex->s[i], envp, var);
-				if(res == -1)
-				{
-					perror("execve");
-				}
-			}
-			if (pip->pid != 0)
-			{
-				dup2(pip->cmd1[0], cmd2[1]);
-				close(pip->cmd1[1]);
-				close(pip->cmd2[0]);
-				res = proce
-				if (res == -1)
-				{
-					perror("execve");
-				}
-			}
+			close(pip->pipe[i][0]);
+			dup2(pip->pipe[i][1], STDOUT_FILENO);
+			close(pip->pipe[i][1]);
+			dup2(pip->prevpipe, STDIN_FILENO);
+			close(pip->prevpipe);
+			executeur(lex->s[var->z], envp, var);
 		}
 		else
 		{
-			pip.pid = fork();
-			if (pip.pid == 0)
-				executeur(lex.s[0], envp, var);
-			waitpid(pip.pid, NULL, 0);
-			free_final(&lex);
-			if (pip.pid != 0)
-				process(var, envp);
+			close(pip->pipe[i][1]);
+			close(pip->prevpipe);
+			pip->pipe[i][0] = pip->prevpipe;
 		}
-		i = i + 2;
+		while(lex->supatok[var->z + 1] == TOKEN_PIPE)
+		{
+			i++;
+			pip->pipe[i] = malloc(2);
+			pipe(pip->pipe[i]);
+			pip->pid = fork();
+			if (pip->pid == 0)
+			{
+				close(pip->pipe[i][0]);
+				dup2(pip->pipe[i][1], STDOUT_FILENO);
+				close(pip->pipe[i][1]);
+				dup2(pip->pipe[i - 1][0], STDIN_FILENO);
+				close(pip->pipe[i - 1][0]);
+				executeur(lex->s[var->z], envp, var);
+			}
+			else
+			{
+				close(pip->pipe[i][1]);
+				close(pip->pipe[i - 1][0]);
+				pip->pipe[i][0] = pip->pipe[i][1];
+			}
+			var->z = var->z + 2;
+		}
+		i++;
+		if (lex->s[var->z + 1] != TOKEN_REDIR)	
+			pip->pid = fork();
+			if (pip->pid == 0)
+			{
+				dup2(pip->pipe[i - 1][0], STDIN_FILENO);
+				close(pip->pipe[i - 1][0]);
+				executeur(lex->s[var->z], envp, var);
+			}
+			else
+			{
+				close(pip->pipe[i - 1][1]);
+				waitpid(pip->pid, &pip->status, 0);
+				free_final(lex, pip);
+				process(var, envp);
+			}
+	}
+} 
+
+void exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
+{
+	var->z = 0;
+	while (lex->s[var->z])
+	{
+		minipipe(pip, lex, envp, var);
+		if (lex->s[var->z + 1] == NULL && lex->s[var->z])
+		{
+			pip->pid = fork();
+			if (pip->pid == 0)
+				executeur(lex->s[var->z], envp, var);
+			else 
+			{
+				waitpid(pip->pid, &pip->status, 0);
+				free_final(lex, pip);
+				process(var, envp);
+			}
+		}
 	}
 }
 
+void miniredir(t_lex *lex, t_var *var, char **envp)
+{
+	int i;
+
+	i = 0;
+	
+	if(lex->supatok[i + 1] == TOKEN_REDIR)
+	{	
+		fd = open(lex->s[i + 1], O_CREAT, O_RDWR, O_TRUNC, 0777);
+		dup2(STDOUT_FILENO, fd[1])
+		dup2(fd[1]);
+		close(fd[0]);
+		
+		
+		i++;
+	}
+	
+}
 
 int main(int ac, char **av, char **envp)
 {

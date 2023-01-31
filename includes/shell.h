@@ -29,11 +29,10 @@ typedef struct cmd {
 }	cmd_t;
 
 typedef struct s_pipe {
-	int pipe[2];
+	int **pipe;
 	int cmd1;
 	int cmd2;
-	int firstcmd;
-	int lastcmd;
+	int prevpipe;
 	pid_t pid;
 	int status;
 }	t_pipe;
@@ -58,6 +57,7 @@ typedef struct s_var {
 	char *echo;
 	pid_t	shell;
 	int c;
+	int z;
 }		t_var;
 
 
@@ -74,6 +74,8 @@ typedef struct s_lex
 	int rap;
 }			t_lex;
 
+
+void	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var);
 void init_tab(t_lex *lex, char *s);
 char	*ft_strdup(const char *src);
 void	free_this(char **tab);
@@ -100,8 +102,10 @@ void tokenizer(t_lex *lex);
 char ***separate_tok(t_var *var, t_lex *lex, char ***s);
 void	turbotokenizer(t_lex *lex);
 void executeur(char **s, char **envp, t_var *var);
-void free_final(t_lex *lex);
+void free_final(t_lex *lex, t_pipe *pip);
 void free_2(char **s);
+void exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp);
+int count_pipe(int *supatok, t_lex *lex);
 
 //built-ins
 int	*cd(t_var *var);
