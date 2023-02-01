@@ -58,6 +58,7 @@ typedef struct s_var {
 	pid_t	shell;
 	int c;
 	int z;
+	int i;
 }		t_var;
 
 
@@ -106,6 +107,7 @@ void free_final(t_lex *lex, t_pipe *pip);
 void free_2(char **s);
 void exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp);
 int count_pipe(int *supatok, t_lex *lex);
+void miniredir(t_lex *lex, t_var *var, char **envp, t_pipe *pip);
 
 //built-ins
 int	*cd(t_var *var);
