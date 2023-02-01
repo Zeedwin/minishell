@@ -40,7 +40,10 @@ typedef struct s_pipe {
 enum {
 	TOKEN_WORD,
 	TOKEN_PIPE,
-	TOKEN_REDIR,
+	TOKEN_REDIR_S,
+	TOKEN_REDIR_E,
+	TOKEN_REDIR_S2,
+	TOKEN_REDIR_E2,
 	TOKEN_CMD,
 	TOKEN_DOLLAR,
 };
@@ -107,7 +110,7 @@ void free_final(t_lex *lex, t_pipe *pip);
 void free_2(char **s);
 void exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp);
 int count_pipe(int *supatok, t_lex *lex);
-void miniredir(t_lex *lex, t_var *var, char **envp, t_pipe *pip);
+void miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip);
 
 //built-ins
 int	*cd(t_var *var);

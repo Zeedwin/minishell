@@ -271,7 +271,7 @@ void	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var)
 			var->z = var->z + 2;
 		}
 		i++;
-		if (lex->supatok[var->z + 1] != TOKEN_REDIR)
+		if (lex->supatok[var->z + 1] != TOKEN_REDIR_S)
 		{	
 			pip->pid = fork();
 			if (pip->pid == 0)
@@ -298,7 +298,7 @@ void exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 	while (lex->s[var->z])
 	{
 		minipipe(pip, lex, envp, var);
-		miniredir(lex, var, envp, pip);
+		miniredir_s(lex, var, envp, pip);
 		if (lex->s[var->z + 1] == NULL && lex->s[var->z])
 		{
 			printf("oui\n");
@@ -340,14 +340,31 @@ char **add_after_redir(char **s1, char **s2)
 	return (s3);
 }
 
-void miniredir(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
+void miniredir_e(t_lex *lex, t_var *var char **envp, t_pipe *pip)
 {
 	int fd;
 	pid_t red;
 
-	if (lex->supatok[var->z + 1] == TOKEN_REDIR)	
+	if(lex->supatok[var->z + 1] == TOKEN_REDIR_E)
 	{
-		while(lex->supatok[var->z + 1 + var->i] == TOKEN_REDIR)
+		if (lex->s[var->z][1] != NULL)
+		{
+			while(lex->supatok[var->z + 1 + var->i] == TOKEN_REDIR_E)
+			{
+				
+			}
+		}
+	}
+}
+
+void miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
+{
+	int fd;
+	pid_t red;
+
+	if (lex->supatok[var->z + 1] == TOKEN_REDIR_S)	
+	{
+		while(lex->supatok[var->z + 1 + var->i] == TOKEN_REDIR_S)
 		{
 			var->i = var->i + 2;
 			fd = open(lex->s[var->z + var->i][0], O_CREAT | O_RDWR | O_TRUNC, 0777);
@@ -357,7 +374,8 @@ void miniredir(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 		red = fork();
 		if (red == 0)
 		{
-			dup2(fd, STDOUT_FILENO);
+			if (find_cmd_path(var, lex->s[var->z][0]) != 0)
+				dup2(fd, STDOUT_FILENO);
 			executeur(lex->s[var->z], envp, var);
 		}
 		else if (lex->s[var->z + var->i + 1] != NULL)

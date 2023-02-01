@@ -37,7 +37,7 @@
 	    	}
 	    	else if (new_node->data[j] == '>' || new_node->data[j] == '<')
 	    	{
-	    		new_node->type = TOKEN_REDIR;
+	    		new_node->type = TOKEN_REDIR_S;
 	    	}
 	    	else 
 	    	{

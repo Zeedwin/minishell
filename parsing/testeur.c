@@ -15,7 +15,7 @@ void tokenizer(t_lex *lex)
 		if (lex->s1[i][j] == '|')
 			lex->stoken[i] = TOKEN_PIPE;
 		else if (lex->s1[i][j] == '>' || lex->s1[i][j] == '<')
-			lex->stoken[i] = TOKEN_REDIR;
+			lex->stoken[i] = TOKEN_REDIR_S;
 		else 
 			lex->stoken[i] = TOKEN_WORD;
 		i++;
@@ -47,7 +47,7 @@ int ft_malloc(t_lex *lex)
 		{
 			k++;
 		}
-		else if (lex->stoken[i] == TOKEN_REDIR)
+		else if (lex->stoken[i] == TOKEN_REDIR_S)
 		{
 			k++;
 		}
@@ -102,7 +102,7 @@ char ***separate_tok(t_var *var, t_lex *lex, char ***sf)
 	sf = (char ***)malloc(sizeof(char **) * ft_malloc(lex));
 	while (lex->s1[i])
 	{
-		if (lex->stoken[i] == TOKEN_PIPE || lex->stoken[i] == TOKEN_REDIR)
+		if (lex->stoken[i] == TOKEN_PIPE || lex->stoken[i] == TOKEN_REDIR_S)
 		{
 			sf[k] = malloc(sizeof(char *) * 2);
 			sf[k][0] = malloc(sizeof(char) * (ft_strlen(lex->s1[i]) + 1));
@@ -152,7 +152,16 @@ void	turbotokenizer(t_lex *lex)
 		if(lex->s[i][j][k] == '|')
 			lex->supatok[i] = TOKEN_PIPE;
 		else if(lex->s[i][j][k] == '<' || lex->s[i][j][k] == '>')
-			lex->supatok[i] = TOKEN_REDIR;
+		{
+			if (lex->s[i][j][k] == '>' && lex->s[i][j][k + 1] != '>')
+				lex->supatok[i] = TOKEN_REDIR_S;
+			else if (lex->s[i][j][k] == '<' && lex->s[i][j][k + 1] != '<')
+				lex->supatok[i] = TOKEN_REDIR_E;
+			else if (lex->s[i][j][k] == '>' && lex->s[i][j][k + 1] == '>')
+				lex->supatok[i] = TOKEN_REDIR_S2;
+			else if (lex->s[i][j][k] == '<' && lex->s[i][j][k + 1] == '<')
+				lex->supatok[i] = TOKEN_REDIR_E2;
+		}
 		else
 			lex->supatok[i] = TOKEN_WORD;
 		i++;
