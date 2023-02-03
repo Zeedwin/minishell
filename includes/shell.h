@@ -35,6 +35,7 @@ typedef struct s_pipe {
 	int prevpipe;
 	pid_t pid;
 	int status;
+	int tube[2];
 }	t_pipe;
 
 enum {
@@ -78,8 +79,8 @@ typedef struct s_lex
 	int rap;
 }			t_lex;
 
-
-void	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var);
+int ft_malloc(t_lex *lex);
+int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var);
 void init_tab(t_lex *lex, char *s);
 char	*ft_strdup(const char *src);
 void	free_this(char **tab);
@@ -90,6 +91,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*find_cmd_path(t_var *var, char *cmd);
 void	ft_putstr(char *s);
 int		ft_strlen(const char *a);
+int		ft_strlen2(const char *a);
 void	find_path(char **envp, t_var *var);
 char	*ft_strcpy(char *dest, char *src);
 int 	quotecheker(char *s, char c);
@@ -106,11 +108,11 @@ void tokenizer(t_lex *lex);
 char ***separate_tok(t_var *var, t_lex *lex, char ***s);
 void	turbotokenizer(t_lex *lex);
 void executeur(char **s, char **envp, t_var *var);
-void free_final(t_lex *lex, t_pipe *pip);
+void free_final(t_lex *lex, t_pipe *pip, t_var *var);
 void free_2(char **s);
 void exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp);
 int count_pipe(int *supatok, t_lex *lex);
-void miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip);
+int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip);
 
 //built-ins
 int	*cd(t_var *var);

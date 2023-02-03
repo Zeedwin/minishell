@@ -11,8 +11,19 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include "../includes/shell.h"
 
 int	ft_strlen(const char *a)
+{
+	int	i;
+
+	i = 0;
+	while (a[i] != '\0')
+		i++;
+	return (i);
+}
+
+int	ft_strlen2(const char *a)
 {
 	int	i;
 

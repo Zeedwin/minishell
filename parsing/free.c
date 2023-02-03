@@ -40,12 +40,15 @@ void free_1(int **s, t_lex *lex)
 	}
 }
 
-void free_final(t_lex *lex, t_pipe *pip)
+void free_final(t_lex *lex, t_pipe *pip, t_var *var)
 {
 	(void)pip;
 	free_2(lex->s1);
 	//free_1(pip->pipe, lex);
-	//free(lex->stoken);
+	free(lex->stoken);
+	free(lex->supatok);
 	free_3(lex->s);
-	//free(lex->supatok);
+	free(var->line);
+	//free(var->promt);
+	free_2(var->path);
 }

@@ -308,24 +308,17 @@ char *del_par_com(char *s)
 
 void init_tab(t_lex *lex, char *s)
 {
-	s = del_par_com(s);
 	s = del_if_quote(s);
+	s = del_par_com(s);
 	s = del_if_quote2(s);
 	lex->s1 = malloc((count(s) + 1) * sizeof(char *));
 	lex->stoken = malloc((count(s) + 1) * sizeof(int));
+	lex->supatok = malloc((count(s) + 1) * sizeof(int));
 	lex->x = 0;
 	lex->c = 0;
 	lex->rap = 0;
 	lex->y = count(s);
 	lexer1(s, lex);
 	lex->s1[count(s)] = NULL;
-	/*int	j;
-	j = 0;
-	while (lex.s1[j])
-	{
-		printf("-> %s\n", lex.s1[j]);
-		j++;
-	}
-	//printf("%s\n", lex.s1[count(s) - 1]);*/
 }
 
