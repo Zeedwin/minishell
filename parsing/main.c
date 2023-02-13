@@ -1,5 +1,6 @@
 
 #include "../includes/shell.h"
+#include <termios.h>
 
 int ft_strstrlen(char **s)
 {
@@ -346,14 +347,71 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 		}
 	}
 }*/
+
+
+void	set_termios(int in_cmd)
+{
+	struct termios	tty;
+
+	tcgetattr(1, &tty);
+	if (in_cmd == 1)
+	{
+		tty.c_lflag |= ECHOCTL;
+		tty.c_cc[VQUIT] = 034;
+	}
+	else
+	{
+		tty.c_lflag &= ~ECHOCTL;
+		tty.c_cc[VQUIT] = 0;
+	}
+	tcsetattr(1, TCSANOW, &tty);
+}
+
+void	init_termios(void)
+{
+	struct termios	tty;
+
+	tcgetattr(1, &tty);
+	tty.c_lflag &= ~ECHOCTL;
+	tty.c_cc[VQUIT] = 0;
+	tcsetattr(1, TCSANOW, &tty);
+}
+
+void ctrlc(int sig)
+{
+	(void)	sig;
+	
+	printf("\n");
+	//rl_replace_line("", 0); //-lreadline -L ~/.brew/opt/readline/lib
+	//rl_on_new_line();
+	//if (gstruct->is_cmd == 0)
+	//rl_redisplay();
+}
+
+void ctrlbs(int sig)
+{
+	(void)	sig;
+	//gstruct->value_of_return = 131;
+	
+	write(2, "Quit: 3", 7);
+}
+
+void	init_sign(void)
+{
+	signal(SIGINT, ctrlc);
+	signal(SIGQUIT, ctrlbs);
+}
+
 int main(int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
 	t_var var;
-
+	
 	var.c = 0;
 	//t_lex *lex;
+	init_sign();
+	init_termios();
 	process(&var, envp); 
 	//echo(&var);
 	

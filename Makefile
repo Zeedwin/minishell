@@ -10,7 +10,7 @@
 NAME        := minishell
 CC        := gcc
 FLAGS    := -Wall -Wextra -Werror -g
-LDFLAGS := -lreadline -g -fsanitize=address
+LDFLAGS := -lreadline -fsanitize=address #-L ~/.brew/opt/readline/lib -g 
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################

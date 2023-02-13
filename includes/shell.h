@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include <stddef.h>
 # include <sys/wait.h>
+# include <signal.h>
 
 typedef struct cmd {
 	char **cmd;
@@ -78,6 +79,8 @@ typedef struct s_lex
 	int y;
 	int rap;
 }			t_lex;
+
+void	rl_replace_line (const char *text, int clear_undo);
 
 int ft_malloc(t_lex *lex);
 int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var);
