@@ -63,6 +63,7 @@ typedef struct s_var {
 	int c;
 	int z;
 	int i;
+	int fd;
 }		t_var;
 
 
@@ -79,6 +80,8 @@ typedef struct s_lex
 	int rap;
 }			t_lex;
 
+void executeur_final(char **s, char **envp, t_var *var, t_lex *lex);
+void process(char **envp);
 int ft_malloc(t_lex *lex);
 int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var);
 void init_tab(t_lex *lex, char *s);
@@ -110,7 +113,7 @@ void	turbotokenizer(t_lex *lex);
 void executeur(char **s, char **envp, t_var *var);
 void free_final(t_lex *lex, t_pipe *pip, t_var *var);
 void free_2(char **s);
-void exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp);
+int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp);
 int count_pipe(int *supatok, t_lex *lex);
 int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip);
 

@@ -1,7 +1,6 @@
-total 88
--rw-r--r--   1 hdelmann  2022_nice   2715  3 fév 10:13 Makefile
--rwxr-xr-x   1 hdelmann  2022_nice     10  3 fév 12:32 a
-drwxr-xr-x@  9 hdelmann  2022_nice    306  3 fév 10:15 built-ins
-drwxr-xr-x@  3 hdelmann  2022_nice    102  2 fév 12:30 includes
--rwxr-xr-x   1 hdelmann  2022_nice  35460  3 fév 11:51 minishell
-drwxr-xr-x@ 42 hdelmann  2022_nice   1428  3 fév 11:51 parsing
+Makefile
+a
+built-ins
+includes
+minishell
+parsing
