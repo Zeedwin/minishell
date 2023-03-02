@@ -33,10 +33,10 @@ SRCS		:=            parsing/lexeur1.c \
 						  built-ins/echo.c \
 						  parsing/ft_strnstr.c \
 						  parsing/ft_strdup.c \
-						  parsing/tokenodes.c \
 						  parsing/testeur.c \
 						  parsing/exe.c \
 						  parsing/free.c \
+						  #parsing/tokenodes.c \
                           #parsing/test.c \
                           #parsing/∞shell.c \
                           

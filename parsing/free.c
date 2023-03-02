@@ -49,6 +49,7 @@ void free_final(t_lex *lex, t_pipe *pip, t_var *var)
 	free(lex->supatok);
 	free_3(lex->s);
 	free(var->line);
+	free(var->promt);
 	//free(var->promt);
 	free_2(var->path);
 }

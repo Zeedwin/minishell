@@ -11,6 +11,8 @@
 # include <limits.h>
 # include <errno.h>
 # include <stdio.h>
+# include <sys/types.h>
+# include <signal.h>
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -35,6 +37,8 @@ typedef struct s_pipe {
 	int prevpipe;
 	pid_t pid;
 	int status;
+	int status1;
+	int status2;
 	int tube[2];
 }	t_pipe;
 
