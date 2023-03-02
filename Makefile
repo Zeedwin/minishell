@@ -9,8 +9,8 @@
 
 NAME        := minishell
 CC        := gcc
-FLAGS    := -Wall -Wextra -Werror -g
-LDFLAGS := -lreadline -g -fsanitize=address
+FLAGS    := -Wall -Wextra -Werror -g -I ${HOME}/.brew/Cellar/readline/8.2.1/include
+LDFLAGS :=  -lreadline -fsanitize=address -L ${HOME}/.brew/Cellar/readline/8.2.1/lib -lreadline -L ${HOME}/.brew/Cellar/readline/8.2.1/lib -lhistory
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
@@ -63,7 +63,7 @@ ${NAME}:	${OBJS}
 			${CC} ${FLAGS} -o ${NAME} ${OBJS} ${LDFLAGS}
 			@echo "$(GREEN)$(NAME) created[0m ✔️"
 
-all:		${NAME}
+all:		${NAME} $(READLINE_PATH)
 
 bonus:		all
 
@@ -74,6 +74,11 @@ clean:
 fclean:		clean
 			@ ${RM} ${NAME}
 			@ echo "$(RED)Deleting $(CYAN)$(NAME) $(CLR_RMV)binary ✔️"
+
+readline: $(READLINE_PATH)
+ 
+ $(READLINE_PATH):
+	sh ./install_readline.sh
 
 re:			fclean all
 

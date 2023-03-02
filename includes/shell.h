@@ -23,6 +23,8 @@
 # include <fcntl.h>
 # include <stddef.h>
 # include <sys/wait.h>
+# include <termios.h>
+# include <signal.h>
 
 typedef struct cmd {
 	char **cmd;

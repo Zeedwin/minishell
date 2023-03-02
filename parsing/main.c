@@ -1,4 +1,5 @@
 #include "../includes/shell.h"
+#include <termios.h>
 
 int ft_strstrlen(char **s)
 {
@@ -101,7 +102,7 @@ int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var)
 		waitpid(ell, &pip->status, 0);
 		close(pip->tube[1]);
 		var->fd = pip->tube[0];
-		printf("fd = %d", var->fd);
+		//printf("fd = %d", var->fd);
 		var->z +=1;
 	}
 	return(1);
@@ -184,7 +185,7 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		free_final(lex, pip, var);
 		return (0);
 	}
-	printf("\n%d\n", ft_malloc(lex));
+	//printf("\n%d\n", ft_malloc(lex));
 	while (var->z < ft_malloc(lex) - 1)
 	{
 		if (lex->supatok[var->z] == TOKEN_WORD)
@@ -274,11 +275,75 @@ void process(char **envp)
 	exe_s(&lex, &var, &pip, envp);
 }
 
+void	set_termios(int in_cmd)
+{
+	struct termios	tty;
+
+	tcgetattr(1, &tty);
+	if (in_cmd == 1)
+	{
+		tty.c_lflag |= ECHOCTL;
+		tty.c_cc[VQUIT] = 034;
+	}
+	else
+	{
+		tty.c_lflag &= ~ECHOCTL;
+		tty.c_cc[VQUIT] = 0;
+	}
+	tcsetattr(1, TCSANOW, &tty);
+}
+
+void	init_termios(void)
+{
+	struct termios	tty;
+
+	tcgetattr(1, &tty);
+	tty.c_lflag &= ~ECHOCTL;
+	tty.c_cc[VQUIT] = 0;
+	tcsetattr(1, TCSANOW, &tty);
+}
+
+void ctrlc(int sig)
+{
+	(void)	sig;
+	
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	//if (gstruct->is_cmd == 0)
+}
+
+void ctrlbs(int sig)
+{
+	printf("dfqwefwefwe\n");
+	fflush(stdout);
+	//gstruct->value_of_return = 131;
+	
+	write(1, "Quit: 3", 7);
+	(void)	sig;
+}
+
+void ctrld(int sig)
+{
+	return;
+	(void)	sig;
+}
+
+void	init_sign(void)
+{
+	signal(SIGINT, ctrlc);
+	signal(SIGQUIT, ctrlbs);
+	signal(SIGKILL, ctrld);
+}
+
 int main(int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
 	//t_lex *lex;
+	init_sign();
+	init_termios();
 	while (1)
 		process(envp); 
 	//echo(&var);
