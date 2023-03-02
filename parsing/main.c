@@ -214,6 +214,7 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		{
 			miniredir_s(lex, var, envp, pip);
 			var->c = 0;
+			var->i = 0;
 		}
 		/*if (lex->supatok[var->z + 1] == TOKEN_PIPE)
 		{
