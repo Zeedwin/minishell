@@ -9,13 +9,14 @@
 
 NAME        := minishell
 CC        := gcc
-FLAGS    := -Wall -Wextra -Werror -g -I ${HOME}/.brew/Cellar/readline/8.2.1/include
-LDFLAGS :=  -lreadline -fsanitize=address -L ${HOME}/.brew/Cellar/readline/8.2.1/lib -lreadline -L ${HOME}/.brew/Cellar/readline/8.2.1/lib -lhistory
+FLAGS    := -Wall -Wextra -Werror -g -I ${HOME}/homebrew/Cellar/readline/8.2.1/include
+LDFLAGS :=  -lreadline -fsanitize=address -L ${HOME}/homebrew/Cellar/readline/8.2.1/lib -lreadline -L ${HOME}/homebrew/Cellar/readline/8.2.1/lib -lhistory
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
-SRCS		:=            parsing/lexeur1.c \
+SRCS		:=            parsing/tokenizer.c \
+						  parsing/lexeur1.c \
 						  parsing/find_path.c \
                           parsing/ft_putstr.c \
                           parsing/ft_split.c \
@@ -61,7 +62,7 @@ RM		    := rm -f
 ${NAME}:	${OBJS}
 			@echo "$(GREEN)Compilation ${CLR_RMV}of ${YELLOW}$(NAME) ${CLR_RMV}..."
 			${CC} ${FLAGS} -o ${NAME} ${OBJS} ${LDFLAGS}
-			@echo "$(GREEN)$(NAME) created[0m ✔️"
+			@echo "$(GREEN)$(NAME) created[0m ✔️"
 
 all:		${NAME} $(READLINE_PATH)
 
@@ -83,5 +84,3 @@ readline: $(READLINE_PATH)
 re:			fclean all
 
 .PHONY:		all clean fclean re
-
-

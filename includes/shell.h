@@ -53,6 +53,7 @@ enum {
 	TOKEN_REDIR_E2,
 	TOKEN_CMD,
 	TOKEN_DOLLAR,
+	TOKEN_BUILTIN,
 };
 
 typedef struct s_var {
@@ -94,6 +95,7 @@ void init_tab(t_lex *lex, char *s);
 char	*ft_strdup(const char *src);
 void	free_this(char **tab);
 void 	currpath(t_var *var);
+void token_builtin(t_lex *lex);
 int 	ft_strncmp(const char *s1, const char *s2, size_t n);
 char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
@@ -122,6 +124,8 @@ void free_2(char **s);
 int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp);
 int count_pipe(int *supatok, t_lex *lex);
 int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip);
+int miniredir_s2(t_lex *lex, t_var *var, char **envp, t_pipe *pip);
+
 
 //built-ins
 int	*cd(t_var *var);

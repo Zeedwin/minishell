@@ -137,25 +137,45 @@ char **add_after_redir(char **s1, char **s2)
 
 int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 {
-	int fd;
+	int fd_e;
+	int fd_s;
 	pid_t ll;
 	
-	
-	while(lex->supatok[var->z + var->i] == TOKEN_REDIR_S)
+	fd_e = -2;
+	fd_s = -2;
+	while(lex->supatok[var->z + var->i] == TOKEN_REDIR_S || lex->supatok[var->z + var->i] == TOKEN_REDIR_E
+		|| lex->supatok[var->z + var->i] == TOKEN_REDIR_S2)
 	{
-		fd = open(lex->s[var->z + var->i + 1][0], O_CREAT | O_WRONLY | O_TRUNC, 0777);
+		if (lex->supatok[var->z + var->i] == TOKEN_REDIR_S)
+		{
+			close(fd_s);
+			fd_s = open(lex->s[var->z + var->i + 1][0], O_CREAT | O_WRONLY | O_TRUNC, 0777);
+		}
+		if (lex->supatok[var->z + var->i] == TOKEN_REDIR_E)
+		{
+			close(fd_e);
+			fd_e = open(lex->s[var->z + var->i + 1][0], O_RDWR, 0777);
+		}
+		if (lex->supatok[var->z + var->i] == TOKEN_REDIR_S2)
+		{
+			close (fd_s);
+			fd_s = open(lex->s[var->z + var->i + 1][0], O_CREAT | O_APPEND | O_WRONLY, 0777);
+		}
 		if (var->z > 0)
 			lex->s[var->z - 1] = add_after_redir(lex->s[var->z - 1], lex->s[var->z + var->i + 1]);
 		var->i = var->i + 2;
 	}
-	if (find_cmd_path(var, lex->s[var->z - 1][0]) != 0 && var->z > 0)
+	if (var->z > 0 && find_cmd_path(var, lex->s[var->z - 1][0]) != 0 )
 	{	
 		ll = fork();
 		if (ll == 0)
 		{
 			if (lex->supatok[var->z - 2] == TOKEN_PIPE && var->z > 1)
 				dup2(var->fd, STDIN_FILENO);
-			dup2(fd, STDOUT_FILENO);
+			if (fd_e != -2)
+				dup2(fd_e, STDIN_FILENO);
+			if (fd_s != -2)
+				dup2(fd_s, STDOUT_FILENO);
 			executeur(lex->s[var->z - 1], envp, var);
 		}
 		else
@@ -166,9 +186,11 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 		}
 	}
 	else 
-		var->z++;
+		var->z = var->z + 1 + var->i;
 	return (1);
 }
+
+
 
 int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 {
@@ -185,7 +207,6 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		free_final(lex, pip, var);
 		return (0);
 	}
-	//printf("\n%d\n", ft_malloc(lex));
 	while (var->z < ft_malloc(lex) - 1)
 	{
 		if (lex->supatok[var->z] == TOKEN_WORD)
@@ -211,40 +232,13 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		{
 			minipipe(pip, lex, envp, var);	
 		}
-		if (lex->supatok[var->z] == TOKEN_REDIR_S)
+		if (lex->supatok[var->z] == TOKEN_REDIR_S || lex->supatok[var->z] == TOKEN_REDIR_E
+			|| lex->supatok[var->z] == TOKEN_REDIR_S2)
 		{
 			miniredir_s(lex, var, envp, pip);
 			var->c = 0;
 			var->i = 0;
 		}
-		/*if (lex->supatok[var->z + 1] == TOKEN_PIPE)
-		{
-			printf("=====%s\n" , lex->s[var->z][0]);
-			minipipe(pip, lex, envp, var);
-		}
-		else if (lex->supatok[var->z] == TOKEN_REDIR_S)
-		{
-			printf("=i====%s\n" , lex->s[var->z][0]);
-			printf("oui");
-			printf("oui321");
-			miniredir_s(lex, var, envp, pip);
-		}
-		else if(lex->s[var->z + 1] == NULL)
-		{
-			printf("===l==%s\n" , lex->s[var->z][0]);
-			re = fork();
-			if (re == 0)
-			{
-				printf("op");
-				executeur_final(lex->s[var->z], envp, var, lex);
-			}
-			else 
-			{			
-				waitpid(re, &pip->status1, 0);
-				free_final(lex, pip, var);
-				return (0);
-			}
-		}*/
 	}
 	return(0);
 }
@@ -254,6 +248,7 @@ void process(char **envp)
 	t_var var;
 	t_lex lex;
 	t_pipe pip;
+
 	//t_token *head = NULL;
 	var.c = 0;
 	var.line = NULL;
@@ -272,6 +267,13 @@ void process(char **envp)
 	tokenizer(&lex);
 	lex.s = separate_tok(&var, &lex, lex.s);
 	turbotokenizer(&lex);
+	token_builtin(&lex);
+	int i = 0;
+	while (i < ft_malloc(&lex) - 2)
+	{
+		printf("token = %d\n", lex.supatok[i]);
+		i++;
+	}
 	exe_s(&lex, &var, &pip, envp);
 }
 
