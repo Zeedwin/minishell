@@ -1,6 +1,40 @@
 #include "../includes/shell.h"
 #include <termios.h>
 
+char	*ft_realloc(char *map, int i)
+{
+	char	*map_tp;
+	int		x;
+
+	x = 0;
+	map_tp = malloc(i * sizeof(char *));
+	while (map[x])
+	{
+		map_tp[x] = map[x];
+		x++;
+	}
+	free(map);
+	map_tp[x] = '\0';
+	return (map_tp);
+}
+
+char	**ft_realloc2(char **map, int i)
+{
+	char	**map_tp;
+	int		x;
+
+	x = 0;
+	map_tp = malloc(i * sizeof(char *));
+	while (map[x])
+	{
+		map_tp[x] = ft_strcpy(map_tp[x], map[x]);
+		x++;
+	}
+	free(map);
+	map_tp[x] = NULL;
+	return (map_tp);
+}
+
 int ft_strstrlen(char **s)
 {
 	int i;
@@ -78,6 +112,29 @@ int count_pipe(int *supatok, t_lex *lex)
 	}
 	return (j);
 }
+int delimiteur(t_lex *lex,t_var *var)
+{
+	char buffer[BUF_SIZE];
+	char *s;
+	int fd;
+	ssize_t num_read;
+
+	num_read = 0;
+	fd = open("tmp/tmp.txt", O_CREAT | O_RDWR | O_TRUNC, 0777);
+	while (1)
+	{
+			num_read = read(STDIN_FILENO, buffer, BUF_SIZE);
+			s = del_backn(buffer);
+			if (ft_strcmp(s, lex->s[var->z + var->i + 1][0]) == 0)
+			{
+				close(fd);
+				return(0);
+			}
+    	    write(fd, buffer, num_read);
+    }
+    close(fd);
+    return 0;
+}
 
 int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var)
 {
@@ -144,7 +201,7 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 	fd_e = -2;
 	fd_s = -2;
 	while(lex->supatok[var->z + var->i] == TOKEN_REDIR_S || lex->supatok[var->z + var->i] == TOKEN_REDIR_E
-		|| lex->supatok[var->z + var->i] == TOKEN_REDIR_S2)
+		|| lex->supatok[var->z + var->i] == TOKEN_REDIR_S2 || lex->supatok[var->z + var->i] == TOKEN_REDIR_E2)
 	{
 		if (lex->supatok[var->z + var->i] == TOKEN_REDIR_S)
 		{
@@ -160,6 +217,12 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 		{
 			close (fd_s);
 			fd_s = open(lex->s[var->z + var->i + 1][0], O_CREAT | O_APPEND | O_WRONLY, 0777);
+		}
+		if (lex->supatok[var->z + var->i] == TOKEN_REDIR_E2)
+		{
+			delimiteur(lex, var);
+			close (fd_e);
+			fd_e = open("tmp/tmp.txt", O_RDWR, 0777);
 		}
 		if (var->z > 0)
 			lex->s[var->z - 1] = add_after_redir(lex->s[var->z - 1], lex->s[var->z + var->i + 1]);
@@ -233,7 +296,7 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 			minipipe(pip, lex, envp, var);	
 		}
 		if (lex->supatok[var->z] == TOKEN_REDIR_S || lex->supatok[var->z] == TOKEN_REDIR_E
-			|| lex->supatok[var->z] == TOKEN_REDIR_S2)
+			|| lex->supatok[var->z] == TOKEN_REDIR_S2 || lex->supatok[var->z] == TOKEN_REDIR_E2)
 		{
 			miniredir_s(lex, var, envp, pip);
 			var->c = 0;

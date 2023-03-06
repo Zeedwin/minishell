@@ -1,6 +1,8 @@
 #ifndef SHELL_H
 # define SHELL_H
 
+#define BUF_SIZE 1024
+
 # include <unistd.h>
 # include <stdlib.h>
 # include <stddef.h>
@@ -112,6 +114,11 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strnstr(const char *haystack, const char *needle, int len);
 void	ft_exit(t_var *var);
+int	ft_strcmp(char *s1, char *s2);
+char	*ft_strstr(char *str, char *to_find);
+char *del_backn(char *s);
+
+
 //token	*ft_lstnew(char **content);
 size_t	ft_strlcpy(char *restrict dst, const char *restrict src, size_t dstsize);
 void	echo(t_var	*var);

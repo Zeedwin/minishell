@@ -15,7 +15,9 @@ LDFLAGS :=  -lreadline -fsanitize=address -L ${HOME}/homebrew/Cellar/readline/8.
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
-SRCS		:=            parsing/tokenizer.c \
+SRCS		:=            parsing/ft_strstr.c \
+						  parsing/ft_strcmp.c \
+						  parsing/tokenizer.c \
 						  parsing/lexeur1.c \
 						  parsing/find_path.c \
                           parsing/ft_putstr.c \
