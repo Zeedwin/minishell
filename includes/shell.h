@@ -1,7 +1,7 @@
 #ifndef SHELL_H
 # define SHELL_H
 
-#define BUF_SIZE 1024
+#define BUF_SIZE 10
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -73,6 +73,7 @@ typedef struct s_var {
 	int z;
 	int i;
 	int fd;
+	int last_err_com;
 }		t_var;
 
 
@@ -89,11 +90,14 @@ typedef struct s_lex
 	int rap;
 }			t_lex;
 
+
+char *replace_dol_(char *s, int i);
+char	*ft_realloc(char *map, int i);
 void executeur_final(char **s, char **envp, t_var *var, t_lex *lex);
 void process(char **envp);
 int ft_malloc(t_lex *lex);
 int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var);
-void init_tab(t_lex *lex, char *s);
+void init_tab(t_lex *lex, char *s, char **envp, t_var *var);
 char	*ft_strdup(const char *src);
 void	free_this(char **tab);
 void 	currpath(t_var *var);
@@ -117,6 +121,8 @@ void	ft_exit(t_var *var);
 int	ft_strcmp(char *s1, char *s2);
 char	*ft_strstr(char *str, char *to_find);
 char *del_backn(char *s);
+char *dollars_ch(char *s1, char **envp);
+char	*ft_itoa(int nb);
 
 
 //token	*ft_lstnew(char **content);

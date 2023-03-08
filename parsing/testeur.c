@@ -136,7 +136,6 @@ char ***separate_tok(t_var *var, t_lex *lex, char ***sf)
 	return (sf);
 }
 
-
 void	turbotokenizer(t_lex *lex)
 {
 	int i;

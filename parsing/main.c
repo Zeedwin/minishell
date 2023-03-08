@@ -282,6 +282,7 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 				else
 				{
 					waitpid(re, &pip->status, 0);
+					var->last_err_com = WEXITSTATUS(pip->status);
 					free_final(lex, pip, var);
 					return (0);
 				}
@@ -322,21 +323,14 @@ void process(char **envp)
 	//int n = read(0, &c, 1);
 	//printf("n = %d c = %c\n", n, c);
 	var.line = readline(var.promt);
-	printf("->'%s'<-\n", var.line);
 	var.c = 0;
 	if(var.line[0])
 		historyset(&var);
-	init_tab(&lex, var.line); //apres ca la ligne de commande est decoupe dans lex.s1
+	init_tab(&lex, var.line, envp, &var); //apres ca la ligne de commande est decoupe dans lex.s1
 	tokenizer(&lex);
 	lex.s = separate_tok(&var, &lex, lex.s);
 	turbotokenizer(&lex);
 	token_builtin(&lex);
-	int i = 0;
-	while (i < ft_malloc(&lex) - 2)
-	{
-		printf("token = %d\n", lex.supatok[i]);
-		i++;
-	}
 	exe_s(&lex, &var, &pip, envp);
 }
 
@@ -391,7 +385,7 @@ void ctrlbs(int sig)
 
 void ctrld(int sig)
 {
-	return;
+	exit(0);
 	(void)	sig;
 }
 
@@ -406,7 +400,9 @@ int main(int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
+	t_var var;
 	//t_lex *lex;
+	var.last_err_com = 0;
 	init_sign();
 	init_termios();
 	while (1)
