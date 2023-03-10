@@ -20,7 +20,7 @@ void executeur_final(char **s, char **envp, t_var *var, t_lex *lex)
 {
 	char *cmdpath;
 
-	if (lex->supatok[var->z - 1] == TOKEN_PIPE && var->z > 0)
+	if (var->z > 0 && lex->supatok[var->z - 1] == TOKEN_PIPE)
 		dup2(var->fd, STDIN_FILENO);
 	cmdpath = find_cmd_path(var, s[0]);
 	if (cmdpath == 0)

@@ -15,7 +15,8 @@ LDFLAGS :=  -lreadline -fsanitize=address -L ${HOME}/homebrew/Cellar/readline/8.
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
-SRCS		:=            parsing/ft_itoa.c \
+SRCS		:=            parsing/error.c \
+						  parsing/ft_itoa.c \
 						  parsing/var_dollard.c \
 						  parsing/ft_strstr.c \
 						  parsing/ft_strcmp.c \

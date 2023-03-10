@@ -89,10 +89,45 @@ int testspace(t_var *var)
 	return (0);
 }
 
-void historyset(t_var *var)
+void historyset(t_var *var, t_lex *lex)
 {
-	if (ft_strlen2(var->line) != 0 && testspace(var) == 1)
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	if (var->previous_line == NULL)
+		var->previous_line = ft_strdup(var->line);
+	if (var->check_pipe == 1)
+	{
+		while(var->previous_line[i] != '\0')
+		{
+			i++;
+		}
+		var->previous_line = ft_realloc(var->previous_line, (ft_strlen(var->line) + ft_strlen(var->previous_line) + 1));
+		while(var->line[j] != '\0')
+		{
+			var->previous_line[i] = var->line[j];
+			i++;
+			j++;
+		}
+		var->previous_line[i] = '\0';
+		if (lex->supatok[ft_malloc(lex) - 3] != TOKEN_PIPE)
+		{
+			var->check_pipe = 0;
+			add_history(var->previous_line);
+		}
+		
+	}
+	else if (lex->supatok[ft_malloc(lex) - 3] == TOKEN_PIPE)
+	{
+		var->check_pipe = 1;
+	}
+	else if (ft_strlen2(var->line) != 0 && testspace(var) == 1 && var->check_pipe == 0 )
+	{
 		add_history(var->line);
+		var->previous_line = ft_strdup(var->line);
+	}
 }
 
 int count_pipe(int *supatok, t_lex *lex)
@@ -150,7 +185,8 @@ int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var)
 	if (ell == 0) 
 	{
 		dup2(var->fd, STDIN_FILENO);
-		dup2(pip->tube[1], STDOUT_FILENO);
+		if (find_cmd_path(var, lex->s[var->z - 1][0]) != 0)	
+			dup2(pip->tube[1], STDOUT_FILENO);
 		close(pip->tube[0]);
 		executeur(lex->s[var->z - 1], envp, var);
 	}
@@ -228,16 +264,18 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 			lex->s[var->z - 1] = add_after_redir(lex->s[var->z - 1], lex->s[var->z + var->i + 1]);
 		var->i = var->i + 2;
 	}
-	if (var->z > 0 && find_cmd_path(var, lex->s[var->z - 1][0]) != 0 )
+	if (var->z > 0)
 	{	
 		ll = fork();
 		if (ll == 0)
 		{
-			if (lex->supatok[var->z - 2] == TOKEN_PIPE && var->z > 1)
+			if (var->last_pipe == 1)
+				dup2(var->fd, STDIN_FILENO);
+			if (var->z > 1 && lex->supatok[var->z - 2] == TOKEN_PIPE )
 				dup2(var->fd, STDIN_FILENO);
 			if (fd_e != -2)
 				dup2(fd_e, STDIN_FILENO);
-			if (fd_s != -2)
+			if (fd_s != -2 && find_cmd_path(var, lex->s[var->z - 1][0]) != 0)
 				dup2(fd_s, STDOUT_FILENO);
 			executeur(lex->s[var->z - 1], envp, var);
 		}
@@ -245,7 +283,7 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 		{
 			waitpid(ll, &pip->status2, 0);
 			var->z = var->z + 1 + var->i;
-
+			var->last_pipe = 0;
 		}
 	}
 	else 
@@ -277,13 +315,18 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 			if (lex->s[var->z + 1] == NULL)
 			{
 				re = fork();
-				if (re == 0)	
+				if (re == 0)
+				{
+					if (var->last_pipe == 1)
+						dup2(var->fd, STDIN_FILENO);
 					executeur_final(lex->s[var->z], envp, var, lex);
+				}
 				else
 				{
 					waitpid(re, &pip->status, 0);
 					var->last_err_com = WEXITSTATUS(pip->status);
-					free_final(lex, pip, var);
+					free_final(lex, pip, var);					
+					var->last_pipe = 0;
 					return (0);
 				}
 			}
@@ -291,6 +334,11 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 			{
 				var->z++;
 			}
+		}
+		if (lex->supatok[var->z - 1] == TOKEN_PIPE && lex->s[var->z] == NULL)
+		{
+			var->last_pipe = 1;
+			var->z++;
 		}
 		if (lex->supatok[var->z] == TOKEN_PIPE)
 		{
@@ -307,31 +355,33 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 	return(0);
 }
 
-void process(char **envp)
+void process(char **envp, t_var *var)
 {
-	t_var var;
 	t_lex lex;
 	t_pipe pip;
 
-	//t_token *head = NULL;
-	var.c = 0;
-	var.line = NULL;
-	currpath(&var);
-	//historyset(var);
-	find_path(envp, &var);
-	//char c;
-	//int n = read(0, &c, 1);
-	//printf("n = %d c = %c\n", n, c);
-	var.line = readline(var.promt);
-	var.c = 0;
-	if(var.line[0])
-		historyset(&var);
-	init_tab(&lex, var.line, envp, &var); //apres ca la ligne de commande est decoupe dans lex.s1
+	var->line = NULL;
+	currpath(var);
+	find_path(envp, var);
+	if (var->last_pipe == 1)
+		var->line = readline(">");
+	else
+		var->line = readline(var->promt);
+	var->c = 0;
+	if (!var->line)
+	{
+		write(1, "exit\n", 5);
+		exit(0);
+	}
+	init_tab(&lex, var->line, envp, var); //apres ca la ligne de commande est decoupe dans lex.s1
 	tokenizer(&lex);
-	lex.s = separate_tok(&var, &lex, lex.s);
+	lex.s = separate_tok(var, &lex, lex.s);
+	lex.s = del_brak(lex.s);
 	turbotokenizer(&lex);
 	token_builtin(&lex);
-	exe_s(&lex, &var, &pip, envp);
+	historyset(var, &lex);
+	if (parsing_syntax(&lex) == 1)
+		exe_s(&lex, var, &pip, envp);
 }
 
 void	set_termios(int in_cmd)
@@ -403,9 +453,14 @@ int main(int ac, char **av, char **envp)
 	t_var var;
 	//t_lex *lex;
 	var.last_err_com = 0;
+	var.last_pipe = 0;
+	var.check_pipe = 0;
+	var.previous_line = NULL;
 	init_sign();
 	init_termios();
 	while (1)
-		process(envp); 
+	{
+		process(envp, &var); 
+	}
 	//echo(&var);
 }

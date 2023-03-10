@@ -62,7 +62,7 @@ void token_builtin(t_lex *lex)
 	int i;
 
 	i = 0;
-	while (i < ft_malloc(lex) - 1)
+	while (i < ft_malloc(lex) - 2)
 	{
 		if (lex->supatok[i] == TOKEN_WORD)
 		{

@@ -68,6 +68,9 @@ typedef struct s_var {
 	char **line2;
 	char *dir;
 	char *echo;
+	int last_pipe;
+	char *previous_line;
+	int check_pipe;
 	pid_t	shell;
 	int c;
 	int z;
@@ -94,7 +97,7 @@ typedef struct s_lex
 char *replace_dol_(char *s, int i);
 char	*ft_realloc(char *map, int i);
 void executeur_final(char **s, char **envp, t_var *var, t_lex *lex);
-void process(char **envp);
+void process(char **envp, t_var *var);
 int ft_malloc(t_lex *lex);
 int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var);
 void init_tab(t_lex *lex, char *s, char **envp, t_var *var);
@@ -123,6 +126,7 @@ char	*ft_strstr(char *str, char *to_find);
 char *del_backn(char *s);
 char *dollars_ch(char *s1, char **envp);
 char	*ft_itoa(int nb);
+char ***del_brak(char ***s);
 
 
 //token	*ft_lstnew(char **content);
@@ -138,6 +142,7 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp);
 int count_pipe(int *supatok, t_lex *lex);
 int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip);
 int miniredir_s2(t_lex *lex, t_var *var, char **envp, t_pipe *pip);
+int parsing_syntax(t_lex *lex);
 
 
 //built-ins

@@ -235,6 +235,36 @@ char *replace_dol_(char *s, int i)
 	return (sf);
 }
 
+char ***del_brak(char ***s)
+{
+	int i;
+	int j;
+	int k;
+
+	i = 0;
+	while (s[i] != NULL)
+	{
+		j = 0;
+		while (s[i][j] != NULL)
+		{
+			if (s[i][j][0] == '"' || s[i][j][0] == '\'')
+			{
+				k = 1;
+				s[i][j] = ft_realloc(s[i][j], ft_strlen(s[i][j]) - 2);
+				while(k < ft_strlen(s[i][j]) - 1)
+				{
+					s[i][j][k - 1] = s[i][j][k];
+					k++;
+				}
+				s[i][j][k - 1] = '\0';
+			}
+			j++;
+		}
+		i++;
+	}
+	return (s);
+}
+
 
 /*int main(int ac, char **av, char **envp)
 {
