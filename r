@@ -1,0 +1,23 @@
+total 144
+drwxr-xr-x  22 jgirard-  2022_nice    748 Mar 22 16:27 .
+drwxr-xr-x  27 jgirard-  2022_nice    918 Mar 22 13:22 ..
+-rw-r--r--   1 jgirard-  2022_nice   6148 Mar 22 11:06 .DS_Store
+drwxr-xr-x  15 jgirard-  2022_nice    510 Mar 22 11:06 .git
+-rw-r--r--   1 jgirard-  2022_nice      3 Mar  2 15:32 .gitignore
+-rw-r--r--   1 jgirard-  2022_nice   3140 Mar 22 11:33 Makefile
+-rw-r--r--   1 jgirard-  2022_nice      0 Mar 22 16:27 a
+drwxr-xr-x   3 jgirard-  2022_nice    102 Mar 22 11:06 a.out.dSYM
+-rwxr-xr-x   1 jgirard-  2022_nice      0 Mar 22 16:27 b
+drwxr-xr-x  13 jgirard-  2022_nice    442 Mar 22 16:22 built-ins
+----------   1 jgirard-  2022_nice      0 Mar 22 16:21 cat
+drwxr-xr-x   3 jgirard-  2022_nice    102 Mar 22 11:06 includes
+drwxr-xr-x   2 jgirard-  2022_nice     68 Mar 22 14:06 l
+-rwxr-xr-x   1 jgirard-  2022_nice  47676 Mar 22 11:34 minishell
+-rwxr-xr-x   1 jgirard-  2022_nice      0 Mar 22 16:24 outfile
+drwxr-xr-x  50 jgirard-  2022_nice   1700 Mar 22 11:34 parsing
+-rwxr-xr-x   1 jgirard-  2022_nice      0 Mar 22 16:27 r
+-rwxr-xr-x   1 jgirard-  2022_nice    653 Mar 22 11:06 script.sh
+drwxr-xr-x   3 jgirard-  2022_nice    102 Mar 22 11:06 tmp
+drwxr-xr-x   4 jgirard-  2022_nice    136 Mar  2 15:54 vendor
+-rwxr-xr-x   1 jgirard-  2022_nice      0 Mar  3 18:54 wwe
+-rwxr-xr-x   1 jgirard-  2022_nice     57 Mar  3 18:54 |

@@ -9,8 +9,8 @@
 
 NAME        := minishell
 CC        := gcc
-FLAGS    := -Wall -Wextra -Werror -g -I ${HOME}/homebrew/Cellar/readline/8.2.1/include
-LDFLAGS :=  -lreadline -fsanitize=address -L ${HOME}/homebrew/Cellar/readline/8.2.1/lib -lreadline -L ${HOME}/homebrew/Cellar/readline/8.2.1/lib -lhistory
+FLAGS    := -Wall -Wextra -Werror -g -I ${HOME}/.brew/Cellar/readline/8.2.1/include
+LDFLAGS :=  -lreadline -fsanitize=address -L ${HOME}/.brew/Cellar/readline/8.2.1/lib -lreadline -L ${HOME}/.brew/Cellar/readline/8.2.1/lib -lhistory
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################

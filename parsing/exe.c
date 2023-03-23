@@ -1,6 +1,35 @@
 #include "../includes/shell.h"
 
+int	file_input_check(char *file)
+{
+	if(access(file, F_OK) == 0)
+		return (1);
+	else
+		return (0);
+}
 
+void execve_builtin(char **s, char **envp)
+{
+	int i = 0;
+	while (s[i])
+	{
+		if (ft_strcmp(s[i], "cd") || ft_strcmp(s[i], "CD"))
+			cd(s);
+		/*else if(ft_strcmp(s[i], "pwd") || ft_strcmp(s[i], "PWD"))
+			printf("%s", getenv("HOME"));
+		else if(ft_strcmp(s[i], "env") || ft_strcmp(s[i], "ENV"))
+			env(envp);
+		else if(ft_strcmp(s[i], "exit"))
+			ft_exit();
+		else if(ft_strcmp(s[i], "echo") || )
+			echo(s[i]);
+		else if(ft_strcmp(s[i], "export"))
+			export(envp);
+		else if(ft_strcmp(s[i], "unset"))
+			unset(envp);*/
+		i++;
+	}
+}
 
 void executeur(char **s, char **envp, t_var *var)
 {

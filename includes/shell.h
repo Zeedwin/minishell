@@ -58,6 +58,16 @@ enum {
 	TOKEN_BUILTIN,
 };
 
+enum {
+	CD,
+	ECHOO,
+	EXPORT,
+	PWD,
+	UNSET,
+	ENV,
+	EXIT,
+};
+
 typedef struct s_var {
 	char **path;
 	char *cmd;
@@ -143,9 +153,10 @@ int count_pipe(int *supatok, t_lex *lex);
 int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip);
 int miniredir_s2(t_lex *lex, t_var *var, char **envp, t_pipe *pip);
 int parsing_syntax(t_lex *lex);
+int test_builtin(char **s);
 
 
 //built-ins
-int	*cd(t_var *var);
+int	cd(char **s);
 
 #endif
