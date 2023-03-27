@@ -335,6 +335,11 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 				var->z++;
 			}
 		}
+		if(lex->supatok[var->z] == TOKEN_BUILTIN)
+		{
+			//printf("ayo");
+			execve_builtin(lex->s[var->z], envp, var);
+		}
 		if (lex->supatok[var->z - 1] == TOKEN_PIPE && lex->s[var->z] == NULL)
 		{
 			var->last_pipe = 1;

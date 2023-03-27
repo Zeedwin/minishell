@@ -8,7 +8,7 @@ int	file_input_check(char *file)
 		return (0);
 }*/
 
-void execve_builtin(char **s, char **envp)
+void execve_builtin(char **s, char **envp, t_var *var)
 {
 	int i = 0;
 	(void)envp;
@@ -16,8 +16,8 @@ void execve_builtin(char **s, char **envp)
 	{
 		if (ft_strcmp(s[i], "cd") == 0 || ft_strcmp(s[i], "CD") == 0)
 		{
-			printf("yo");
-			cd(s);
+			//printf("yo");
+			cd(s, var);
 		}
 		/*else if(ft_strcmp(s[i], "pwd") || ft_strcmp(s[i], "PWD"))
 			printf("%s", getenv("HOME"));
