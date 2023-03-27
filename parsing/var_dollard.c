@@ -152,7 +152,7 @@ char *dollars_ch(char *s, char **envp)
 {
 	char *s2;
 	int i;
-	int l;
+	//int l;
 	int j;
 	int o;
 	int k;
@@ -160,7 +160,7 @@ char *dollars_ch(char *s, char **envp)
 	j = 0;
 	i = 0;
 	k = 0;
-	l = ft_strlen(s);
+	//l = ft_strlen(s);
 	while(i <= ft_strlen(s) && s[i] != '\0')
 	{
 		if (s[i] == '\'')

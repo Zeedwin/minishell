@@ -296,7 +296,7 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 {
 	pid_t re;
-
+	
 	if (var->c == 0)
 	{	
 		var->c++;

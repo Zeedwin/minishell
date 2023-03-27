@@ -1,20 +1,24 @@
 #include "../includes/shell.h"
-
+/*
 int	file_input_check(char *file)
 {
 	if(access(file, F_OK) == 0)
 		return (1);
 	else
 		return (0);
-}
+}*/
 
 void execve_builtin(char **s, char **envp)
 {
 	int i = 0;
+	(void)envp;
 	while (s[i])
 	{
-		if (ft_strcmp(s[i], "cd") || ft_strcmp(s[i], "CD"))
+		if (ft_strcmp(s[i], "cd") == 0 || ft_strcmp(s[i], "CD") == 0)
+		{
+			printf("yo");
 			cd(s);
+		}
 		/*else if(ft_strcmp(s[i], "pwd") || ft_strcmp(s[i], "PWD"))
 			printf("%s", getenv("HOME"));
 		else if(ft_strcmp(s[i], "env") || ft_strcmp(s[i], "ENV"))
