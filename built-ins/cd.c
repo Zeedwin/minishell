@@ -9,12 +9,12 @@ int	file_input_check(char *file)
 	//fflush(stdout);
 	if(access(file, F_OK) == 0)
 	{
-		printf("w");
+		printf("w\n");
 		return (1);
 	}
 	else
 	{
-		printf("l");
+		printf("l\n");
 		return (0);
 	}
 }
@@ -31,30 +31,36 @@ int	cd(char **s)
 	while(s[i])
 	{
 		//fflush(stdout);
-		if(ft_strcmp(s[i], "cd"))
+		if(ft_strcmp(s[i], "cd\n"))
+		{
+		//	printf("%s", s[i]);
 			count++;
+		}
+		//printf("ala%d\n", count);
 		k = i;
 		/*if(ft_strcmp(s[i], "cd") && ft_strcmp(s[k + 1], ".."))
 		{
 			chdir("..");
 			return(1);
 		}*/
-		//printf("%s", s[i + 1]);
 		//file_input_check(s[i + 1]);
 		k = i;
-		printf("%d", i);
-		if(ft_strcmp(s[i], "cd") && file_input_check(s[i + 1]))
+		//printf("%d\n", i);
+		if(ft_strcmp(s[i], "cd") && file_input_check(s[k]))
 		{
-			printf("%s", s[i]);
-			chdir(s[i + 1]);
-			//system("pwd");
+			//k = i;
+			chdir(s[k]);
+			system("pwd");
 			return(1);
 		}
 		i++;
 	}
+	printf("%d\n", count);
 	if(count == 1)
 	{
+	//	printf("%s\n", s[i - 1]);
 		chdir(getenv("HOME"));
+		system("pwd");
 		return(1);
 	}
 	return(0);
