@@ -1,6 +1,8 @@
 #include "../includes/shell.h"
 #include <termios.h>
 
+t_var g_global;
+
 char	*ft_realloc(char *map, int i)
 {
 	char	*map_tp;
@@ -147,29 +149,40 @@ int count_pipe(int *supatok, t_lex *lex)
 	}
 	return (j);
 }
+
 int delimiteur(t_lex *lex,t_var *var)
 {
 	char buffer[BUF_SIZE];
 	char *s;
 	int fd;
 	ssize_t num_read;
+	int status;
+	pid_t balls;
 
-	num_read = 0;
-	fd = open("tmp/tmp.txt", O_CREAT | O_RDWR | O_TRUNC, 0777);
-	while (1)
+	var->is_in_heredoc = 1;
+	balls = fork();
+	if(balls == 0)
 	{
-			num_read = read(STDIN_FILENO, buffer, BUF_SIZE);
-			s = del_backn(buffer);
-			if (ft_strcmp(s, lex->s[var->z + var->i + 1][0]) == 0)
-			{
-				close(fd);
-				return(0);
-			}
-    	    write(fd, buffer, num_read);
-    }
-    close(fd);
-    return 0;
-}
+		num_read = 0;
+		var->is_in_heredoc = 2;
+		fd = open("tmp/tmp.txt", O_CREAT | O_RDWR | O_TRUNC, 0777);
+		while (1)
+		{
+				num_read = read(STDIN_FILENO, buffer, BUF_SIZE);
+				s = del_backn(buffer);
+				if (ft_strcmp(s, lex->s[var->z + var->i + 1][0]) == 0)
+				{
+					close(fd);
+					exit(0);
+				}
+				write(fd, buffer, num_read);
+    	}
+	}
+	else
+		waitpid(balls, &status, 0);
+	var->is_in_heredoc = 0;
+    return WEXITSTATUS(status);
+}	
 
 int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var)
 {
@@ -233,6 +246,7 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 	int fd_e;
 	int fd_s;
 	pid_t ll;
+	int did_fail = 0;
 	
 	fd_e = -2;
 	fd_s = -2;
@@ -256,7 +270,7 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 		}
 		if (lex->supatok[var->z + var->i] == TOKEN_REDIR_E2)
 		{
-			delimiteur(lex, var);
+			did_fail |= delimiteur(lex, var);
 			close (fd_e);
 			fd_e = open("tmp/tmp.txt", O_RDWR, 0777);
 		}
@@ -264,7 +278,7 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 			lex->s[var->z - 1] = add_after_redir(lex->s[var->z - 1], lex->s[var->z + var->i + 1]);
 		var->i = var->i + 2;
 	}
-	if (var->z > 0)
+	if (var->z > 0 && did_fail == 0)
 	{	
 		ll = fork();
 		if (ll == 0)
@@ -288,6 +302,8 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 	}
 	else 
 		var->z = var->z + 1 + var->i;
+	//var->ctrlc = 0;
+	//exit(1);
 	return (1);
 }
 
@@ -314,6 +330,7 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		{
 			if (lex->s[var->z + 1] == NULL)
 			{
+
 				re = fork();
 				if (re == 0)
 				{
@@ -337,8 +354,10 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		}
 		if(lex->supatok[var->z] == TOKEN_BUILTIN)
 		{
-			//printf("ayo");
+			printf("ayo");
 			execve_builtin(lex->s[var->z], envp, var);
+			while (var->z < ft_malloc(lex) - 1 && lex->supatok[var->z] != TOKEN_PIPE) 
+				var->z++;
 		}
 		if (lex->supatok[var->z - 1] == TOKEN_PIPE && lex->s[var->z] == NULL)
 		{
@@ -421,10 +440,18 @@ void ctrlc(int sig)
 {
 	(void)	sig;
 	
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	
+	if (g_global.is_in_heredoc == 0) {
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	
+	if (g_global.is_in_heredoc == 2) {
+		//exit(12);
+		exit(1);
+	}
 	//if (gstruct->is_cmd == 0)
 }
 
@@ -455,17 +482,18 @@ int main(int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
-	t_var var;
+	//t_var var;
 	//t_lex *lex;
-	var.last_err_com = 0;
-	var.last_pipe = 0;
-	var.check_pipe = 0;
-	var.previous_line = NULL;
+	g_global.last_err_com = 0;
+	g_global.last_pipe = 0;
+	g_global.check_pipe = 0;
+	g_global.previous_line = NULL;
 	init_sign();
 	init_termios();
+	//printf("%d\n", getppid());
 	while (1)
 	{
-		process(envp, &var); 
+		process(envp, &g_global); 
 	}
 	//echo(&var);
 }

@@ -85,11 +85,12 @@ typedef struct s_var {
 	int c;
 	int z;
 	int i;
+	int is_in_heredoc;
 	int fd;
 	int last_err_com;
 }		t_var;
 
-
+extern t_var g_global;
 
 typedef struct s_lex
 {
@@ -137,7 +138,7 @@ char *del_backn(char *s);
 char *dollars_ch(char *s1, char **envp);
 char	*ft_itoa(int nb);
 char ***del_brak(char ***s);
-void execve_builtin(char **s, char **envp, t_var *var);
+int execve_builtin(char **s, char **envp, t_var *var);
 
 //token	*ft_lstnew(char **content);
 size_t	ft_strlcpy(char *restrict dst, const char *restrict src, size_t dstsize);

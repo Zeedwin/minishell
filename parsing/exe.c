@@ -8,17 +8,15 @@ int	file_input_check(char *file)
 		return (0);
 }*/
 
-void execve_builtin(char **s, char **envp, t_var *var)
+int execve_builtin(char **s, char **envp, t_var *var)
 {
-	int i = 0;
 	(void)envp;
-	while (s[i])
+
+	if (ft_strcmp(*s, "cd") == 0 || ft_strcmp(*s, "CD") == 0)
 	{
-		if (ft_strcmp(s[i], "cd") == 0 || ft_strcmp(s[i], "CD") == 0)
-		{
-			//printf("yo");
-			cd(s, var);
-		}
+		cd(s, var);
+		//printf("sus\n");
+	}
 		/*else if(ft_strcmp(s[i], "pwd") || ft_strcmp(s[i], "PWD"))
 			printf("%s", getenv("HOME"));
 		else if(ft_strcmp(s[i], "env") || ft_strcmp(s[i], "ENV"))
@@ -31,8 +29,7 @@ void execve_builtin(char **s, char **envp, t_var *var)
 			export(envp);
 		else if(ft_strcmp(s[i], "unset"))
 			unset(envp);*/
-		i++;
-	}
+	return 0;
 }
 
 void executeur(char **s, char **envp, t_var *var)
