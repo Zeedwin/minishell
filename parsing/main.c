@@ -172,8 +172,6 @@ int delimiteur(t_lex *lex,t_var *var)
 				s = del_backn(buffer);
 				if (ft_strcmp(s, lex->s[var->z + var->i + 1][0]) == 0)
 				{
-					printf("yeyo\n");
-					sleep(1);
 					close(fd);
 					exit(0);
 				}
