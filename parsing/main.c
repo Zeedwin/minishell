@@ -172,10 +172,12 @@ int delimiteur(t_lex *lex,t_var *var)
 				s = del_backn(buffer);
 				if (ft_strcmp(s, lex->s[var->z + var->i + 1][0]) == 0)
 				{
+					printf("yeyo\n");
+					sleep(1);
 					close(fd);
 					exit(0);
 				}
-				write(fd, buffer, num_read);
+			write(fd, buffer, num_read);
     	}
 	}
 	else
@@ -205,7 +207,7 @@ int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var)
 	}
 	else
 	{
-		waitpid(ell, &pip->status, 0);
+		waitpid(ell, &pip->status, -1);
 		close(pip->tube[1]);
 		var->fd = pip->tube[0];
 		//printf("fd = %d", var->fd);
@@ -295,7 +297,7 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 		}
 		else
 		{
-			waitpid(ll, &pip->status2, 0);
+			waitpid(ll, &pip->status2, -1);
 			var->z = var->z + 1 + var->i;
 			var->last_pipe = 0;
 		}
