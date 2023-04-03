@@ -354,7 +354,7 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		}
 		if(lex->supatok[var->z] == TOKEN_BUILTIN)
 		{
-			printf("ayo");
+			//printf("ayo");
 			execve_builtin(lex->s[var->z], envp, var);
 			while (var->z < ft_malloc(lex) - 1 && lex->supatok[var->z] != TOKEN_PIPE) 
 				var->z++;
