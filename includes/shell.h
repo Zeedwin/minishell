@@ -56,6 +56,7 @@ enum {
 	TOKEN_CMD,
 	TOKEN_DOLLAR,
 	TOKEN_BUILTIN,
+	TOKEN_BUILTIN_OUTP,
 };
 
 enum {
@@ -159,5 +160,7 @@ int test_builtin(char **s);
 
 //built-ins
 int	cd(char **s, t_var *var);
+void pwd();
+int	exec_builtin_out(char **s, t_var *var);
 
 #endif

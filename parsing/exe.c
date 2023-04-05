@@ -8,6 +8,14 @@ int	file_input_check(char *file)
 		return (0);
 }*/
 
+int	exec_builtin_out(char **s, t_var *var)
+{
+
+	if(ft_strcmp(*s, "pwd") || ft_strcmp(*s, "PWD"))
+		pwd(var);
+	return(1);
+}
+
 int execve_builtin(char **s, char **envp, t_var *var)
 {
 	(void)envp;
@@ -17,9 +25,9 @@ int execve_builtin(char **s, char **envp, t_var *var)
 		cd(s, var);
 		//printf("sus\n");
 	}
-		/*else if(ft_strcmp(s[i], "pwd") || ft_strcmp(s[i], "PWD"))
-			printf("%s", getenv("HOME"));
-		else if(ft_strcmp(s[i], "env") || ft_strcmp(s[i], "ENV"))
+//else if(ft_strcmp(*s, "pwd") || ft_strcmp(*s, "PWD"))
+//		pwd(var);
+		/*else if(ft_strcmp(s[i], "env") || ft_strcmp(s[i], "ENV"))
 			env(envp);
 		else if(ft_strcmp(s[i], "exit"))
 			ft_exit();

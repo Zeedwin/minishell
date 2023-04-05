@@ -201,11 +201,23 @@ int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var)
 		if (find_cmd_path(var, lex->s[var->z - 1][0]) != 0)	
 			dup2(pip->tube[1], STDOUT_FILENO);
 		close(pip->tube[0]);
-		executeur(lex->s[var->z - 1], envp, var);
+		/*if (lex->supatok[var->z] == TOKEN_BUILTIN_OUTP)
+		{
+			printf("Mescoullies\n");
+			exec_builtin_out(lex->s[var->z], var);
+			while (var->z < ft_malloc(lex) - 1 && lex->supatok[var->z] != TOKEN_PIPE) 
+				var->z++;
+		}*/
+		if(lex->supatok[var->z - 1] == TOKEN_WORD)
+		{
+			printf("non\n");
+			fflush(stdout);
+			executeur(lex->s[var->z - 1], envp, var);
+		}
 	}
 	else
 	{
-		waitpid(ell, &pip->status, -1);
+		waitpid(ell, &pip->status, 0);
 		close(pip->tube[1]);
 		var->fd = pip->tube[0];
 		//printf("fd = %d", var->fd);
@@ -354,8 +366,13 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		}
 		if(lex->supatok[var->z] == TOKEN_BUILTIN)
 		{
-			//printf("ayo");
 			execve_builtin(lex->s[var->z], envp, var);
+			while (var->z < ft_malloc(lex) - 1 && lex->supatok[var->z] != TOKEN_PIPE) 
+				var->z++;
+		}
+		if (lex->supatok[var->z] == TOKEN_BUILTIN_OUTP)
+		{
+			exec_builtin_out(lex->s[var->z], var);
 			while (var->z < ft_malloc(lex) - 1 && lex->supatok[var->z] != TOKEN_PIPE) 
 				var->z++;
 		}
@@ -449,7 +466,6 @@ void ctrlc(int sig)
 	}
 	
 	if (g_global.is_in_heredoc == 2) {
-		//exit(12);
 		exit(1);
 	}
 	//if (gstruct->is_cmd == 0)

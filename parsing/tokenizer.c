@@ -14,7 +14,7 @@ int test_builtin(char **s)
 				if (s[0][3] == 'o')
 					if (s[1][0] == '-')
 						if (s[1][1] == 'n')
-							return(1);
+							return(2);
 	}
 	else if (s[0][0] == 'e')
 	{
@@ -29,7 +29,7 @@ int test_builtin(char **s)
 	{
 		if(s[0][1] == 'w')
 			if(s[0][2] == 'd')
-				return(1);
+				return(2);
 	}
 	else if (s[0][0] == 'u')
 	{
@@ -43,7 +43,7 @@ int test_builtin(char **s)
 	{
 		if(s[0][1] == 'n')
 			if(s[0][2] == 'v')
-				return(1);
+				return(2);
 	}
 	else if (s[0][0] == 'e')
 	{
@@ -69,6 +69,10 @@ void token_builtin(t_lex *lex)
 			if (test_builtin(lex->s[i]) == 1)
 			{
 				lex->supatok[i] = TOKEN_BUILTIN;
+			}
+			else if(test_builtin(lex->s[i]) == 2)
+			{
+				lex->supatok[i] = TOKEN_BUILTIN_OUTP;
 			}
 		}
 		i++;
