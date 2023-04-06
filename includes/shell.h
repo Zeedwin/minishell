@@ -71,6 +71,7 @@ enum {
 
 typedef struct s_var {
 	char **path;
+	char **cpyenv;
 	char *cmd;
 	char **cmd1;
 	char *cmdpath;
@@ -79,6 +80,7 @@ typedef struct s_var {
 	char **line2;
 	char *dir;
 	char *echo;
+	char **exp_env;
 	int last_pipe;
 	char *previous_line;
 	int check_pipe;
@@ -159,8 +161,11 @@ int test_builtin(char **s);
 
 
 //built-ins
-int	cd(char **s, t_var *var);
-void pwd();
-int	exec_builtin_out(char **s, t_var *var);
+int		cd(char **s, t_var *var);
+void 	pwd();
+int		exec_builtin_out(char **s, t_var *var);
+char	**ft_strcpy_env(char **cpyenv, char **envp);
+void 	env(char **cpyenv);
+char 	**export(char **cpyenv, char *exported);
 
 #endif

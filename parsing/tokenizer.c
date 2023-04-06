@@ -2,6 +2,7 @@
 
 int test_builtin(char **s)
 {
+	printf("no income\n");
 	if (s[0][0] == 'c')
 	{
 		if(s[0][1] == 'd')
@@ -72,6 +73,7 @@ void token_builtin(t_lex *lex)
 			}
 			else if(test_builtin(lex->s[i]) == 2)
 			{
+				printf("ky$");
 				lex->supatok[i] = TOKEN_BUILTIN_OUTP;
 			}
 		}

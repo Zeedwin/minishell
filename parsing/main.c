@@ -210,8 +210,8 @@ int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var)
 		}*/
 		if(lex->supatok[var->z - 1] == TOKEN_WORD)
 		{
-			printf("non\n");
-			fflush(stdout);
+			//printf("non\n");
+			//fflush(stdout);
 			executeur(lex->s[var->z - 1], envp, var);
 		}
 	}
@@ -499,6 +499,7 @@ int main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	//t_var var;
+	g_global.cpyenv = ft_strcpy_env(g_global.cpyenv, envp);
 	//t_lex *lex;
 	g_global.last_err_com = 0;
 	g_global.last_pipe = 0;

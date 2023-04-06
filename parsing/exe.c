@@ -12,7 +12,15 @@ int	exec_builtin_out(char **s, t_var *var)
 {
 
 	if(ft_strcmp(*s, "pwd") || ft_strcmp(*s, "PWD"))
+	{
+		printf("AMONGOS\n");
 		pwd(var);
+	}
+	else if(ft_strcmp(*s, "env") || ft_strcmp(*s, "ENV"))
+	{
+		printf("------------------------------------\n");
+		env(g_global.cpyenv);
+	}	
 	return(1);
 }
 
@@ -25,6 +33,8 @@ int execve_builtin(char **s, char **envp, t_var *var)
 		cd(s, var);
 		//printf("sus\n");
 	}
+	if(ft_strcmp(*s, "export"))
+		export(g_global.cpyenv, "sus");
 //else if(ft_strcmp(*s, "pwd") || ft_strcmp(*s, "PWD"))
 //		pwd(var);
 		/*else if(ft_strcmp(s[i], "env") || ft_strcmp(s[i], "ENV"))

@@ -37,6 +37,7 @@ SRCS		:=            parsing/error.c \
 						  built-ins/cd.c \
 						  built-ins/exit.c \
 						  built-ins/pwd.c \
+						  built-ins/env.c \
 						  built-ins/echo.c \
 						  parsing/ft_strnstr.c \
 						  parsing/ft_strdup.c \
