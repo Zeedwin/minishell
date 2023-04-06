@@ -13,12 +13,10 @@ int	exec_builtin_out(char **s, t_var *var)
 
 	if(ft_strcmp(*s, "pwd") || ft_strcmp(*s, "PWD"))
 	{
-		printf("AMONGOS\n");
 		pwd(var);
 	}
 	else if(ft_strcmp(*s, "env") || ft_strcmp(*s, "ENV"))
 	{
-		printf("------------------------------------\n");
 		env(g_global.cpyenv);
 	}	
 	return(1);

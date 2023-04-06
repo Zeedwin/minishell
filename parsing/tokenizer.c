@@ -2,7 +2,6 @@
 
 int test_builtin(char **s)
 {
-	printf("no income\n");
 	if (s[0][0] == 'c')
 	{
 		if(s[0][1] == 'd')
