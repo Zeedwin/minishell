@@ -27,6 +27,18 @@ char	*ft_strcpy(char *dest, char *src)
 	return (dest);
 }
 
+int equalfinder(char *path)
+{
+    int i;
+
+    i = 0;
+    while(path[i] && path[i] != '=')
+    {
+        i++;
+    }
+    return (i);
+}
+
 char **ft_strcpy_env(char **cpyenv, char **envp)
 {
     int i;
@@ -45,7 +57,7 @@ char **ft_strcpy_env(char **cpyenv, char **envp)
         return (NULL);
     while (envp[i])
     {
-        cpyenv[i] = ft_strdup(envp[i]);
+        cpyenv[i] = envp[i];
         i++;
     }
     cpyenv[i] = NULL;
@@ -58,15 +70,31 @@ char **exporting(char **cpyenv, char *exported)
     int len;
     char **exp_env;
 	char **cpycpy;
+    int c;
+    int j;
+    int check;
 
+    check = 0;
     len = 0;
     i = 0;
+    j = 0;
 	cpycpy = NULL;
+    c = equalfinder(exported);
+    printf("c size = %d\n\n", c);
 	cpycpy = ft_strcpy_env(cpycpy, cpyenv);
     while (cpycpy[i])
     {
+        if((strncmp(cpycpy[i], exported, equalfinder(cpycpy[i])) == 0))
+        {
+            len--;
+        }
         i++;
         len++;
+    }
+    printf("%d\n", len);
+    if (len < 0) {
+        free(cpycpy);
+        return (NULL);
     }
     exp_env = malloc(sizeof(char *) * (len + 2));
     if (!exp_env)
@@ -74,12 +102,30 @@ char **exporting(char **cpyenv, char *exported)
     i = 0;
     while (cpycpy[i])
     {
-        exp_env[i] = cpycpy[i];
+        if((strncmp(cpycpy[i], exported, equalfinder(cpycpy[i])) == 0))
+        {
+            check = 1;
+            exp_env[j] = exported;
+            j++;
+        }
+        else
+        {
+            exp_env[j] = cpycpy[i];
+            j++;
+        }
         i++;
     }
-    exp_env[i] = exported;
-    exp_env[i + 1] = NULL;
+    if(check == 1)
+    {
+        //printf("%s\n", exp_env[j]);
+        exp_env[j] == NULL;
+        free(cpycpy);
+        return(exp_env);
+    }
+    exp_env[j] = exported;
+    exp_env[j + 1] = NULL;
 	free(cpycpy);
+    //printf("\n\n\n\n");
     return (exp_env);
 }
 
@@ -88,18 +134,21 @@ char **unset(char **cpyenvp, char *unsetstr)
     int i;
     int j;
 	int k;
+    int c;
     char **new_envp;
 	char **cpycpy;
 
 	k = 0;
     i = 0;
+    c = ft_strlen(unsetstr);
 	cpycpy = NULL;
 	cpycpy = ft_strcpy_env(cpyenvp, cpyenvp);
      while (cpycpy[i])
     {
-        if (strncmp(cpycpy[i], unsetstr, strlen(unsetstr)) == 0 &&
-            cpycpy[i][strlen(unsetstr)] == '=')
+        if (strncmp(cpycpy[i], unsetstr, c) == 0 &&
+            cpycpy[i][c] == '=')
         {
+            //printf("GAYssysdasd\n");
             k--;
         }
         k++;
@@ -116,8 +165,8 @@ char **unset(char **cpyenvp, char *unsetstr)
     j = 0;
     while (cpycpy[i])
     {
-        if (strncmp(cpycpy[i], unsetstr, strlen(unsetstr)) == 0 &&
-            cpycpy[i][strlen(unsetstr)] == '=')
+        if (strncmp(cpycpy[i], unsetstr, c) == 0 &&
+            cpycpy[i][c] == '=')
         {
             free(cpycpy[i]);
         }
@@ -137,19 +186,20 @@ char **unset(char **cpyenvp, char *unsetstr)
 int main(int ac, char **av, char **envp)
 {
     char **cpyenvp = ft_strcpy_env(NULL, envp);
-    char **exportedenv = exporting(cpyenvp, "a=sus");
-    char **unsettedenv = unset(exportedenv, "a");
+    char **exportedenv = exporting(cpyenvp, "acti=sus");
+    char **susenv = exporting(exportedenv, "asa=b");
+    char **callenv = exporting(susenv, "aa=e");
+    char **calling = unset(callenv, "aa");
+
     int i = 0;
-    while(unsettedenv[i] != NULL)
+    while(calling[i] != NULL)
     {
-        printf("> %s\n", unsettedenv[i]);
-		free(unsettedenv[i]);
-		free(exportedenv[i]);
-		free(cpyenvp[i]);
+        printf("> %s\n", calling[i]);
         i++;
     }
-	free(unsettedenv);
-	free(exportedenv);
+    free(exportedenv);
+    free(susenv);
+	free(callenv);
 	free(cpyenvp);
     return 0;
 }
