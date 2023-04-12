@@ -169,14 +169,15 @@ char **unset(char **cpyenvp, char *unsetstr)
         if (ft_strncmp(cpycpy[i], unsetstr, c) == 0 &&
             cpycpy[i][c] == '=')
         {
+        	i++;
         	//free(cpycpy[i]);
         }
         else
         {
             new_envp[j] = cpycpy[i];
+			i++;
             j++;
         }
-        i++;
     }
     new_envp[j] = NULL;
     free(cpycpy);
@@ -188,19 +189,20 @@ int main(int ac, char **av, char **envp)
 {
     char **cpyenvp = ft_strcpy_env(NULL, envp);
     char **exportedenv = exporting(cpyenvp, "acti=sus");
-    char **susenv = exporting(exportedenv, "aa=b");
+    char **susenv = exporting(exportedenv, "aa=a");
     char **callenv = exporting(susenv, "a=b");
-    char **calling = unset(callenv, "acti");
+    char **calling = unset(callenv, "a");
+	char **sexsells = exporting(calling, "se=x");
 
     int i = 0;
-    while(calling[i] != NULL)
+    while(sexsells[i] != NULL)
     {
-        printf("> %s\n", calling[i]);
+        printf("> %s\n", sexsells[i]);
         i++;
     }
-    free(exportedenv);
-    free(susenv);
-	free(callenv);
-	free(cpyenvp);
+    //free(exportedenv);
+    //free(susenv);
+	//free(callenv);
+	//free(cpyenvp);
     return 0;
 }
