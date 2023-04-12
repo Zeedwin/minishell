@@ -80,18 +80,18 @@ char **exporting(char **cpyenv, char *exported)
     j = 0;
 	cpycpy = NULL;
     c = equalfinder(exported);
-    printf("c size = %d\n\n", c);
+    //printf("c size = %d\n\n", c);
 	cpycpy = ft_strcpy_env(cpycpy, cpyenv);
     while (cpycpy[i])
     {
-        if((strncmp(cpycpy[i], exported, equalfinder(cpycpy[i])) == 0))
+        if((ft_strncmp(cpycpy[i], exported, equalfinder(cpycpy[i])) == 0))
         {
             len--;
         }
         i++;
         len++;
     }
-    printf("%d\n", len);
+  //  printf("%d\n", len);
     if (len < 0) {
         free(cpycpy);
         return (NULL);
@@ -102,7 +102,7 @@ char **exporting(char **cpyenv, char *exported)
     i = 0;
     while (cpycpy[i])
     {
-        if((strncmp(cpycpy[i], exported, equalfinder(cpycpy[i])) == 0))
+        if((ft_strncmp(cpycpy[i], exported, equalfinder(cpycpy[i])) == 0))
         {
             check = 1;
             exp_env[j] = exported;
@@ -118,7 +118,7 @@ char **exporting(char **cpyenv, char *exported)
     if(check == 1)
     {
         //printf("%s\n", exp_env[j]);
-        exp_env[j] == NULL;
+        exp_env[j] = NULL;
         free(cpycpy);
         return(exp_env);
     }
@@ -145,16 +145,17 @@ char **unset(char **cpyenvp, char *unsetstr)
 	cpycpy = ft_strcpy_env(cpyenvp, cpyenvp);
      while (cpycpy[i])
     {
-        if (strncmp(cpycpy[i], unsetstr, c) == 0 &&
+        if (ft_strncmp(cpycpy[i], unsetstr, c) == 0 &&
             cpycpy[i][c] == '=')
         {
-            //printf("GAYssysdasd\n");
+            //free(cpycpy[i]);
             k--;
         }
         k++;
         i++;
     }
-    if (k < 0) {
+    if (k < 0) 
+	{
         free(cpycpy);
         return (NULL);
     }
@@ -165,10 +166,10 @@ char **unset(char **cpyenvp, char *unsetstr)
     j = 0;
     while (cpycpy[i])
     {
-        if (strncmp(cpycpy[i], unsetstr, c) == 0 &&
+        if (ft_strncmp(cpycpy[i], unsetstr, c) == 0 &&
             cpycpy[i][c] == '=')
         {
-            free(cpycpy[i]);
+        	//free(cpycpy[i]);
         }
         else
         {
@@ -187,9 +188,9 @@ int main(int ac, char **av, char **envp)
 {
     char **cpyenvp = ft_strcpy_env(NULL, envp);
     char **exportedenv = exporting(cpyenvp, "acti=sus");
-    char **susenv = exporting(exportedenv, "asa=b");
-    char **callenv = exporting(susenv, "aa=e");
-    char **calling = unset(callenv, "aa");
+    char **susenv = exporting(exportedenv, "aa=b");
+    char **callenv = exporting(susenv, "a=b");
+    char **calling = unset(callenv, "acti");
 
     int i = 0;
     while(calling[i] != NULL)
