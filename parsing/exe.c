@@ -22,7 +22,7 @@ int	exec_builtin_out(char **s)
 	return(1);
 }
 
-int execve_builtin(char **s, char **envp, t_var *var)
+int execve_builtin(char **s, char **envp, t_var *var, t_lex *lex)
 {
 	(void)envp;
 
@@ -31,20 +31,23 @@ int execve_builtin(char **s, char **envp, t_var *var)
 		cd(s, var);
 		//printf("sus\n");
 	}
-	if(ft_strcmp(*s, "export"))
-		export(g_global.cpyenv, "sus");
-//else if(ft_strcmp(*s, "pwd") || ft_strcmp(*s, "PWD"))
-//		pwd(var);
-		/*else if(ft_strcmp(s[i], "env") || ft_strcmp(s[i], "ENV"))
-			env(envp);
-		else if(ft_strcmp(s[i], "exit"))
-			ft_exit();
-		else if(ft_strcmp(s[i], "echo") || )
-			echo(s[i]);
-		else if(ft_strcmp(s[i], "export"))
-			export(envp);
-		else if(ft_strcmp(s[i], "unset"))
-			unset(envp);*/
+	if(ft_strcmp(*s, "export") == 0)
+	{
+		fflush(stdout);
+		g_global.cpyenv = export(g_global.cpyenv, lex->s[var->z][1]);
+	}
+	/*if(ft_strcmp(*s, "pwd") == 0|| ft_strcmp(*s, "PWD") == 0 )
+		pwd(var);
+	if(ft_strcmp(*s, "env") == 0|| ft_strcmp(*s, "ENV") == 0)
+		env(envp);
+	if(ft_strcmp(*s, "exit") == 0)
+		ft_exit();
+	if(ft_strcmp(*s, "echo") == 0)
+		echo(*s);
+	if(ft_strcmp(*s, "export") == 0)
+		export(envp);
+	if(ft_strcmp(*s, "unset") == 0)
+		unset(envp);*/
 	return 0;
 }
 

@@ -141,7 +141,7 @@ char *del_backn(char *s);
 char *dollars_ch(char *s1, char **envp);
 char	*ft_itoa(int nb);
 char ***del_brak(char ***s);
-int execve_builtin(char **s, char **envp, t_var *var);
+int execve_builtin(char **s, char **envp, t_var *var, t_lex *lex);
 
 //token	*ft_lstnew(char **content);
 size_t	ft_strlcpy(char *restrict dst, const char *restrict src, size_t dstsize);
@@ -158,6 +158,8 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip);
 int miniredir_s2(t_lex *lex, t_var *var, char **envp, t_pipe *pip);
 int parsing_syntax(t_lex *lex);
 int test_builtin(char **s);
+int equalfinder(char *path);
+
 
 
 //built-ins
