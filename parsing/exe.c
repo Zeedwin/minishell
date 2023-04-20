@@ -71,7 +71,13 @@ void executeur_final(char **s, char **envp, t_var *var, t_lex *lex)
 
 	if (var->z > 0 && lex->supatok[var->z - 1] == TOKEN_PIPE)
 		dup2(var->fd, STDIN_FILENO);
+	if (lex->supatok[var->z - 1] == TOKEN_PIPE && lex->supatok[var->z - 2] == TOKEN_BUILTIN_OUTP)
+	{
+		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
+		dup2(var->fd, STDIN_FILENO);
+	}
 	cmdpath = find_cmd_path(var, s[0]);
+	//dup2(var->fd, STDOUT_FILENO);
 	if (cmdpath == 0)
 	{
 		printf("bash : %s: command not found\n", s[0]);

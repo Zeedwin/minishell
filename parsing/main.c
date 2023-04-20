@@ -187,41 +187,56 @@ int delimiteur(t_lex *lex,t_var *var)
 int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var)
 {
 	pid_t ell;
+	int fdtmp;
 
 	if (var->c == 0                                                                                                                                                                                                                                                                    )
 	{
 		var->c++;
 		var->fd = dup(0);
 	}
-	pipe(pip->tube);		   		
-	ell = fork();
-	if (ell == 0) 
+	fdtmp = dup(0);
+	dup2(STDOUT_FILENO, fdtmp);
+	pipe(pip->tube);
+	if (lex->supatok[var->z - 1] != TOKEN_BUILTIN && lex->supatok[var->z - 1] != TOKEN_BUILTIN_OUTP)
 	{
-		dup2(var->fd, STDIN_FILENO);
-		if (find_cmd_path(var, lex->s[var->z - 1][0]) != 0)	
-			dup2(pip->tube[1], STDOUT_FILENO);
-		close(pip->tube[0]);
-		/*if (lex->supatok[var->z] == TOKEN_BUILTIN_OUTP)
+		ell = fork();
+		if (ell == 0) 
 		{
-			printf("Mescoullies\n");
-			exec_builtin_out(lex->s[var->z], var);
-			while (var->z < ft_malloc(lex) - 1 && lex->supatok[var->z] != TOKEN_PIPE) 
-				var->z++;
-		}*/
-		if(lex->supatok[var->z - 1] == TOKEN_WORD)
+			dup2(var->fd, STDIN_FILENO);
+			if (find_cmd_path(var, lex->s[var->z - 1][0]) != 0 && lex->supatok[var->z - 1] == TOKEN_WORD)	
+				dup2(pip->tube[1], STDOUT_FILENO);
+			close(pip->tube[0]);
+			/*if (lex->supatok[var->z] == TOKEN_BUILTIN_OUTP)
+			{
+				printf("Mescoullies\n");
+				exec_builtin_out(lex->s[var->z], var);
+				while (var->z < ft_malloc(lex) - 1 && lex->supatok[var->z] != TOKEN_PIPE) 
+					var->z++;
+			}*/
+			if(lex->supatok[var->z - 1] == TOKEN_WORD)
+			{
+				//printf("non\n");
+				//fflush(stdout);
+				executeur(lex->s[var->z - 1], envp, var);
+			}
+		}
+		else
 		{
-			//printf("non\n");
-			//fflush(stdout);
-			executeur(lex->s[var->z - 1], envp, var);
+			waitpid(ell, &pip->status, 0);
+			close(pip->tube[1]);
+			var->fd = pip->tube[0];
+			//printf("fd = %d", var->fd);
+			var->z +=1;
 		}
 	}
-	else
+	else if (lex->supatok[var->z - 1] == TOKEN_BUILTIN_OUTP)
 	{
-		waitpid(ell, &pip->status, 0);
-		close(pip->tube[1]);
-		var->fd = pip->tube[0];
-		//printf("fd = %d", var->fd);
-		var->z +=1;
+		var->fd = open("tmp/tmp.txt", O_CREAT | O_RDWR | O_TRUNC, 0777);
+		dup2(var->fd, STDOUT_FILENO);
+		close(var->fd);
+		exec_builtin_out(lex->s[var->z - 1]);
+		dup2(fdtmp, STDOUT_FILENO);
+		var->z++;
 	}
 	return(1);
 }
@@ -258,9 +273,12 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 	int fd_e;
 	int fd_s;
 	pid_t ll;
+	int fdtmp;
 	int did_fail = 0;
 	
 	fd_e = -2;
+	fdtmp = dup(0);
+	dup2(STDOUT_FILENO, fdtmp);
 	fd_s = -2;
 	while(lex->supatok[var->z + var->i] == TOKEN_REDIR_S || lex->supatok[var->z + var->i] == TOKEN_REDIR_E
 		|| lex->supatok[var->z + var->i] == TOKEN_REDIR_S2 || lex->supatok[var->z + var->i] == TOKEN_REDIR_E2)
@@ -290,7 +308,16 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 			lex->s[var->z - 1] = add_after_redir(lex->s[var->z - 1], lex->s[var->z + var->i + 1]);
 		var->i = var->i + 2;
 	}
-	if (var->z > 0 && did_fail == 0)
+	if (lex->supatok[var->z - 1] == TOKEN_BUILTIN_OUTP)
+	{
+
+		if (fd_s != -2 && find_cmd_path(var, lex->s[var->z - 1][0]) != 0)
+			dup2(fd_s, STDOUT_FILENO);
+		exec_builtin_out(lex->s[var->z - 1]);
+		dup2(fdtmp, STDOUT_FILENO);
+		var->z = var->z + 1 + var->i;
+	}
+	else if (var->z > 0 && did_fail == 0)
 	{	
 		ll = fork();
 		if (ll == 0)
@@ -299,6 +326,11 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 				dup2(var->fd, STDIN_FILENO);
 			if (var->z > 1 && lex->supatok[var->z - 2] == TOKEN_PIPE )
 				dup2(var->fd, STDIN_FILENO);
+			if (var->z > 2 && lex->supatok[var->z - 2] == TOKEN_PIPE && lex->supatok[var->z - 3] == TOKEN_BUILTIN_OUTP)
+			{
+				var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
+				dup2(var->fd, STDIN_FILENO);
+			}
 			if (fd_e != -2)
 				dup2(fd_e, STDIN_FILENO);
 			if (fd_s != -2 && find_cmd_path(var, lex->s[var->z - 1][0]) != 0)
@@ -311,6 +343,11 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 			var->z = var->z + 1 + var->i;
 			var->last_pipe = 0;
 		}
+	}
+	if (lex->supatok[var->z - 2] == TOKEN_BUILTIN_OUTP)
+	{
+		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
+		dup2(var->fd, STDIN_FILENO);
 	}
 	else 
 		var->z = var->z + 1 + var->i;
@@ -342,12 +379,13 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		{
 			if (lex->s[var->z + 1] == NULL)
 			{
-
 				re = fork();
 				if (re == 0)
 				{
-					if (var->last_pipe == 1)
+					if (var->last_pipe == 1 || lex->supatok[var->z - 1] == TOKEN_PIPE)
+					{
 						dup2(var->fd, STDIN_FILENO);
+					}
 					executeur_final(lex->s[var->z], envp, var, lex);
 				}
 				else
@@ -371,15 +409,19 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 			while (var->z < ft_malloc(lex) - 1 && lex->supatok[var->z] != TOKEN_PIPE) 
 				var->z++;
 		}
-		/*if (lex->supatok[var->z] == TOKEN_BUILTIN_OUTP)
-		{
+		if (lex->supatok[var->z] == TOKEN_BUILTIN_OUTP && lex->s[var->z + 1] == NULL)
+		{ 
 			exec_builtin_out(lex->s[var->z]);
-			while (var->z < ft_malloc(lex) - 1 && lex->supatok[var->z] != TOKEN_PIPE) 
+			while (var->z < ft_malloc(lex) - 1 && lex->supatok[var->z] != TOKEN_PIPE)
 				var->z++;
-		}*/
+		}
 		if (lex->supatok[var->z - 1] == TOKEN_PIPE && lex->s[var->z] == NULL)
 		{
 			var->last_pipe = 1;
+			var->z++;
+		}
+		if (lex->supatok[var->z] == TOKEN_BUILTIN_OUTP)
+		{ 
 			var->z++;
 		}
 		if (lex->supatok[var->z] == TOKEN_PIPE)

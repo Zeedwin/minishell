@@ -90,4 +90,3 @@ readline: $(READLINE_PATH)
 
 re:			fclean all
 
-.PHONY:		all clean fclean rehttps://prod.liveshare.vsengsaas.visualstudio.com/join?B789DB3E0C1DC6CE72B894BD331C7D8A9A4C
