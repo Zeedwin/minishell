@@ -372,7 +372,7 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		}
 		if (lex->supatok[var->z] == TOKEN_BUILTIN_OUTP)
 		{
-			exec_builtin_out(lex->s[var->z], var);
+			exec_builtin_out(lex->s[var->z]);
 			while (var->z < ft_malloc(lex) - 1 && lex->supatok[var->z] != TOKEN_PIPE) 
 				var->z++;
 		}
@@ -419,7 +419,6 @@ void process(char **envp, t_var *var)
 	lex.s = separate_tok(var, &lex, lex.s);
 	lex.s = del_brak(lex.s);
 	turbotokenizer(&lex);
-	token_builtin(&lex);
 	historyset(var, &lex);
 	if (parsing_syntax(&lex) == 1)
 		exe_s(&lex, var, &pip, envp);

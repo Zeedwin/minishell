@@ -8,14 +8,14 @@ int	file_input_check(char *file)
 		return (0);
 }*/
 
-int	exec_builtin_out(char **s, t_var *var)
+int	exec_builtin_out(char **s)
 {
 
-	if(ft_strcmp(*s, "pwd") || ft_strcmp(*s, "PWD"))
+	if(ft_strcmp(*s, "pwd") == 0 || ft_strcmp(*s, "PWD") == 0)
 	{
-		pwd(var);
+		pwd();
 	}
-	else if(ft_strcmp(*s, "env") || ft_strcmp(*s, "ENV"))
+	else if(ft_strcmp(*s, "env") == 0 || ft_strcmp(*s, "ENV") == 0)
 	{
 		env(g_global.cpyenv);
 	}	

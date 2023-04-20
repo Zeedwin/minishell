@@ -70,7 +70,7 @@ char **exporting(char **cpyenv, char *exported)
     int len;
     char **exp_env;
 	char **cpycpy;
-    int c;
+
     int j;
     int check;
 
@@ -79,7 +79,7 @@ char **exporting(char **cpyenv, char *exported)
     i = 0;
     j = 0;
 	cpycpy = NULL;
-    c = equalfinder(exported);
+    //c = equalfinder(exported);
     //printf("c size = %d\n\n", c);
 	cpycpy = ft_strcpy_env(cpycpy, cpyenv);
     while (cpycpy[i])
@@ -185,7 +185,7 @@ char **unset(char **cpyenvp, char *unsetstr)
 }
 
 
-int main(int ac, char **av, char **envp)
+/*int main(int ac, char **av, char **envp)
 {
     char **cpyenvp = ft_strcpy_env(NULL, envp);
     char **exportedenv = exporting(cpyenvp, "acti=sus");
@@ -205,4 +205,4 @@ int main(int ac, char **av, char **envp)
 	//free(callenv);
 	//free(cpyenvp);
     return 0;
-}
+}*/

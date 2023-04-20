@@ -7,7 +7,7 @@ int test_builtin(char **s)
 		if(s[0][1] == 'd')
 			return(1);
 	}
-	else if (s[0][0] == 'e')
+	if (s[0][0] == 'e')
 	{
 		if(s[0][1] == 'c')
 			if(s[0][2] == 'h')
@@ -16,7 +16,7 @@ int test_builtin(char **s)
 						if (s[1][1] == 'n')
 							return(2);
 	}
-	else if (s[0][0] == 'e')
+	if (s[0][0] == 'e')
 	{
 		if(s[0][1] == 'x')
 			if(s[0][2] == 'p')
@@ -25,13 +25,13 @@ int test_builtin(char **s)
 						if (s[0][5] == 't')
 							return(1);
 	}
-	else if (s[0][0] == 'p')
+	if (s[0][0] == 'p')
 	{
 		if(s[0][1] == 'w')
 			if(s[0][2] == 'd')
 				return(2);
 	}
-	else if (s[0][0] == 'u')
+	if (s[0][0] == 'u')
 	{
 		if(s[0][1] == 'n')
 			if(s[0][2] == 's')
@@ -39,13 +39,13 @@ int test_builtin(char **s)
 					if (s[0][4] == 't')
 						return(1);
 	}
-	else if (s[0][0] == 'e')
+	if (s[0][0] == 'e')
 	{
 		if(s[0][1] == 'n')
 			if(s[0][2] == 'v')
 				return(2);
 	}
-	else if (s[0][0] == 'e')
+	if (s[0][0] == 'e')
 	{
 		if(s[0][1] == 'x')
 			if(s[0][2] == 'i')
@@ -72,7 +72,6 @@ void token_builtin(t_lex *lex)
 			}
 			else if(test_builtin(lex->s[i]) == 2)
 			{
-				printf("ky$");
 				lex->supatok[i] = TOKEN_BUILTIN_OUTP;
 			}
 		}

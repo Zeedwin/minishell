@@ -163,7 +163,7 @@ int test_builtin(char **s);
 //built-ins
 int		cd(char **s, t_var *var);
 void 	pwd();
-int		exec_builtin_out(char **s, t_var *var);
+int		exec_builtin_out(char **s);
 char	**ft_strcpy_env(char **cpyenv, char **envp);
 void 	env(char **cpyenv);
 char 	**export(char **cpyenv, char *exported);

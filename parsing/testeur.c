@@ -161,8 +161,16 @@ void	turbotokenizer(t_lex *lex)
 			else if (lex->s[i][j][k] == '<' && lex->s[i][j][k + 1] == '<')
 				lex->supatok[i] = TOKEN_REDIR_E2;
 		}
+		else if (test_builtin(lex->s[i]) == 1)
+			lex->supatok[i] = TOKEN_BUILTIN;
+		else if(test_builtin(lex->s[i]) == 2)
+		{
+			lex->supatok[i] = TOKEN_BUILTIN_OUTP;
+		}
 		else
+		{
 			lex->supatok[i] = TOKEN_WORD;
+		}
 		i++;
 	}
 }
