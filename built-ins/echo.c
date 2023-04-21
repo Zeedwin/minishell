@@ -1,10 +1,21 @@
 #include "../includes/shell.h"
 
-/*void	echo(t_var	*var)
+int	echo(t_var	*var, t_lex *lex)
 {
-	if(ft_strncmp(var->line, "echo ", 4) == 0)
+	if(lex->s[var->z][1] == NULL && ft_strcmp(lex->s[var->z][0], "echo") == 0)
 	{
-		var->echo = ft_strtrim(var->line, "echo");
-		printf("%s\n", var->echo);
+		printf("\n");
+		return(3);
 	}
-}*/
+	if(lex->s[var->z][2] == NULL && ft_strcmp(lex->s[var->z][1], "-n") != 0)
+	{
+		printf("%s\n", lex->s[var->z][1]);
+		return(1);
+	}
+	if(ft_strcmp(lex->s[var->z][1], "-n") == 0 && lex->s[var->z][2] != NULL)
+	{
+		printf("%s", lex->s[var->z][2]);
+		return(2);
+	}
+	return(4);
+}
