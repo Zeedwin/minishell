@@ -179,7 +179,7 @@ int delimiteur(t_lex *lex,t_var *var)
     	}
 	}
 	else
-		waitpid(balls, &status, 0);
+		waitpid(-1, NULL, 0);
 	var->is_in_heredoc = 0;
     return WEXITSTATUS(status);
 }	
@@ -214,7 +214,7 @@ int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var)
 		}
 		else
 		{
-			waitpid(ell, &pip->status, 0);
+			waitpid(-1, NULL, 0);
 			close(pip->tube[1]);
 			var->fd = pip->tube[0];
 			var->z +=1;
@@ -266,6 +266,7 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 	pid_t ll;
 	int fdtmp;
 	int did_fail = 0;
+	(void)pip;
 	
 	fd_e = -2;
 	fdtmp = dup(0);
@@ -330,7 +331,7 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 		}
 		else
 		{
-			waitpid(ll, &pip->status2, -1);
+			waitpid(-1, NULL, 0);
 			var->z = var->z + 1 + var->i;
 			var->last_pipe = 0;
 		}
@@ -381,7 +382,7 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 				}
 				else
 				{
-					waitpid(re, &pip->status, 0);
+					waitpid(-1, NULL, 0);
 					var->last_err_com = WEXITSTATUS(pip->status);
 					free_final(lex, pip, var);					
 					var->last_pipe = 0;
