@@ -1,4 +1,1 @@
-<<<<<<< Updated upstream
-/Users/hugodelmann/minishell-5
-=======
->>>>>>> Stashed changes
+/Users/hugodelmann/Desktop/minishell-5

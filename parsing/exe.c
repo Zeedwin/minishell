@@ -8,7 +8,7 @@ int	file_input_check(char *file)
 		return (0);
 }*/
 
-int	exec_builtin_out(char **s, t_lex *lex, t_var *var)
+int	exec_builtin_out(char **s)
 {
 
 	if(ft_strcmp(*s, "pwd") == 0 || ft_strcmp(*s, "PWD") == 0)
@@ -18,12 +18,7 @@ int	exec_builtin_out(char **s, t_lex *lex, t_var *var)
 	else if(ft_strcmp(*s, "env") == 0 || ft_strcmp(*s, "ENV") == 0)
 	{
 		env(g_global.cpyenv);
-	}
-	else if(ft_strcmp(*s, "echo") == 0 || ft_strcmp(*s, "echo -n") == 0)
-	{
-		echo(var, lex);
-	}
-
+	}	
 	return(1);
 }
 
@@ -41,8 +36,6 @@ int execve_builtin(char **s, char **envp, t_var *var, t_lex *lex)
 		fflush(stdout);
 		g_global.cpyenv = export(g_global.cpyenv, lex->s[var->z][1]);
 	}
-	if(ft_strcmp(*s, "unset") == 0)
-		g_global.cpyenv = unset(g_global.cpyenv, lex->s[var->z][1]);
 	/*if(ft_strcmp(*s, "pwd") == 0|| ft_strcmp(*s, "PWD") == 0 )
 		pwd(var);
 	if(ft_strcmp(*s, "env") == 0|| ft_strcmp(*s, "ENV") == 0)
@@ -52,7 +45,9 @@ int execve_builtin(char **s, char **envp, t_var *var, t_lex *lex)
 	if(ft_strcmp(*s, "echo") == 0)
 		echo(*s);
 	if(ft_strcmp(*s, "export") == 0)
-		export(envp);*/
+		export(envp);
+	if(ft_strcmp(*s, "unset") == 0)
+		unset(envp);*/
 	return 0;
 }
 
@@ -76,7 +71,13 @@ void executeur_final(char **s, char **envp, t_var *var, t_lex *lex)
 
 	if (var->z > 0 && lex->supatok[var->z - 1] == TOKEN_PIPE)
 		dup2(var->fd, STDIN_FILENO);
+	if (lex->supatok[var->z - 1] == TOKEN_PIPE && lex->supatok[var->z - 2] == TOKEN_BUILTIN_OUTP)
+	{
+		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
+		dup2(var->fd, STDIN_FILENO);
+	}
 	cmdpath = find_cmd_path(var, s[0]);
+	//dup2(var->fd, STDOUT_FILENO);
 	if (cmdpath == 0)
 	{
 		printf("bash : %s: command not found\n", s[0]);

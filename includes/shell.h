@@ -145,6 +145,7 @@ int execve_builtin(char **s, char **envp, t_var *var, t_lex *lex);
 
 //token	*ft_lstnew(char **content);
 size_t	ft_strlcpy(char *restrict dst, const char *restrict src, size_t dstsize);
+void	echo(t_var	*var);
 void tokenizer(t_lex *lex);
 char ***separate_tok(t_var *var, t_lex *lex, char ***s);
 void	turbotokenizer(t_lex *lex);
@@ -163,12 +164,10 @@ int equalfinder(char *path);
 
 //built-ins
 int		cd(char **s, t_var *var);
-int		echo(t_var	*var, t_lex *lex);
 void 	pwd();
-int		exec_builtin_out(char **s, t_lex *lex, t_var *var);
+int		exec_builtin_out(char **s);
 char	**ft_strcpy_env(char **cpyenv, char **envp);
 void 	env(char **cpyenv);
 char 	**export(char **cpyenv, char *exported);
-char	**unset(char **cpyenvp, char *unsetstr);
 
 #endif

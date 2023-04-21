@@ -129,7 +129,7 @@ char **exporting(char **cpyenv, char *exported)
     return (exp_env);
 }
 
-/*char **unset(char **cpyenvp, char *unsetstr)
+char **unset(char **cpyenvp, char *unsetstr)
 {
     int i;
     int j;
@@ -182,7 +182,7 @@ char **exporting(char **cpyenv, char *exported)
     new_envp[j] = NULL;
     free(cpycpy);
     return (new_envp);
-}*/
+}
 
 
 /*int main(int ac, char **av, char **envp)

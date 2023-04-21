@@ -225,7 +225,7 @@ int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var)
 		var->fd = open("tmp/tmp.txt", O_CREAT | O_RDWR | O_TRUNC, 0777);
 		dup2(var->fd, STDOUT_FILENO);
 		close(var->fd);
-		exec_builtin_out(lex->s[var->z - 1], lex, var);
+		exec_builtin_out(lex->s[var->z - 1]);
 		dup2(fdtmp, STDOUT_FILENO);
 		var->z++;
 	}
@@ -305,7 +305,7 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 
 		if (fd_s != -2 && find_cmd_path(var, lex->s[var->z - 1][0]) != 0)
 			dup2(fd_s, STDOUT_FILENO);
-		exec_builtin_out(lex->s[var->z - 1], lex, var);
+		exec_builtin_out(lex->s[var->z - 1]);
 		dup2(fdtmp, STDOUT_FILENO);
 		var->z = var->z + 1 + var->i;
 	}
@@ -409,7 +409,7 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		}
 		else if (lex->supatok[var->z] == TOKEN_BUILTIN_OUTP && lex->s[var->z + 1] == NULL)
 		{ 
-			exec_builtin_out(lex->s[var->z], lex, var);
+			exec_builtin_out(lex->s[var->z]);
 			var->z++;
 		}
 		else if (lex->supatok[var->z - 1] == TOKEN_PIPE && lex->s[var->z] == NULL)
