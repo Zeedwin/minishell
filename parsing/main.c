@@ -206,17 +206,9 @@ int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var)
 			if (find_cmd_path(var, lex->s[var->z - 1][0]) != 0 && lex->supatok[var->z - 1] == TOKEN_WORD)	
 				dup2(pip->tube[1], STDOUT_FILENO);
 			close(pip->tube[0]);
-			/*if (lex->supatok[var->z] == TOKEN_BUILTIN_OUTP)
-			{
-				printf("Mescoullies\n");
-				exec_builtin_out(lex->s[var->z], var);
-				while (var->z < ft_malloc(lex) - 1 && lex->supatok[var->z] != TOKEN_PIPE) 
-					var->z++;
-			}*/
 			if(lex->supatok[var->z - 1] == TOKEN_WORD)
 			{
-				//printf("non\n");
-				//fflush(stdout);
+
 				executeur(lex->s[var->z - 1], envp, var);
 			}
 		}
@@ -225,7 +217,6 @@ int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var)
 			waitpid(ell, &pip->status, 0);
 			close(pip->tube[1]);
 			var->fd = pip->tube[0];
-			//printf("fd = %d", var->fd);
 			var->z +=1;
 		}
 	}
@@ -402,39 +393,46 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 				var->z++;
 			}
 		}
-		if(lex->supatok[var->z] == TOKEN_BUILTIN)
+		else if(lex->supatok[var->z] == TOKEN_BUILTIN && lex->supatok[var->z + 1] == TOKEN_PIPE)
 		{
-			printf("rrrr");
-			execve_builtin(lex->s[var->z], envp, var, lex);
-			while (var->z < ft_malloc(lex) - 1 && lex->supatok[var->z] != TOKEN_PIPE) 
-				var->z++;
+			var->z += 2;
 		}
-		if (lex->supatok[var->z] == TOKEN_BUILTIN_OUTP && lex->s[var->z + 1] == NULL)
+		else if(var->z > 0 && lex->supatok[var->z] == TOKEN_BUILTIN && lex->supatok[var->z - 1] == TOKEN_PIPE)
+		{
+			var->z++;
+		}
+		else if(lex->supatok[var->z] == TOKEN_BUILTIN && var->z == 0)
+		{
+			execve_builtin(lex->s[var->z], envp, var, lex);
+			var->z++;
+		}
+		else if (lex->supatok[var->z] == TOKEN_BUILTIN_OUTP && lex->s[var->z + 1] == NULL)
 		{ 
 			exec_builtin_out(lex->s[var->z]);
-			while (var->z < ft_malloc(lex) - 1 && lex->supatok[var->z] != TOKEN_PIPE)
-				var->z++;
+			var->z++;
 		}
-		if (lex->supatok[var->z - 1] == TOKEN_PIPE && lex->s[var->z] == NULL)
+		else if (lex->supatok[var->z - 1] == TOKEN_PIPE && lex->s[var->z] == NULL)
 		{
 			var->last_pipe = 1;
 			var->z++;
 		}
-		if (lex->supatok[var->z] == TOKEN_BUILTIN_OUTP)
+		else if (lex->supatok[var->z] == TOKEN_BUILTIN_OUTP)
 		{ 
 			var->z++;
 		}
-		if (lex->supatok[var->z] == TOKEN_PIPE)
+		else if (lex->supatok[var->z] == TOKEN_PIPE)
 		{
 			minipipe(pip, lex, envp, var);	
 		}
-		if (lex->supatok[var->z] == TOKEN_REDIR_S || lex->supatok[var->z] == TOKEN_REDIR_E
+		else if (lex->supatok[var->z] == TOKEN_REDIR_S || lex->supatok[var->z] == TOKEN_REDIR_E
 			|| lex->supatok[var->z] == TOKEN_REDIR_S2 || lex->supatok[var->z] == TOKEN_REDIR_E2)
 		{
 			miniredir_s(lex, var, envp, pip);
 			var->c = 0;
 			var->i = 0;
 		}
+		else 
+			var->z++;
 	}
 	return(0);
 }
