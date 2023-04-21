@@ -225,7 +225,7 @@ int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var)
 		var->fd = open("tmp/tmp.txt", O_CREAT | O_RDWR | O_TRUNC, 0777);
 		dup2(var->fd, STDOUT_FILENO);
 		close(var->fd);
-		exec_builtin_out(lex->s[var->z - 1]);
+		exec_builtin_out(lex->s[var->z - 1], var, lex);
 		dup2(fdtmp, STDOUT_FILENO);
 		var->z++;
 	}
@@ -305,7 +305,7 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 
 		if (fd_s != -2 && find_cmd_path(var, lex->s[var->z - 1][0]) != 0)
 			dup2(fd_s, STDOUT_FILENO);
-		exec_builtin_out(lex->s[var->z - 1]);
+		exec_builtin_out(lex->s[var->z - 1], var, lex);
 		dup2(fdtmp, STDOUT_FILENO);
 		var->z = var->z + 1 + var->i;
 	}
@@ -409,7 +409,7 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		}
 		else if (lex->supatok[var->z] == TOKEN_BUILTIN_OUTP && lex->s[var->z + 1] == NULL)
 		{ 
-			exec_builtin_out(lex->s[var->z]);
+			exec_builtin_out(lex->s[var->z], var, lex);
 			var->z++;
 		}
 		else if (lex->supatok[var->z - 1] == TOKEN_PIPE && lex->s[var->z] == NULL)
@@ -541,6 +541,11 @@ int main(int ac, char **av, char **envp)
 	(void)av;
 	//t_var var;
 	g_global.cpyenv = ft_strcpy_env(g_global.cpyenv, envp);
+	if(g_global.cpyenv[0] == NULL)
+	{
+		printf("\033[1;91mError: No environment detected\n");
+		return(1);
+	}
 	//t_lex *lex;
 	g_global.last_err_com = 0;
 	g_global.last_pipe = 0;

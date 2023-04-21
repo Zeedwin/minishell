@@ -129,61 +129,6 @@ char **exporting(char **cpyenv, char *exported)
     return (exp_env);
 }
 
-char **unset(char **cpyenvp, char *unsetstr)
-{
-    int i;
-    int j;
-	int k;
-    int c;
-    char **new_envp;
-	char **cpycpy;
-
-	k = 0;
-    i = 0;
-    c = ft_strlen(unsetstr);
-	cpycpy = NULL;
-	cpycpy = ft_strcpy_env(cpyenvp, cpyenvp);
-     while (cpycpy[i])
-    {
-        if (ft_strncmp(cpycpy[i], unsetstr, c) == 0 &&
-            cpycpy[i][c] == '=')
-        {
-            //free(cpycpy[i]);
-            k--;
-        }
-        k++;
-        i++;
-    }
-    if (k < 0) 
-	{
-        free(cpycpy);
-        return (NULL);
-    }
-    new_envp = (char **)malloc(sizeof(char *) * (k + 1));
-    if (!new_envp)
-        return (NULL);
-    i = 0;
-    j = 0;
-    while (cpycpy[i])
-    {
-        if (ft_strncmp(cpycpy[i], unsetstr, c) == 0 &&
-            cpycpy[i][c] == '=')
-        {
-        	i++;
-        	//free(cpycpy[i]);
-        }
-        else
-        {
-            new_envp[j] = cpycpy[i];
-			i++;
-            j++;
-        }
-    }
-    new_envp[j] = NULL;
-    free(cpycpy);
-    return (new_envp);
-}
-
 
 /*int main(int ac, char **av, char **envp)
 {
