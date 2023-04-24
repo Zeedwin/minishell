@@ -19,10 +19,13 @@ char **export(char **cpyenv, char *exported)
     int len;
     char **exp_env;
 	char **cpycpy;
-
+    int k;
     int j;
     int check;
+    int flag;
 
+    flag = 0;
+    k = 0;
     check = 0;
     len = 0;
     i = 0;
@@ -30,6 +33,15 @@ char **export(char **cpyenv, char *exported)
 	cpycpy = NULL;
     //c = equalfinder(exported);
     //printf("c size = %d\n\n", c);
+    while (exported[k])
+    {
+        if(exported[k] == '=')
+            flag = 1;
+        k++;
+    }
+    if (flag != 1)
+    return(cpyenv);
+    
 	cpycpy = ft_strcpy_env(cpycpy, cpyenv);
     while (cpycpy[i])
     {
@@ -40,6 +52,7 @@ char **export(char **cpyenv, char *exported)
         i++;
         len++;
     }
+
   //  printf("%d\n", len);
     if (len < 0) {
         free(cpycpy);

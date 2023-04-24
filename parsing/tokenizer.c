@@ -18,6 +18,12 @@ int test_builtin(char **s)
 		if(s[0][1] == 'c')
 			if(s[0][2] == 'h')
 				if (s[0][3] == 'o')
+				{
+					if(s[1] == NULL)
+					{
+						return(2);
+					}
+				}
 					if (s[1][0] == '-')
 						if (s[1][1] == 'n')
 							return(2);

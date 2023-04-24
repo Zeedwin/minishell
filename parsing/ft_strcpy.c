@@ -30,12 +30,18 @@ char	*ft_strcpy(char *dest, char *src)
 int equalfinder(char *path)
 {
     int i;
+    int flag;
 
+    flag = 0;
     i = 0;
     while(path[i] && path[i] != '=')
     {
+        if(path[i] == '=')
+            flag = 1;
         i++;
     }
+    if(flag == 1)
+        return (-1);
     return (i);
 }
 
