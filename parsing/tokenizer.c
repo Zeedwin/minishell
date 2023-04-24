@@ -13,7 +13,7 @@ int test_builtin(char **s)
 			if(s[0][2] == 'v')
 				return(2);
 	}
-	if (s[0][0] == 'e')
+	else if (s[0][0] == 'e')
 	{
 		if(s[0][1] == 'c')
 			if(s[0][2] == 'h')

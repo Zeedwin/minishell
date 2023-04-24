@@ -8,12 +8,31 @@ void env(char **cpyenv)
 	while (cpyenv[i])
 	{
 		printf("%s\n", cpyenv[i]);
-		//free(cpyenv[i]);
 		i++;
 	}
 }
 
-char **export(char **cpyenv, char *exported)
+int if_in_quotes(char *s)
+{
+    int i;
+    int counter;
+
+    counter = 0;
+    i = 0;
+    if(!s)
+        return(-1);
+    while (s[i])
+    {
+        if(s[i] == '"')
+            counter++;
+        i++;
+    }
+    if(counter % 2 == 0 && counter != 0)
+        return(1);
+    return(0);
+}
+
+char **export(char **cpyenv, t_lex *lex, t_var *var)
 {
     int i;
     int len;
@@ -25,35 +44,46 @@ char **export(char **cpyenv, char *exported)
     int flag;
 
     flag = 0;
-    k = 0;
+    k = 1;
     check = 0;
     len = 0;
     i = 0;
     j = 0;
 	cpycpy = NULL;
-    //c = equalfinder(exported);
-    //printf("c size = %d\n\n", c);
-    while (exported[k])
+    if(lex->s1[2] && lex->s1[1] && if_in_quotes(lex->s1[2]) == 1)
     {
-        if(exported[k] == '=')
-            flag = 1;
-        k++;
+       lex->s[var->z][1] = ft_strjoin(lex->s[var->z][1], lex->s[var->z][2]);
     }
+    else if(!lex->s1[1])
+    {
+        while (cpyenv[i])
+        {
+            printf("declare -x %s\n", cpyenv[i]);
+            i++;
+        }
+        return(cpyenv);
+    }
+    i = 0;
+    while (lex->s[var->z][k][i])
+    {
+        if(lex->s[var->z][k][i] == '=')
+            flag = 1;
+        i++;
+    }
+    i = 0;
     if (flag != 1)
     return(cpyenv);
     
 	cpycpy = ft_strcpy_env(cpycpy, cpyenv);
     while (cpycpy[i])
     {
-        if((ft_strncmp(cpycpy[i], exported, equalfinder(cpycpy[i])) == 0))
+        if((ft_strncmp(cpycpy[i], lex->s[var->z][1], equalfinder(cpycpy[i])) == 0))
         {
             len--;
         }
         i++;
         len++;
     }
-
-  //  printf("%d\n", len);
     if (len < 0) {
         free(cpycpy);
         return (NULL);
@@ -64,10 +94,10 @@ char **export(char **cpyenv, char *exported)
     i = 0;
     while (cpycpy[i])
     {
-        if((ft_strncmp(cpycpy[i], exported, equalfinder(cpycpy[i])) == 0))
+        if((ft_strncmp(cpycpy[i], lex->s[var->z][1], equalfinder(cpycpy[i])) == 0))
         {
             check = 1;
-            exp_env[j] = exported;
+            exp_env[j] = lex->s[var->z][1];
             j++;
         }
         else
@@ -79,15 +109,13 @@ char **export(char **cpyenv, char *exported)
     }
     if(check == 1)
     {
-        //printf("%s\n", exp_env[j]);
         exp_env[j] = NULL;
         free(cpycpy);
         return(exp_env);
     }
-    exp_env[j] = exported;
+    exp_env[j] = lex->s[var->z][1];
     exp_env[j + 1] = NULL;
 	free(cpycpy);
-    //printf("\n\n\n\n");
     return (exp_env);
 }
 
