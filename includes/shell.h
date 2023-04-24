@@ -90,6 +90,7 @@ typedef struct s_var {
 	int z;
 	int i;
 	int is_in_heredoc;
+	int	is_in_cat;
 	int fd;
 	int last_err_com;
 }		t_var;
@@ -111,10 +112,10 @@ typedef struct s_lex
 
 char *replace_dol_(char *s, int i);
 char	*ft_realloc(char *map, int i);
-void executeur_final(char **s, char **envp, t_var *var, t_lex *lex);
+void executeur_final(char **s, char **env, t_var *var, t_lex *lex);
 void process(char **envp, t_var *var);
 int ft_malloc(t_lex *lex);
-int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var);
+int	minipipe(t_pipe	*pip, t_lex *lex, t_var *var);
 void init_tab(t_lex *lex, char *s, char **envp, t_var *var);
 char	*ft_strdup(const char *src);
 void	free_this(char **tab);
@@ -154,7 +155,7 @@ void free_final(t_lex *lex, t_pipe *pip, t_var *var);
 void free_2(char **s);
 int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp);
 int count_pipe(int *supatok, t_lex *lex);
-int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip);
+int miniredir_s(t_lex *lex, t_var *var, t_pipe *pip);
 int miniredir_s2(t_lex *lex, t_var *var, char **envp, t_pipe *pip);
 int parsing_syntax(t_lex *lex);
 int test_builtin(char **s);
@@ -167,13 +168,13 @@ void creat_pid(t_lex *lex, t_var *var);
 
 //built-ins
 int		cd(char **s, t_var *var);
-char 	**export(char **cpyenv, char *exported);
+char 	**export(char **cpyenv, t_lex *lex, t_var *var);
 char	**unset(char **cpyenvp, char *unsetstr);
 int		exec_builtin_out(char **s, t_var *var, t_lex *lex);
 int		echo(t_var	*var, t_lex *lex);
 void 	pwd();
 char	**ft_strcpy_env(char **cpyenv, char **envp);
 void 	env(char **cpyenv);
-char 	**export(char **cpyenv, char *exported);
+
 
 #endif

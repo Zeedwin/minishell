@@ -187,7 +187,7 @@ int delimiteur(t_lex *lex,t_var *var)
     return WEXITSTATUS(status);
 }	
 
-int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var)
+int	minipipe(t_pipe	*pip, t_lex *lex, t_var *var)
 {
 	int fdtmp;
 
@@ -202,6 +202,7 @@ int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var)
 	pipe(pip->tube);
 	if (lex->supatok[var->z - 1] != TOKEN_BUILTIN && lex->supatok[var->z - 1] != TOKEN_BUILTIN_OUTP)
 	{
+		g_global.is_in_cat = 1;
 		var->shell[var->pidnum] = fork();
 		if (var->shell[var->pidnum] == 0) 
 		{
@@ -211,7 +212,7 @@ int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var)
 			close(pip->tube[0]);
 			if(lex->supatok[var->z - 1] == TOKEN_WORD)
 			{
-				executeur(lex->s[var->z - 1], envp, var);
+				executeur(lex->s[var->z - 1], g_global.cpyenv, var);
 			}
 		}
 		else
@@ -220,6 +221,7 @@ int	minipipe(t_pipe	*pip, t_lex *lex, char **envp, t_var *var)
 				close(var->fd);
 			//printf("pour %s   .   pid = %d\n", lex->s[var->z - 1][0], var->shell[var->pidnum]);
 			var->pidnum++;
+			g_global.is_in_cat = 0;
 			//waitpid(-1, NULL, 0);
 			close(pip->tube[1]);
 			var->fd = pip->tube[0];
@@ -265,7 +267,7 @@ char **add_after_redir(char **s1, char **s2)
 }
 
 
-int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
+int miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 {
 	int fd_e;
 	int fd_s;
@@ -322,6 +324,7 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 	}
 	else if (var->z > 0 && did_fail == 0)
 	{	
+		g_global.is_in_cat = 1;
 		var->shell[var->pidnum] = fork();
 		if (var->shell[var->pidnum] == 0)
 		{
@@ -338,11 +341,12 @@ int miniredir_s(t_lex *lex, t_var *var, char **envp, t_pipe *pip)
 				dup2(fd_e, STDIN_FILENO);
 			if (fd_s != -2 && find_cmd_path(var, lex->s[var->z - 1][0]) != 0)
 				dup2(fd_s, STDOUT_FILENO);
-			executeur(lex->s[var->z - 1], envp, var);
+			executeur(lex->s[var->z - 1], g_global.cpyenv, var);
 		}
 		else
 		{
 			var->pidnum++;
+			g_global.is_in_cat = 0;
 			//waitpid(-1, NULL, 0);
 			var->z = var->z + 1 + var->i;
 			var->last_pipe = 0;
@@ -381,6 +385,7 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		{
 			if (lex->s[var->z + 1] == NULL)
 			{
+				g_global.is_in_cat= 1;
 				var->shell[var->pidnum] = fork();
 				if (var->shell[var->pidnum] == 0)
 				{
@@ -388,13 +393,14 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 					{
 						dup2(var->fd, STDIN_FILENO);
 					}
-					executeur_final(lex->s[var->z], envp, var, lex);
+					executeur_final(lex->s[var->z], g_global.cpyenv, var, lex);
 				}
 				else
 				{
 					if(var->fd != 0)
 						close(var->fd);
 					wait_pid(var, pip);
+					g_global.is_in_cat = 0;
 					var->last_err_com = WEXITSTATUS(pip->status);
 					//printf("-----%d\n", var->last_err_com);
 					free_final(lex, pip, var);					
@@ -436,12 +442,12 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		}
 		else if (lex->supatok[var->z] == TOKEN_PIPE)
 		{
-			minipipe(pip, lex, envp, var);
+			minipipe(pip, lex, var);
 		}
 		else if (lex->supatok[var->z] == TOKEN_REDIR_S || lex->supatok[var->z] == TOKEN_REDIR_E
 			|| lex->supatok[var->z] == TOKEN_REDIR_S2 || lex->supatok[var->z] == TOKEN_REDIR_E2)
 		{
-			miniredir_s(lex, var, envp, pip);
+			miniredir_s(lex, var, pip);
 			var->c = 0;
 			var->i = 0;
 		}
@@ -515,7 +521,7 @@ void ctrlc(int sig)
 	(void)	sig;
 	
 	
-	if (g_global.is_in_heredoc == 0) {
+	if (g_global.is_in_cat == 0 && g_global.is_in_heredoc == 0) {
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
