@@ -7,13 +7,22 @@ int test_builtin(char **s)
 		if(s[0][1] == 'd')
 			return(1);
 	}
-	if (s[0][0] == 'e')
+	else if (s[0][0] == 'e')
 	{
 		if(s[0][1] == 'n')
 			if(s[0][2] == 'v')
 				return(2);
 	}
-	if (s[0][0] == 'e')
+	else if (s[0][0] == 'e')
+	{
+		if(s[0][1] == 'x')
+			if(s[0][2] == 'p')
+				if (s[0][3] == 'o')
+					if (s[0][4] == 'r')
+						if (s[0][5] == 't')
+							return(1);
+	}
+	else if (s[0][0] == 'e')
 	{
 		if(s[0][1] == 'c')
 			if(s[0][2] == 'h')
@@ -28,22 +37,13 @@ int test_builtin(char **s)
 						if (s[1][1] == 'n')
 							return(2);
 	}
-	if (s[0][0] == 'e')
-	{
-		if(s[0][1] == 'x')
-			if(s[0][2] == 'p')
-				if (s[0][3] == 'o')
-					if (s[0][4] == 'r')
-						if (s[0][5] == 't')
-							return(1);
-	}
-	if (s[0][0] == 'p')
+	else if (s[0][0] == 'p')
 	{
 		if(s[0][1] == 'w')
 			if(s[0][2] == 'd')
 				return(2);
 	}
-	if (s[0][0] == 'u')
+	else if (s[0][0] == 'u')
 	{
 		if(s[0][1] == 'n')
 			if(s[0][2] == 's')
@@ -51,7 +51,7 @@ int test_builtin(char **s)
 					if (s[0][4] == 't')
 						return(1);
 	}
-	if (s[0][0] == 'e')
+	else if (s[0][0] == 'e')
 	{
 		if(s[0][1] == 'x')
 			if(s[0][2] == 'i')

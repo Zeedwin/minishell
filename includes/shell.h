@@ -84,7 +84,8 @@ typedef struct s_var {
 	int last_pipe;
 	char *previous_line;
 	int check_pipe;
-	pid_t	shell;
+	pid_t	*shell;
+	int pidnum;
 	int c;
 	int z;
 	int i;
@@ -158,6 +159,9 @@ int miniredir_s2(t_lex *lex, t_var *var, char **envp, t_pipe *pip);
 int parsing_syntax(t_lex *lex);
 int test_builtin(char **s);
 int equalfinder(char *path);
+void wait_pid(t_var * var, t_pipe *pip);
+void creat_pid(t_lex *lex, t_var *var);
+
 
 
 

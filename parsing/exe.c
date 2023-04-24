@@ -51,6 +51,77 @@ int execve_builtin(char **s, char **envp, t_var *var, t_lex *lex)
 	return 0;
 }
 
+char *check_doc(char *s)
+{
+	int j;
+	int i;
+	char *s1;
+
+	i = 0;
+	while(s[i] != '\0')
+	{
+		i++;
+	}
+	s1 = malloc(sizeof(char) * (i - 1));
+	i = 0;
+	j = 2;
+	while(s[j] != '\0')
+	{
+		s1[i] = s[j];
+		j++;
+		i++;
+	}
+	s1[i] = '\0';
+	i = open(s1, O_RDWR, 0777);
+	if (i == -1 && errno == ENOENT)
+		return(0);
+	close(i);
+	return(s1);
+
+}
+
+char *check_replace_prog(char *s, t_var *var)
+{
+	char *s1;
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
+	s1 = NULL;
+	if(s[0] == '.')
+	{
+		if(s[1] == '/')
+		{
+			if(check_doc(s) != 0)
+			{
+				s = check_doc(s);
+				s1 = malloc(sizeof(char) * (ft_strlen(var->line) + ft_strlen(s)));
+				printf("line  = %s", var->line);
+				while(var->line[i] != '\0')
+				{
+					s1[i] = var->line[i];
+					i++;
+				}
+				s1[i] = '/';
+				i++;
+				while(s[j] != '\0')
+				{
+					s1[i] = s[j];
+					i++;
+					j++;
+				}
+				s1[i] = '\0';
+			}
+			else
+			{
+				return(0);
+			} 
+		}
+	}
+	return(s);	
+}
+
 void executeur(char **s, char **envp, t_var *var)
 {
 	char *cmdpath;
@@ -59,7 +130,6 @@ void executeur(char **s, char **envp, t_var *var)
 	if (cmdpath == 0)
 	{
 		printf("bash : %s: command not found\n", s[0]);
-		fflush(stdout);
 		exit(1);
 	}
 	execve(cmdpath, s, envp);
@@ -81,7 +151,6 @@ void executeur_final(char **s, char **envp, t_var *var, t_lex *lex)
 	if (cmdpath == 0)
 	{
 		printf("bash : %s: command not found\n", s[0]);
-		fflush(stdout);
 		exit(1);
 	}
 	execve(cmdpath, s, envp);

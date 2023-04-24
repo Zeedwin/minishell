@@ -623,9 +623,23 @@ char *del_par_com(char *s)
 	return (s1);
 }
 
+char *change_tab(char *s)
+{
+	int i;
+
+	i = 0;
+	while(s[i] != '\0')
+	{
+		if(s[i] == '\t')
+			s[i] = ' ';
+		i++;
+	}
+	return(s);
+}
 
 void init_tab(t_lex *lex, char *s, char **envp, t_var *var)
 {
+	s = change_tab(s);
 	s = del_if_quote(s);
 	s = del_par_com(s);
 	s = del_if_quote2(s);

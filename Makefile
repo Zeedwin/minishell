@@ -9,13 +9,14 @@
 
 NAME        := minishell
 CC        := gcc
-FLAGS    := -Wall -Wextra -Werror -g -I/usr/local/opt/readline/include
-LDFLAGS :=  -lreadline -fsanitize=address  -L/usr/local/opt/readline/lib -lreadline -lhistory
+FLAGS    := -Wall -Wextra -Werror -g -I/Users/hdelmann/homebrew/opt/readline/include
+LDFLAGS :=  -lreadline -fsanitize=address  -L/Users/hdelmann/homebrew/opt/readline/lib -lreadline -lhistory
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
-SRCS		:=            parsing/error.c \
+SRCS		:=            parsing/pid.c	\
+						  parsing/error.c \
 						  parsing/ft_itoa.c \
 						  parsing/var_dollard.c \
 						  parsing/ft_strstr.c \
