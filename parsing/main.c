@@ -182,7 +182,7 @@ int delimiteur(t_lex *lex,t_var *var)
     	}
 	}
 	else
-		//waitpid(-1, NULL, 0);
+		waitpid(balls, &status, 0);
 	var->is_in_heredoc = 0;
     return WEXITSTATUS(status);
 }	
@@ -346,6 +346,11 @@ int miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 		else
 		{
 			var->pidnum++;
+			if (var->z + 1 + var->i >= ft_malloc(lex) - 2)
+			{
+				fflush(stdout);
+				wait_pid(var, pip);
+			}
 			g_global.is_in_cat = 0;
 			//waitpid(-1, NULL, 0);
 			var->z = var->z + 1 + var->i;
@@ -523,12 +528,13 @@ void ctrlc(int sig)
 	
 	if (g_global.is_in_cat == 0 && g_global.is_in_heredoc == 0) {
 		printf("\n");
+		//printf("ooooo");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	
-	if (g_global.is_in_heredoc == 2) {
+	else if (g_global.is_in_heredoc == 2) {
 		exit(1);
 	}
 	//if (gstruct->is_cmd == 0)

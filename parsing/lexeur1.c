@@ -630,6 +630,18 @@ char *change_tab(char *s)
 	i = 0;
 	while(s[i] != '\0')
 	{
+		if(s[i] == '"')
+		{
+			i++;
+			while(s[i] != '\0' && s[i] != '"')
+				i++;
+		}
+		if(s[i] == '\'')
+		{
+			i++;
+			while(s[i] != '\0' && s[i] != '\'')
+				i++;
+		}
 		if(s[i] == '\t')
 			s[i] = ' ';
 		i++;

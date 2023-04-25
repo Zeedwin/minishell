@@ -10,7 +10,7 @@ int test_builtin(char **s)
 		return(1);
 	else if (s[0][0] == 'e' && s[0][1] == 'c' && s[0][2] == 'h' && s[0][3] == 'o')
 	{
-		if (s[1][0] == '-' && s[1][1] == 'n')
+		if (s[1] != NULL && s[1][0] == '-' && s[1][1] == 'n')
 			return (2);
 		else 
 			return(0);

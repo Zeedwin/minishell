@@ -215,14 +215,14 @@ char *replace_dol_(char *s, int i)
 	{
 		if (s[j] == '$' && s[j + 1] == '?')
 		{
-			sf = realloc(sf, ft_strlen(s) - 2 + ft_strlen(res));
+			sf = realloc(sf, ft_strlen(s) + ft_strlen(res));
 			while (res[k] != '\0')
 			{
 				sf[o] = res[k];
 				o++;
 				k++;
 			}
-			j = j + 2;
+			j += 2;
 		}
 		else
 		{

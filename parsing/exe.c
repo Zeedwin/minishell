@@ -129,7 +129,10 @@ void executeur(char **s, char **env, t_var *var)
 	cmdpath = find_cmd_path(var, s[0]);
 	if (cmdpath == 0)
 	{
-		printf("bash : %s: command not found\n", s[0]);
+		if (s[0][1] == '.' && s[0][1] == '.' && s[0][2] == '/')
+			printf("minishell: no such file or directory: %s\n", s[0]);
+		else 
+			printf("bash : %s: command not found\n", s[0]);
 		exit(1);
 	}
 	execve(cmdpath, s, env);
@@ -147,11 +150,15 @@ void executeur_final(char **s, char **env, t_var *var, t_lex *lex)
 		dup2(var->fd, STDIN_FILENO);
 	}
 	cmdpath = find_cmd_path(var, s[0]);
-	//dup2(var->fd, STDOUT_FILENO);
+	dup2(var->fd, STDOUT_FILENO);
 	if (cmdpath == 0)
 	{
-		printf("bash : %s: command not found\n", s[0]);
+		if (s[0][1] == '.' && s[0][1] == '.' && s[0][2] == '/')
+			printf("minishell: no such file or directory: %s\n", s[0]);
+		else 
+			printf("bash : %s: command not found\n", s[0]);
 		exit(1);
 	}
+	s[0] = remo_slash(s[0]);
 	execve(cmdpath, s, env);
 }
