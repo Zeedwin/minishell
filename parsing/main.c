@@ -462,7 +462,7 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 	return(0);
 }
 
-void process(char **envp, t_var *var)
+void process(char **env, t_var *var)
 {
 	t_lex lex;
 	t_pipe pip;
@@ -470,7 +470,7 @@ void process(char **envp, t_var *var)
 	var->line = NULL;
 	var->fd = 0;
 	currpath(var);
-	find_path(envp, var);
+	find_path(env, var);
 	if (var->last_pipe == 1)
 		var->line = readline(">");
 	else
@@ -482,7 +482,7 @@ void process(char **envp, t_var *var)
 		write(1, "exit\n", 5);
 		exit(0);
 	}
-	init_tab(&lex, var->line, envp, var); //apres ca la ligne de commande est decoupe dans lex.s1
+	init_tab(&lex, var->line, var->cpyenv, var); //apres ca la ligne de commande est decoupe dans lex.s1
 	tokenizer(&lex);
 	lex.s = separate_tok(var, &lex, lex.s);
 	lex.s = del_brak(lex.s);
@@ -490,7 +490,7 @@ void process(char **envp, t_var *var)
 	historyset(var, &lex);
 	creat_pid(&lex, var);
 	if (parsing_syntax(&lex) == 1)
-		exe_s(&lex, var, &pip, envp);
+		exe_s(&lex, var, &pip, env);
 }
 
 void	set_termios(int in_cmd)
@@ -584,7 +584,7 @@ int main(int ac, char **av, char **envp)
 	//printf("%d\n", getppid());
 	while (1)
 	{
-		process(envp, &g_global); 
+		process(g_global.cpyenv, &g_global); 
 	}
 	//echo(&var);
 }

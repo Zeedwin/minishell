@@ -35,7 +35,7 @@ int	c_s(char **tab)
 	return (i);
 }
 
-void	find_path(char **envp, t_var *var)
+void	find_path(char **env, t_var *var)
 {
 	int		i;
 	int		j;
@@ -43,11 +43,11 @@ void	find_path(char **envp, t_var *var)
 
 	j = 0;
 	i = 0;
-	while (envp[i])
+	while (env[i])
 	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+		if (ft_strncmp(env[i], "PATH=", 5) == 0)
 		{
-			path2 = ft_split(envp[i], ':');
+			path2 = ft_split(env[i], ':');
 			var->path = (char **)malloc((c_s(path2) + 1) * sizeof(char *));
 			while (path2[j] != NULL)
 			{

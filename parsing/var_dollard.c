@@ -70,7 +70,7 @@ char *appl_chang(char *so, char *sc, int k, int o)
 	}
 }
 
-char *change_value(char *s, char **envp)
+char *change_value(char *s, char **env)
 {
 	int i;
 	int j;
@@ -80,15 +80,16 @@ char *change_value(char *s, char **envp)
 	o = ft_strlen(s);
 	i = 0;
 	s2 = NULL;
-	while(envp[i])
+	while(env[i])
 	{
 		j = 0;
-		if (ft_strncmp(envp[i], s, ft_strlen(s)) == 0)
+		if (ft_strncmp(env[i], s, ft_strlen(s)) == 0)
 		{
-			s2 = malloc(sizeof(char) * (ft_strlen(envp[i]) - ft_strlen(s) + 1));
-			while (envp[i][o] != '\0')
+			s2 = malloc(sizeof(char) * (ft_strlen(env[i]) - ft_strlen(s) + 1));
+			while (g_global.cpyenv[i][o] != '\0')
 			{
-				s2[j] = envp[i][o];
+				s2[j] = env[i][o];
+				fflush(stdout);
 				j++;
 				o++;
 			}
@@ -99,7 +100,7 @@ char *change_value(char *s, char **envp)
 	return (s2);
 }
 
-char *replace_dol(char *s, char **envp)
+char *replace_dol(char *s, char **env)
 {
 	int i;
 	int j;
@@ -132,7 +133,7 @@ char *replace_dol(char *s, char **envp)
 		i++;
 	}
 	s1[o] = '\0';
-	s1 = change_value(s1, envp);
+	s1 = change_value(s1, env);
 	i = 0;
 	if (s1 != NULL)
 	{
@@ -148,7 +149,7 @@ char *replace_dol(char *s, char **envp)
 	return (sf);
 }
 
-char *dollars_ch(char *s, char **envp)
+char *dollars_ch(char *s, char **env)
 {
 	char *s2;
 	int i;
@@ -190,7 +191,7 @@ char *dollars_ch(char *s, char **envp)
 			s2[o] = '=';
 			o++;
 			s2[o] = '\0';
- 			s2 = replace_dol(s2, envp);
+ 			s2 = replace_dol(s2, env);
 			s = appl_chang(s, s2, k + 1, i);
 		}
 		i++;

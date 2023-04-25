@@ -26,9 +26,9 @@ int	exec_builtin_out(char **s, t_var *var, t_lex *lex)
 	return(1);
 }
 
-int execve_builtin(char **s, char **envp, t_var *var, t_lex *lex)
+int execve_builtin(char **s, char **env, t_var *var, t_lex *lex)
 {
-	(void)envp;
+	(void)env;
 
 	if (ft_strcmp(*s, "cd") == 0 || ft_strcmp(*s, "CD") == 0)
 		cd(s, var);

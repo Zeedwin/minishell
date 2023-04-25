@@ -649,14 +649,26 @@ char *change_tab(char *s)
 	return(s);
 }
 
-void init_tab(t_lex *lex, char *s, char **envp, t_var *var)
+char *space(char *s)
 {
+	char *s2;
+	if(s[0] == '$')
+	{
+		s2 = ft_strjoin(" ", s);
+		return(s2);
+	}
+	return(s);
+}
+
+void init_tab(t_lex *lex, char *s, char **env, t_var *var)
+{
+	s = space(s);
 	s = change_tab(s);
 	s = del_if_quote(s);
 	s = del_par_com(s);
 	s = del_if_quote2(s);
 	s = replace_dol_(s, var->last_err_com);
-	s = dollars_ch(s, envp);
+	s = dollars_ch(s, env);
 	lex->s1 = malloc((count(s) + 1) * sizeof(char *));
 	lex->stoken = malloc((count(s) + 1) * sizeof(int));
 	lex->supatok = malloc((count(s) + 1) * sizeof(int));
