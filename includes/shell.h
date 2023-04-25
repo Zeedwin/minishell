@@ -88,6 +88,7 @@ typedef struct s_var {
 	int pidnum;
 	int c;
 	int z;
+	int nopath;
 	int i;
 	int is_in_heredoc;
 	int	is_in_cat;

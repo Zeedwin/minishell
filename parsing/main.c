@@ -467,10 +467,11 @@ void process(char **env, t_var *var)
 	t_lex lex;
 	t_pipe pip;
 
+	var->nopath = 0;
 	var->line = NULL;
 	var->fd = 0;
 	currpath(var);
-	find_path(env, var);
+	find_path(g_global.cpyenv, var);
 	if (var->last_pipe == 1)
 		var->line = readline(">");
 	else
@@ -479,7 +480,10 @@ void process(char **env, t_var *var)
 	var->pidnum = 0;
 	if (!var->line)
 	{
-		write(1, "exit\n", 5);
+		rl_on_new_line();
+		rl_replace_line(" exit", 0);
+		rl_redisplay();
+		//write(1, "exit\n", 5);
 		exit(0);
 	}
 	init_tab(&lex, var->line, var->cpyenv, var); //apres ca la ligne de commande est decoupe dans lex.s1
@@ -552,7 +556,7 @@ void ctrlbs(int sig)
 
 void ctrld(int sig)
 {
-	exit(0);
+	//exit(0);
 	(void)	sig;
 }
 
@@ -574,7 +578,6 @@ int main(int ac, char **av, char **envp)
 		printf("\033[1;91mError: No environment detected\n");
 		return(1);
 	}
-	//t_lex *lex;
 	g_global.last_err_com = 0;
 	g_global.last_pipe = 0;
 	g_global.check_pipe = 0;

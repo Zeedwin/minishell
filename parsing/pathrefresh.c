@@ -27,6 +27,6 @@ void currpath(t_var *var)
 	var->promt[i] = '>';
 	var->promt[i + 1] = '\0';
 	var->promt = ft_strjoin("\033[1;36m➜\033[1;32m", var->promt);
-	var->promt = ft_strjoin(var->promt, "\033[0m");
+	var->promt = ft_strjoin(var->promt, "\033[0m ");
     //printf( "%s\n", s.promt);
 }

@@ -2,15 +2,48 @@
 
 void env(char **cpyenv)
 {
+    (void)cpyenv;
 	int i;
+    int j;
+    int flag;
 
+    flag = 0;
+    j = 0;
 	i = 0;
 	while (cpyenv[i])
 	{
-		printf("%s\n", cpyenv[i]);
-		i++;
+        j = 0;
+        while (cpyenv[i][j])
+        {
+            if(cpyenv[i][j] == '=')
+                flag = 1;
+            j++;
+        }
+       // printf("lol %s\n", cpyenv[i]);
+        if(flag == 1)
+        {
+            printf("%s\n", cpyenv[i]);
+          //  i++;
+        }
+        //printf("%s\n", cpyenv[i]);
+        flag = 0;
+        i++;
 	}
+  //  printf("%s\n", cpyenv[i + 1]);
 }
+
+/*
+int check_if_in_env(char **env, char *exported)
+{
+    int i;
+
+    i = 0;
+    while (env[i])
+    {
+
+    } 
+}
+*/
 
 int if_in_quotes(char *s)
 {
@@ -23,7 +56,7 @@ int if_in_quotes(char *s)
         return(-1);
     while (s[i])
     {
-        if(s[i] == '"')
+        if(s[i] == '"' || s[i] == '\'')
             counter++;
         i++;
     }
@@ -41,9 +74,9 @@ char **export(char **cpyenv, t_lex *lex, t_var *var)
     int k;
     int j;
     int check;
-    int flag;
+   // int flag;
 
-    flag = 0;
+    //flag = 0;
     k = 1;
     check = 0;
     len = 0;
@@ -63,17 +96,18 @@ char **export(char **cpyenv, t_lex *lex, t_var *var)
         }
         return(cpyenv);
     }
+   // fflush(stdout);
     i = 0;
     while (lex->s[var->z][k][i])
     {
-        if(lex->s[var->z][k][i] == '=')
-            flag = 1;
+       // if(lex->s[var->z][k][i] == '=')
+     //       flag = 1;
         i++;
     }
     i = 0;
-    if (flag != 1)
-    return(cpyenv);
-    
+  //  printf("%s\n", lex->s[var->z][1]);
+   // if (flag != 1)
+    //return(cpyenv);
 	cpycpy = ft_strcpy_env(cpycpy, cpyenv);
     while (cpycpy[i])
     {
@@ -130,6 +164,8 @@ char **unset(char **cpyenvp, char *unsetstr)
 
 	k = 0;
     i = 0;
+    if(!unsetstr)
+        return(cpyenvp);
     c = ft_strlen(unsetstr);
 	cpycpy = NULL;
 	cpycpy = ft_strcpy_env(cpyenvp, cpyenvp);

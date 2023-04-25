@@ -5,6 +5,7 @@ void free_2(char **s)
 	int i;
 
 	i = 0;
+	//printf("%s\n", s[10]);
 	while (s[i])
 	{
 		free(s[i]);
@@ -51,5 +52,6 @@ void free_final(t_lex *lex, t_pipe *pip, t_var *var)
 	free(var->line);
 	free(var->promt);
 	//free(var->promt);
-	free_2(var->path);
+	if(!var->path)
+		free_2(var->path);
 }
