@@ -76,12 +76,17 @@ char	*find_cmd_path(t_var *var, char *cmd)
 	int		i;
 	char	*cmd_path;
 	char buf[PATH_MAX];
+	char *path;
 
+	path = ft_strjoin(getcwd(buf, PATH_MAX), "/");
+	path = ft_strjoin(path, cmd);
 	i = 0;
 	if (cmd[0] == '.' && cmd[1] == '.' && cmd[2] == '/')
 	{
 		return(0);
 	}
+	if(access(path, F_OK | X_OK) == 0)
+		return(path);
 	if (cmd[0] == '.' && cmd[1] == '/')
 	{
 		cmd = remo_slash(cmd);
