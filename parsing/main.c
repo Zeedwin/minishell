@@ -191,7 +191,6 @@ int	minipipe(t_pipe	*pip, t_lex *lex, t_var *var)
 {
 	int fdtmp;
 
-
 	if (var->c == 0)
 	{
 		var->c++;
@@ -309,7 +308,7 @@ int miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 			close (fd_e);
 			fd_e = open("tmp/tmp.txt", O_RDWR, 0777);
 		}
-		else if (var->z > 0)
+		if (var->z > 0)
 			lex->s[var->z - 1] = add_after_redir(lex->s[var->z - 1], lex->s[var->z + var->i + 1]);
 		var->i = var->i + 2;
 	}
@@ -346,9 +345,12 @@ int miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 		else
 		{
 			var->pidnum++;
+			printf("1 ; %d, 2 : %d\n", var->z + 1 + var->i,  ft_malloc(lex) - 2);
+			fflush(stdout);
 			if (var->z + 1 + var->i >= ft_malloc(lex) - 2)
 			{
-				fflush(stdout);
+				if(var->fd != 0)
+					close(var->fd);
 				wait_pid(var, pip);
 			}
 			g_global.is_in_cat = 0;
@@ -357,7 +359,7 @@ int miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 			var->last_pipe = 0;
 		}
 	}
-	if (lex->supatok[var->z - 2] == TOKEN_BUILTIN_OUTP)
+	else if (lex->supatok[var->z - 2] == TOKEN_BUILTIN_OUTP)
 	{
 		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
 		dup2(var->fd, STDIN_FILENO);
@@ -388,6 +390,7 @@ int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 	{
 		if (lex->supatok[var->z] == TOKEN_WORD)
 		{
+		
 			if (lex->s[var->z + 1] == NULL)
 			{
 				g_global.is_in_cat= 1;
