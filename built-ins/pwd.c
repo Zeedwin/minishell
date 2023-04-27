@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pwd.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/27 10:58:38 by hdelmann          #+#    #+#             */
+/*   Updated: 2023/04/27 10:58:57 by hdelmann         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/shell.h"
 
-void pwd()
+void	pwd(void)
 {
-	char promt1[PATH_MAX];
-	char *pwd;
+	char	promt1[PATH_MAX];
+	char	*pwd;
 
 	pwd = getcwd(promt1, PATH_MAX);
 	printf("%s\n", pwd);

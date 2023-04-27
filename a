@@ -1,0 +1,10 @@
+total 136
+-rw-r--r--   1 hdelmann  2022_nice   3150 Apr 27 09:49 Makefile
+-rwxr-xr-x   1 hdelmann  2022_nice      0 Apr 27 11:00 a
+drwxr-xr-x   3 hdelmann  2022_nice    102 Apr 24 11:41 a.out.dSYM
+drwxr-xr-x  14 hdelmann  2022_nice    476 Apr 27 10:59 built-ins
+drwxr-xr-x   4 hdelmann  2022_nice    136 Apr 27 09:47 includes
+-rwxr-xr-x   1 hdelmann  2022_nice  58812 Apr 27 11:00 minishell
+drwxr-xr-x  53 hdelmann  2022_nice   1802 Apr 27 11:00 parsing
+-rwxr-xr-x   1 hdelmann  2022_nice    653 Apr 24 11:41 script.sh
+drwxr-xr-x   3 hdelmann  2022_nice    102 Apr 24 11:41 tmp

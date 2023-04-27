@@ -1,34 +1,51 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/27 10:42:56 by hdelmann          #+#    #+#             */
+/*   Updated: 2023/04/27 10:43:42 by hdelmann         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/shell.h"
 
-int test_builtin(char **s)
+int	test_builtin(char **s)
 {
 	if (s[0][0] == 'c' && s[0][1] == 'd' && s[0][2] == '\0')
-		return(1);
-	else if (s[0][0] == 'e' && s[0][1] == 'n' && s[0][2] == 'v' && s[0][3] == '\0')
-		return(2);
-	else if (s[0][0] == 'e' && s[0][1] == 'x' && s[0][2] == 'p' && s[0][3] == 'o' && s[0][4] == 'r' && s[0][5] == 't' && s[0][6] == '\0')
-		return(1);
-	else if (s[0][0] == 'e' && s[0][1] == 'c' && s[0][2] == 'h' && s[0][3] == 'o' && s[0][4] == '\0')
+		return (1);
+	else if (s[0][0] == 'e' && s[0][1] == 'n'
+		&& s[0][2] == 'v' && s[0][3] == '\0')
+		return (2);
+	else if (s[0][0] == 'e' && s[0][1] == 'x' && s[0][2] == 'p'
+		&& s[0][3] == 'o' && s[0][4] == 'r'
+		&& s[0][5] == 't' && s[0][6] == '\0')
+		return (1);
+	else if (s[0][0] == 'e' && s[0][1] == 'c' && s[0][2] == 'h'
+		&& s[0][3] == 'o' && s[0][4] == '\0')
 	{
 		if (s[1] != NULL && s[1][0] == '-' && s[1][1] == 'n' && s[0][2] == '\0')
 			return (2);
-		else 
-			return(0);
+		else
+			return (0);
 	}
-	else if (s[0][0] == 'p' && s[0][1] == 'w' && s[0][2] == 'd' && s[0][3] == '\0')
-		return(2);
-	else if (s[0][0] == 'u' && s[0][1] == 'n' && s[0][2] == 's' && s[0][3] == 'e' && s[0][4] == 't' && s[0][5] == '\0')
-		return(1);
-	else if (s[0][0] == 'e' && s[0][1] == 'x' && s[0][2] == 'i' && s[0][3] == 't' && s[0][4] == '\0')
-		return(1);
-	return(0);
-	
-		
+	else if (s[0][0] == 'p' && s[0][1] == 'w'
+		&& s[0][2] == 'd' && s[0][3] == '\0')
+		return (2);
+	else if (s[0][0] == 'u' && s[0][1] == 'n' && s[0][2] == 's'
+		&& s[0][3] == 'e' && s[0][4] == 't' && s[0][5] == '\0')
+		return (1);
+	else if (s[0][0] == 'e' && s[0][1] == 'x' && s[0][2] == 'i'
+		&& s[0][3] == 't' && s[0][4] == '\0')
+		return (1);
+	return (0);
 }
 
-void token_builtin(t_lex *lex)
+void	token_builtin(t_lex *lex)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < ft_malloc(lex) - 2)
@@ -39,7 +56,7 @@ void token_builtin(t_lex *lex)
 			{
 				lex->supatok[i] = TOKEN_BUILTIN;
 			}
-			else if(test_builtin(lex->s[i]) == 2)
+			else if (test_builtin(lex->s[i]) == 2)
 			{
 				lex->supatok[i] = TOKEN_BUILTIN_OUTP;
 			}

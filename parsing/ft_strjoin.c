@@ -18,7 +18,6 @@ int	ft_strlen(const char *a)
 	int	i;
 
 	i = 0;
-
 	while (a[i] != '\0')
 		i++;
 	return (i);
@@ -42,7 +41,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	if (!s1 || !s2)
 		return (0);
-	//printf("s1 = %s s2 = %s\n", s1, s2);
 	s3 = (char *)malloc(sizeof(*s3) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!s3)
 		return (0);

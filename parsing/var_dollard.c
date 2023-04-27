@@ -1,27 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   var_dollard.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/27 10:43:50 by hdelmann          #+#    #+#             */
+/*   Updated: 2023/04/27 10:46:08 by hdelmann         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/shell.h"
 
-/*char	*ft_realloc(char *map, int i)
+char	*appl_chang(char *so, char *sc, int k, int o)
 {
-	char	*map_tp;
-	int		x;
-
-	x = 0;
-	map_tp = malloc(i * sizeof(char *));
-	while (map[x])
-	{
-		map_tp[x] = map[x];
-		x++;
-	}
-	free(map);
-	map_tp[x] = '\0';
-	return (map_tp);
-}*/
-
-char *appl_chang(char *so, char *sc, int k, int o)
-{
-	int i;
-	int j;
-	char *sf;
+	int		i;
+	int		j;
+	char	*sf;
 
 	i = 0;
 	j = 0;
@@ -33,16 +28,12 @@ char *appl_chang(char *so, char *sc, int k, int o)
 	}
 	if (sc != NULL)
 	{
-		//sf[i] = '"';
-		//i++;
 		while (sc[j] != '\0')
 		{
 			sf[i] = sc[j];
 			i++;
 			j++;
 		}
-		//sf[i] = '"';
-		//i++;
 		while (so[o] != '\0')
 		{
 			sf[i] = so[o];
@@ -70,17 +61,17 @@ char *appl_chang(char *so, char *sc, int k, int o)
 	}
 }
 
-char *change_value(char *s, char **env)
+char	*change_value(char *s, char **env)
 {
-	int i;
-	int j;
-	int o;
-	char *s2;
+	int		i;
+	int		j;
+	int		o;
+	char	*s2;
 
 	o = ft_strlen(s);
 	i = 0;
 	s2 = NULL;
-	while(env[i])
+	while (env[i])
 	{
 		j = 0;
 		if (ft_strncmp(env[i], s, ft_strlen(s)) == 0)
@@ -100,24 +91,22 @@ char *change_value(char *s, char **env)
 	return (s2);
 }
 
-char *replace_dol(char *s, char **env)
+char	*replace_dol(char *s, char **env)
 {
-	int i;
-	int j;
-	int o;
-	char *sf;
-	char *s1;
+	int		i;
+	int		j;
+	int		o;
+	char	*sf;
+	char	*s1;
 
 	i = 0;
 	j = 0;
 	o = 0;
-	while(s[i] != '$' && s[i] != '\0')
-	{
+	while (s[i] != '$' && s[i] != '\0')
 		i++;
-	}
 	sf = malloc(sizeof(char) * (i + 1));
 	i = 0;
-	while(s[i] != '$' && s[i] != '\0')
+	while (s[i] != '$' && s[i] != '\0')
 	{
 		sf[j] = s[i];
 		i++;
@@ -138,7 +127,7 @@ char *replace_dol(char *s, char **env)
 	if (s1 != NULL)
 	{
 		sf = ft_realloc(sf, (ft_strlen(s1) + j + 1));
-		while(s1[i] != '\0')
+		while (s1[i] != '\0')
 		{
 			sf[j] = s1[i];
 			i++;
@@ -149,20 +138,18 @@ char *replace_dol(char *s, char **env)
 	return (sf);
 }
 
-char *dollars_ch(char *s, char **env)
+char	*dollars_ch(char *s, char **env)
 {
-	char *s2;
-	int i;
-	//int l;
-	int j;
-	int o;
-	int k;
+	char	*s2;
+	int		i;
+	int		j;
+	int		o;
+	int		k;
 
 	j = 0;
 	i = 0;
 	k = 0;
-	//l = ft_strlen(s);
-	while(i <= ft_strlen(s) && s[i] != '\0')
+	while (i <= ft_strlen(s) && s[i] != '\0')
 	{
 		if (s[i] == '\'')
 		{
@@ -174,12 +161,12 @@ char *dollars_ch(char *s, char **env)
 		if (s[i] == '$')
 		{
 			o = 0;
-			while(s[i] != ' ' && i > 0 && s[i] != '"')
+			while (s[i] != ' ' && i > 0 && s[i] != '"')
 				i--;
 			k = i;
 			i++;
 			j = i;
-			while(s[i] != ' ' && s[i] != '\0' && s[i] != '"')
+			while (s[i] != ' ' && s[i] != '\0' && s[i] != '"')
 				i++;
 			s2 = malloc(sizeof(char) * (i - j + 2));
 			while (j < i)
@@ -191,7 +178,7 @@ char *dollars_ch(char *s, char **env)
 			s2[o] = '=';
 			o++;
 			s2[o] = '\0';
- 			s2 = replace_dol(s2, env);
+			s2 = replace_dol(s2, env);
 			s = appl_chang(s, s2, k + 1, i);
 		}
 		i++;
@@ -199,13 +186,13 @@ char *dollars_ch(char *s, char **env)
 	return (s);
 }
 
-char *replace_dol_(char *s, int i)
+char	*replace_dol_(char *s, int i)
 {
-	char *sf;
-	char *res;
-	int j;
-	int o;
-	int k;
+	char	*sf;
+	char	*res;
+	int		j;
+	int		o;
+	int		k;
 
 	j = 0;
 	k = 0;
@@ -236,11 +223,11 @@ char *replace_dol_(char *s, int i)
 	return (sf);
 }
 
-char ***del_brak(char ***s)
+char	***del_brak(char ***s)
 {
-	int i;
-	int j;
-	int k;
+	int	i;
+	int	j;
+	int	k;
 
 	i = 0;
 	while (s[i] != NULL)
@@ -252,7 +239,7 @@ char ***del_brak(char ***s)
 			{
 				k = 1;
 				s[i][j] = ft_realloc(s[i][j], ft_strlen(s[i][j]) - 2);
-				while(k < ft_strlen(s[i][j]) - 1)
+				while (k < ft_strlen(s[i][j]) - 1)
 				{
 					s[i][j][k - 1] = s[i][j][k];
 					k++;
@@ -265,17 +252,3 @@ char ***del_brak(char ***s)
 	}
 	return (s);
 }
-
-
-/*int main(int ac, char **av, char **envp)
-{
-	char *s;
-	(void)ac;
-	(void)av;
-
-	s = readline(">");
-	//s = replace_dol_(s, 0);
-	s = dollars_ch(s, envp);
-	printf("s = %s\n", s);
-	return (0);
-}*/

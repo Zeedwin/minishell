@@ -1,11 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/27 10:03:37 by hdelmann          #+#    #+#             */
+/*   Updated: 2023/04/27 10:04:17 by hdelmann         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/shell.h"
 
-void free_2(char **s)
+void	free_2(char **s)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	//printf("%s\n", s[10]);
 	while (s[i])
 	{
 		free(s[i]);
@@ -14,9 +25,9 @@ void free_2(char **s)
 	free(s);
 }
 
-void free_3(char ***s)
+void	free_3(char ***s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i])
@@ -27,10 +38,10 @@ void free_3(char ***s)
 	free(s);
 }
 
-void free_1(int **s, t_lex *lex)
+void	free_1(int **s, t_lex *lex)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = count_pipe(lex->supatok, lex) + 1;
@@ -41,17 +52,15 @@ void free_1(int **s, t_lex *lex)
 	}
 }
 
-void free_final(t_lex *lex, t_pipe *pip, t_var *var)
+void	free_final(t_lex *lex, t_pipe *pip, t_var *var)
 {
 	(void)pip;
 	free_2(lex->s1);
-	//free_1(pip->pipe, lex);
 	free(lex->stoken);
 	free(lex->supatok);
 	free_3(lex->s);
 	free(var->line);
 	free(var->promt);
-	//free(var->promt);
-	if(!var->path)
+	if (!var->path)
 		free_2(var->path);
 }

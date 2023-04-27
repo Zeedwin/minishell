@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/27 10:58:10 by hdelmann          #+#    #+#             */
+/*   Updated: 2023/04/27 10:58:10 by hdelmann         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/shell.h"
 
 void	ft_exit(t_var *var)
 {
-	if(ft_strnstr(var->line, "exit", ft_strlen(var->line)))
+	if (ft_strnstr(var->line, "exit", ft_strlen(var->line)))
 	{
-		//printf("exit\n");
 		exit(1);
 	}
 }
