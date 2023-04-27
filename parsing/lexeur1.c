@@ -211,6 +211,7 @@ char	*suppr_pos(char *s, int pos)
 		i++;
 	}
 	s1[j] = '\0';
+	free(s);
 	return (s1);
 }
 
@@ -324,18 +325,34 @@ char	*change_tab(char *s)
 
 char	*space(char *s)
 {
-	char	*s2;
-
 	if (s[0] == '$')
 	{
-		s2 = ft_strjoin(" ", s);
-		return (s2);
+		s = ft_strjoin(" ", s);
+		return (s);
 	}
 	return (s);
 }
 
+int point(char *s)
+{
+	if (ft_strlen(s) == 2 && s[0] == '.' && s[1] == '.')
+		return(1);
+	if (ft_strlen(s) == 1 && s[0] == '.')
+		return(1);
+	return(2);
+}
+
 void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 {
+	char *s1;
+
+	s1 = malloc(sizeof(char));
+	s1[0] = '\0';
+	if (point(s) == 1)
+	{
+		printf("bash : %s: command not found\n", s);
+		s = ft_strdup(s1);
+	}
 	s = space(s);
 	s = change_tab(s);
 	s = del_if_quote(s);
