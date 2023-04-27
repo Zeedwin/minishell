@@ -32,18 +32,6 @@ int	execve_builtin(char **s, char **env, t_var *var, t_lex *lex)
 		g_global.cpyenv = export(g_global.cpyenv, lex, var);
 	if (ft_strcmp(*s, "unset") == 0)
 		g_global.cpyenv = unset(g_global.cpyenv, lex->s[var->z][1]);
-	/* if(ft_strcmp(*s, "pwd") == 0|| ft_strcmp(*s, "PWD") == 0 )
-		pwd(var);
-	if(ft_strcmp(*s, "env") == 0|| ft_strcmp(*s, "ENV") == 0)
-		env(envp);
-	if(ft_strcmp(*s, "exit") == 0)
-		ft_exit();
-	if(ft_strcmp(*s, "echo") == 0)
-		echo(*s);
-	if(ft_strcmp(*s, "export") == 0)
-		export(envp);
-	if(ft_strcmp(*s, "unset") == 0)
-		unset(envp);*/
 	return (0);
 }
 

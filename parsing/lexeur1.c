@@ -66,7 +66,7 @@ int	count(char *s)
 			i++;
 		}
 		else if (s[i] == ' ')
-			i = count2(i, s , 1);
+			i = count2(i, s, 1);
 		else if ((s[i] == '|') || (s[i] == '<' && s[i + 1] != '<')
 			|| (s[i] == '>' && s[i + 1] != '>'))
 		{
@@ -174,7 +174,7 @@ int	lexer1(char *s, t_lex *lex)
 			i = lexer3(i, s, 2);
 			s = lexer2(s, lex, i);
 		}
-		else if ((s[i] == '<' && s[i + 1] == '<') 
+		else if ((s[i] == '<' && s[i + 1] == '<')
 			|| (s[i] == '>' && s[i + 1] == '>'))
 		{
 			i = i + 2;
@@ -336,15 +336,15 @@ char	*space(char *s)
 int point(char *s)
 {
 	if (ft_strlen(s) == 2 && s[0] == '.' && s[1] == '.')
-		return(1);
+		return (1);
 	if (ft_strlen(s) == 1 && s[0] == '.')
-		return(1);
-	return(2);
+		return (1);
+	return (2);
 }
 
 void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 {
-	char *s1;
+	char	*s1;
 
 	s1 = malloc(sizeof(char));
 	s1[0] = '\0';

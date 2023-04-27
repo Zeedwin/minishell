@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/04/27 11:29:42 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/04/27 21:04:44 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ int	count_pipe(int *supatok, t_lex *lex)
 	return (j);
 }
 
-int	delimiteur(t_lex *lex,t_var *var)
+int	delimiteur(t_lex *lex, t_var *var)
 {
 	char	buffer[BUF_SIZE];
 	char	*s;

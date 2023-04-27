@@ -1,7 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shell.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/27 20:48:04 by jgirard-          #+#    #+#             */
+/*   Updated: 2023/04/27 20:48:04 by jgirard-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SHELL_H
 # define SHELL_H
 
-#define BUF_SIZE 10
+# define BUF_SIZE 10
+# define PATH_MAX 4096
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -29,21 +42,21 @@
 # include <signal.h>
 
 typedef struct cmd {
-	char **cmd;
-	int	 pipe_out;
-	int  pipe_in;
-}	cmd_t;
+	char	**cmd;
+	int		pipe_out;
+	int		pipe_in;
+}	t_cmd;
 
 typedef struct s_pipe {
-	int **pipe;
-	int cmd1;
-	int cmd2;
-	int prevpipe;
-	pid_t pid;
-	int status;
-	int status1;
-	int status2;
-	int tube[2];
+	int		**pipe;
+	int		cmd1;
+	int		cmd2;
+	int		prevpipe;
+	pid_t	pid;
+	int		status;
+	int		status1;
+	int		status2;
+	int		tube[2];
 }	t_pipe;
 
 enum {
@@ -70,59 +83,58 @@ enum {
 };
 
 typedef struct s_var {
-	char **path;
-	char **cpyenv;
-	char *cmd;
-	char **cmd1;
-	char *cmdpath;
-	char *promt;
-	char *line;
-	char **line2;
-	char *dir;
-	char *echo;
-	char **exp_env;
-	int last_pipe;
-	char *previous_line;
-	int check_pipe;
+	char	**path;
+	char	**cpyenv;
+	char	*cmd;
+	char	**cmd1;
+	char	*cmdpath;
+	char	*promt;
+	char	*line;
+	char	**line2;
+	char	*dir;
+	char	*echo;
+	char	**exp_env;
+	int		last_pipe;
+	char	*previous_line;
+	int		check_pipe;
 	pid_t	*shell;
-	int pidnum;
-	int c;
-	int z;
-	int nopath;
-	int i;
-	int is_in_heredoc;
-	int	is_in_cat;
-	int fd;
-	int last_err_com;
+	int		pidnum;
+	int		c;
+	int		z;
+	int		nopath;
+	int		i;
+	int		is_in_heredoc;
+	int		is_in_cat;
+	int		fd;
+	int		last_err_com;
 }		t_var;
 
-extern t_var g_global;
+extern t_var	g_global;
 
 typedef struct s_lex
 {
-	int x;
-	char **s1;
-	char ***s;
-	int *stoken;
-	int *supatok;
-	int c;
-	int y;
-	int rap;
+	int		x;
+	char	**s1;
+	char	***s;
+	int		*stoken;
+	int		*supatok;
+	int		c;
+	int		y;
+	int		rap;
 }			t_lex;
 
-
-char *replace_dol_(char *s, int i);
+char	*replace_dol_(char *s, int i);
 char	*ft_realloc(char *map, int i);
-void executeur_final(char **s, char **env, t_var *var, t_lex *lex);
-void process(char **env, t_var *var);
-int ft_malloc(t_lex *lex);
-int	minipipe(t_pipe	*pip, t_lex *lex, t_var *var);
-void init_tab(t_lex *lex, char *s, char **envp, t_var *var);
+void	executeur_final(char **s, char **env, t_var *var, t_lex *lex);
+void	process(char **env, t_var *var);
+int		ft_malloc(t_lex *lex);
+int		minipipe(t_pipe	*pip, t_lex *lex, t_var *var);
+void	init_tab(t_lex *lex, char *s, char **envp, t_var *var);
 char	*ft_strdup(const char *src);
 void	free_this(char **tab);
-void 	currpath(t_var *var);
-void token_builtin(t_lex *lex);
-int 	ft_strncmp(const char *s1, const char *s2, size_t n);
+void	currpath(t_var *var);
+void	token_builtin(t_lex *lex);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*find_cmd_path(t_var *var, char *cmd);
@@ -131,52 +143,48 @@ int		ft_strlen(const char *a);
 int		ft_strlen2(const char *a);
 void	find_path(char **env, t_var *var);
 char	*ft_strcpy(char *dest, char *src);
-int 	quotecheker(char *s, char c);
+int		quotecheker(char *s, char c);
 char	*ft_strtrim(char const *s1, char const *set);
 size_t	ft_strlcpy(char *restrict dst, const char *restrict src, size_t dstsize);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strnstr(const char *haystack, const char *needle, int len);
 void	ft_exit(t_var *var);
-int	ft_strcmp(char *s1, char *s2);
+int		ft_strcmp(char *s1, char *s2);
 char	*ft_strstr(char *str, char *to_find);
-char *del_backn(char *s);
-char *dollars_ch(char *s1, char **env);
+char	*del_backn(char *s);
+char	*dollars_ch(char *s1, char **env);
 char	*ft_itoa(int nb);
-char ***del_brak(char ***s);
-int execve_builtin(char **s, char **env, t_var *var, t_lex *lex);
+char	***del_brak(char ***s);
+int		execve_builtin(char **s, char **env, t_var *var, t_lex *lex);
 
 //token	*ft_lstnew(char **content);
 size_t	ft_strlcpy(char *restrict dst, const char *restrict src, size_t dstsize);
-void tokenizer(t_lex *lex);
-char ***separate_tok(t_var *var, t_lex *lex, char ***s);
+void	tokenizer(t_lex *lex);
+char	***separate_tok(t_var *var, t_lex *lex, char ***s);
 void	turbotokenizer(t_lex *lex);
-void executeur(char **s, char **env, t_var *var);
-void free_final(t_lex *lex, t_pipe *pip, t_var *var);
-void free_2(char **s);
-int exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **env);
-int count_pipe(int *supatok, t_lex *lex);
-int miniredir_s(t_lex *lex, t_var *var, t_pipe *pip);
-int miniredir_s2(t_lex *lex, t_var *var, char **env, t_pipe *pip);
-int parsing_syntax(t_lex *lex);
-int test_builtin(char **s);
-int equalfinder(char *path);
-void wait_pid(t_var * var, t_pipe *pip);
-void creat_pid(t_lex *lex, t_var *var);
-char *remo_slash(char *s);
-
-
-
+void	executeur(char **s, char **env, t_var *var);
+void	free_final(t_lex *lex, t_pipe *pip, t_var *var);
+void	free_2(char **s);
+int		exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **env);
+int		count_pipe(int *supatok, t_lex *lex);
+int		miniredir_s(t_lex *lex, t_var *var, t_pipe *pip);
+int		miniredir_s2(t_lex *lex, t_var *var, char **env, t_pipe *pip);
+int		parsing_syntax(t_lex *lex);
+int		test_builtin(char **s);
+int		equalfinder(char *path);
+void	wait_pid(t_var *var, t_pipe *pip);
+void	creat_pid(t_lex *lex, t_var *var);
+char	*remo_slash(char *s);
 
 //built-ins
 int		cd(char **s, t_var *var);
-char 	**export(char **cpyenv, t_lex *lex, t_var *var);
+char	**export(char **cpyenv, t_lex *lex, t_var *var);
 char	**unset(char **cpyenvp, char *unsetstr);
 int		exec_builtin_out(char **s, t_var *var, t_lex *lex);
 int		echo(t_var	*var, t_lex *lex);
-void 	pwd();
+void	pwd(void);
 char	**ft_strcpy_env(char **cpyenv, char **envp);
-void 	env(char **cpyenv);
-
+void	env(char **cpyenv);
 
 #endif
