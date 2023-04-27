@@ -107,7 +107,8 @@ typedef struct s_var {
 	int		is_in_cat;
 	int		fd;
 	int		last_err_com;
-}		t_var;
+	int		exitcode;
+}	t_var;
 
 extern t_var	g_global;
 
@@ -149,7 +150,6 @@ size_t	ft_strlcpy(char *restrict dst, const char *restrict src, size_t dstsize);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strnstr(const char *haystack, const char *needle, int len);
-void	ft_exit(t_var *var);
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_strstr(char *str, char *to_find);
 char	*del_backn(char *s);
@@ -157,11 +157,12 @@ char	*dollars_ch(char *s1, char **env);
 char	*ft_itoa(int nb);
 char	***del_brak(char ***s);
 int		execve_builtin(char **s, char **env, t_var *var, t_lex *lex);
+int		ft_isdigit(int c);
+int		ft_num(char *str);
 
-//token	*ft_lstnew(char **content);
 size_t	ft_strlcpy(char *restrict dst, const char *restrict src, size_t dstsize);
-void	tokenizer(t_lex *lex);
 char	***separate_tok(t_var *var, t_lex *lex, char ***s);
+void	tokenizer(t_lex *lex);
 void	turbotokenizer(t_lex *lex);
 void	executeur(char **s, char **env, t_var *var);
 void	free_final(t_lex *lex, t_pipe *pip, t_var *var);
@@ -186,5 +187,6 @@ int		echo(t_var	*var, t_lex *lex);
 void	pwd(void);
 char	**ft_strcpy_env(char **cpyenv, char **envp);
 void	env(char **cpyenv);
+void	ft_exit(t_var *var, t_lex *lex);
 
 #endif

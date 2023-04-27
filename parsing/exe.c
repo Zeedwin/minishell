@@ -20,6 +20,8 @@ int	exec_builtin_out(char **s, t_var *var, t_lex *lex)
 		env(g_global.cpyenv);
 	else if (ft_strcmp(*s, "echo") == 0)
 		echo(var, lex);
+	else if (ft_strcmp(lex->s[var->z][0], "exit") == 0)
+		ft_exit(var, lex);
 	return (1);
 }
 
@@ -121,7 +123,10 @@ void	executeur(char **s, char **env, t_var *var)
 		if (s[0][1] == '.' && s[0][1] == '.' && s[0][2] == '/')
 			printf("minishell: no such file or directory: %s\n", s[0]);
 		else
+		{
 			printf("bash : %s: command not found\n", s[0]);
+			var->exitcode = 127;
+		}
 		exit(1);
 	}
 	execve(cmdpath, s, env);

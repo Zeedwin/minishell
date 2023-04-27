@@ -12,10 +12,24 @@
 
 #include "../includes/shell.h"
 
-void	ft_exit(t_var *var)
+void	ft_exit(t_var *var, t_lex *lex)
 {
-	if (ft_strnstr(var->line, "exit", ft_strlen(var->line)))
+	int	exitcd;
+
+	fflush(stdout);
+	exitcd = 0;
+	if (lex->s[var->z][1] && ft_num(lex->s[var->z][1]) == 1)
 	{
-		exit(1);
+		exitcd = atoi(lex->s[var->z][1]);
+		printf("sex\n");
+		printf("%d\n", exitcd);
 	}
+	if (exitcd != 0 && exitcd <= 255)
+	{
+		var->exitcode = exitcd;
+		printf("exitcode = %d\n", var->exitcode);
+		fflush(stdout);
+		exit(var->exitcode);
+	}
+	exit(0);
 }

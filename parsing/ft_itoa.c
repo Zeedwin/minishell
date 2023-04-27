@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 04:06:08 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/03/08 11:25:51 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/04/27 22:53:10 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,30 @@ char	*ft_itoa(int nb)
 		nb = nb / 10;
 	}
 	return (res);
+}
+
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+	{
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_num(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+	//	printf("str = %c\n", str[i]);
+		if (ft_isdigit(str[i]) == 0 && str[i])
+		{
+			return (0);
+		}
+		i++;
+	}
+	return (1);
 }

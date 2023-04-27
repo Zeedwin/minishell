@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/04/27 21:04:44 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/04/27 21:45:49 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -486,9 +486,7 @@ void	process(char **env, t_var *var)
 	var->pidnum = 0;
 	if (!var->line)
 	{
-		rl_on_new_line();
-		rl_replace_line(" exit", 0);
-		rl_redisplay();
+		printf("exit\n");
 		exit(0);
 	}
 	init_tab(&lex, var->line, var->cpyenv, var);
