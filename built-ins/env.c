@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:48:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/04/27 10:57:58 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/04/28 10:50:16 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,8 +168,7 @@ char	**unset(char **cpyenvp, char *unsetstr)
 	cpycpy = ft_strcpy_env(cpyenvp, cpyenvp);
 	while (cpycpy[i])
 	{
-		if (ft_strncmp(cpycpy[i], unsetstr, c) == 0
-			&& cpycpy[i][c] == '=')
+		if (ft_strncmp(cpycpy[i], unsetstr, c) == 0)
 			k--;
 		k++;
 		i++;
@@ -179,15 +178,14 @@ char	**unset(char **cpyenvp, char *unsetstr)
 		free(cpycpy);
 		return (NULL);
 	}
-	new_envp = (char **)malloc(sizeof(char *) * (k + 1));
+	new_envp = (char **)malloc(sizeof(char *) * (k));
 	if (!new_envp)
 		return (NULL);
 	i = 0;
 	j = 0;
 	while (cpycpy[i])
 	{
-		if (ft_strncmp(cpycpy[i], unsetstr, c) == 0
-			&& cpycpy[i][c] == '=')
+		if (ft_strncmp(cpycpy[i], unsetstr, c) == 0)
 			i++;
 		else
 		{

@@ -52,20 +52,14 @@ int	ft_malloc(t_lex *lex)
 	while (lex->s1[i])
 	{
 		if (lex->stoken[i] == TOKEN_PIPE)
-		{
 			k++;
-		}
 		else if (lex->stoken[i] == TOKEN_REDIR_S)
-		{
 			k++;
-		}
 		else if (lex->stoken[i] == TOKEN_WORD)
 		{
 			k++;
 			while (lex->stoken[i] == TOKEN_WORD)
-			{
 				i++;
-			}
 			i--;
 		}
 		i++;
@@ -99,9 +93,7 @@ char	***separate_tok(t_var *var, t_lex *lex, char ***sf)
 		{
 			j = i;
 			while (lex->stoken[i] == TOKEN_WORD && lex->s1[i])
-			{
 				i++;
-			}
 			sf[k] = malloc(sizeof(char *) * (i - j + 1));
 			i = j;
 			j = 0;
