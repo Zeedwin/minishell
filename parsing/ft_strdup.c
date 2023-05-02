@@ -12,7 +12,7 @@
 
 #include "../includes/shell.h"
 
-char	*ft_strdup(const char *src)
+char	*ft_strdup(char *src, int freeable)
 {
 	int		i;
 	char	*p;
@@ -27,5 +27,7 @@ char	*ft_strdup(const char *src)
 		i++;
 	}
 	p[i] = '\0';
+	if (freeable == 1)
+		return (free(src), p);
 	return (p);
 }

@@ -186,7 +186,7 @@ int	lexer1(char *s, t_lex *lex)
 			s = lexer2(s, lex, i);
 		}
 		lex->rap++;
-		lexer1(s, lex);
+		//lexer1(s, lex);
 		return (1);
 	}
 	return (1);
@@ -294,6 +294,7 @@ char	*del_par_com(char *s)
 		i++;
 	}
 	s1[j] = '\0';
+	free(s);
 	return (s1);
 }
 
@@ -327,7 +328,7 @@ char	*space(char *s)
 {
 	if (s[0] == '$')
 	{
-		s = ft_strjoin(" ", s);
+		s = ft_strjoin(" ", s, 2);
 		return (s);
 	}
 	return (s);
@@ -351,7 +352,7 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	if (point(s) == 1)
 	{
 		printf("bash : %s: command not found\n", s);
-		s = ft_strdup(s1);
+		s = ft_strdup(s1, 1);
 	}
 	s = space(s);
 	s = change_tab(s);
@@ -369,4 +370,5 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	lex->y = count(s);
 	lexer1(s, lex);
 	lex->s1[count(s)] = NULL;
+	free(s1);
 }

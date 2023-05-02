@@ -12,7 +12,7 @@
 
 #include "../includes/shell.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	char	*s2;
 	size_t	s_len;
@@ -21,12 +21,13 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	s_len = ft_strlen(s);
 	if (start > s_len)
-		return (ft_strdup(""));
+		return (NULL);
 	if (len > s_len - start)
 		len = s_len - start;
 	s2 = (char *)malloc(sizeof(char) * (len + 1));
 	if (!s2)
 		return (NULL);
 	ft_strlcpy(s2, s + start, len + 1);
+	free(s);
 	return (s2);
 }
