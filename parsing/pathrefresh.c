@@ -21,6 +21,7 @@ void	currpath(t_var *var)
 {
 	char	promt1[PATH_MAX];
 	int		i;
+	char	*promtf;
 
 	if (getcwd(promt1, PATH_MAX) == NULL)
 	{
@@ -32,10 +33,13 @@ void	currpath(t_var *var)
 		exit(EXIT_FAILURE);
 	}
 	var->promt = malloc((ft_strlen(promt1) + 2) * sizeof(char));
+	promtf = var->promt;
 	i = ft_strlen(promt1);
-	var->promt = ft_strcpy(var->promt, promt1);
-	var->promt[i] = '>';
-	var->promt[i + 1] = '\0';
-	var->promt = ft_strjoin("\033[1;36m➜\033[1;32m", var->promt);
-	var->promt = ft_strjoin(var->promt, "\033[0m ");
+	promtf = ft_strcpy(promtf, promt1);
+	promtf[i] = '>';
+	promtf[i + 1] = '\0';
+	promtf = ft_strjoin("\033[1;36m➜\033[1;32m", promtf);
+	promtf = ft_strjoin(promtf, "\033[0m ");
+	//var->promt = promtf;
+	free(promtf);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_dollard.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:43:50 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/04/27 10:46:08 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/05 13:28:32 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,7 @@ char	*replace_dol_(char *s, int i)
 		}
 	}
 	sf[o] = '\0';
+	free (res);
 	return (sf);
 }
 

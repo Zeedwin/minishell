@@ -104,6 +104,7 @@ char	***separate_tok(t_var *var, t_lex *lex, char ***sf)
 				j++;
 				i++;
 				sf[k][j] = NULL;
+				//free(lex->s1[i]);
 			}
 			k++;
 		}

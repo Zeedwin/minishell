@@ -187,6 +187,7 @@ int	lexer1(char *s, t_lex *lex)
 		}
 		lex->rap++;
 		lexer1(s, lex);
+		free(s);
 		return (1);
 	}
 	return (1);
@@ -266,35 +267,18 @@ char	*del_if_quote2(char *s)
 char	*del_par_com(char *s)
 {
 	int		i;
-	int		j;
-	char	*s1;
 
 	i = 0;
-	j = 0;
 	while (s[i] != '\0')
 	{
 		if (s[i] == '#')
-			break ;
-		if (s[i] != ')' && s[i] != '(')
-			j++;
-		i++;
-	}
-	s1 = malloc(sizeof(char) * (j + 2));
-	i = 0;
-	j = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == '#')
-			break ;
-		if (s[i] != ')' && s[i] != '(')
 		{
-			s1[j] = s[i];
-			j++;
+			s = ft_realloc(s, i);
+			s[i] = '\0';
 		}
 		i++;
 	}
-	s1[j] = '\0';
-	return (s1);
+	return (s);
 }
 
 char	*change_tab(char *s)
@@ -369,4 +353,6 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	lex->y = count(s);
 	lexer1(s, lex);
 	lex->s1[count(s)] = NULL;
+	free(s);
+	free(s1);
 }

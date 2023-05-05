@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/04/27 21:45:49 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:18:50 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -467,11 +467,12 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 	return (0);
 }
 
-void	process(char **env, t_var *var)
+void	process(char **env, t_var *var, int i)
 {
 	t_lex	lex;
 	t_pipe	pip;
 
+	(void)i;
 	var->nopath = 0;
 	var->line = NULL;
 	if (var->last_pipe != 1)
@@ -498,6 +499,10 @@ void	process(char **env, t_var *var)
 	creat_pid(&lex, var);
 	if (parsing_syntax(&lex) == 1)
 		exe_s(&lex, var, &pip, env);
+	if (!var->line)
+	{
+		free_final(&lex, &pip, var);
+	}
 }
 
 void	set_termios(int in_cmd)
@@ -565,6 +570,9 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	g_global.cpyenv = ft_strcpy_env(g_global.cpyenv, envp);
+	int i;
+
+	i = 0;
 	if (g_global.cpyenv[0] == NULL)
 	{
 		printf("\033[1;91mError: No environment detected\n");
@@ -578,6 +586,7 @@ int	main(int ac, char **av, char **envp)
 	init_termios();
 	while (1)
 	{
-		process(g_global.cpyenv, &g_global);
+		process(g_global.cpyenv, &g_global, i);
+		i++;
 	}
 }
