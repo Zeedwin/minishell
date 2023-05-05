@@ -40,6 +40,6 @@ void	currpath(t_var *var)
 	promtf[i + 1] = '\0';
 	promtf = ft_strjoin("\033[1;36m➜\033[1;32m", promtf);
 	promtf = ft_strjoin(promtf, "\033[0m ");
-	//var->promt = promtf;
-	free(promtf);
+	var->promt = ft_realloc(promtf, i);
+	//free(promtf);
 }
