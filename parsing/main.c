@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/02 14:48:24 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/04/27 21:45:49 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,7 @@ void	historyset(t_var *var, t_lex *lex)
 
 	i = 0;
 	if (var->previous_line == NULL)
-	{
-		var->previous_line = ft_strdup(var->line, 0);
-	}
+		var->previous_line = ft_strdup(var->line);
 	if (var->check_pipe == 1)
 	{
 		while (var->previous_line[i] != '\0')
@@ -143,9 +141,8 @@ void	historyset(t_var *var, t_lex *lex)
 		&& testspace(var) == 1 && var->check_pipe == 0)
 	{
 		add_history(var->line);
-		var->previous_line = ft_strdup(var->line, 0);
+		var->previous_line = ft_strdup(var->line);
 	}
-	free(var->previous_line);
 }
 
 int	count_pipe(int *supatok, t_lex *lex)
@@ -474,7 +471,6 @@ void	process(char **env, t_var *var)
 {
 	t_lex	lex;
 	t_pipe	pip;
-	char	*cocaline;
 
 	var->nopath = 0;
 	var->line = NULL;
@@ -493,8 +489,7 @@ void	process(char **env, t_var *var)
 		printf("exit\n");
 		exit(0);
 	}
-	cocaline = ft_strdup(var->line, 0);
-	init_tab(&lex, cocaline, var->cpyenv, var);
+	init_tab(&lex, var->line, var->cpyenv, var);
 	tokenizer(&lex);
 	lex.s = separate_tok(var, &lex, lex.s);
 	lex.s = del_brak(lex.s);

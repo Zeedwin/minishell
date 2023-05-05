@@ -67,7 +67,7 @@ void	find_path(char **env, t_var *var)
 			var->path = (char **)malloc((c_s(path2) + 1) * sizeof(char *));
 			while (path2[j] != NULL)
 			{
-				var->path[j] = ft_strjoin2(path2[j], "/");
+				var->path[j] = ft_strjoin(path2[j], "/");
 				j++;
 			}
 			var->path[j] = NULL;
@@ -97,8 +97,8 @@ char	*find_cmd_path(t_var *var, char *cmd)
 	char	buf[PATH_MAX];
 	char	*path;
 
-	path = ft_strjoin(getcwd(buf, PATH_MAX), "/", 0);
-	path = ft_strjoin(path, cmd, 1);
+	path = ft_strjoin(getcwd(buf, PATH_MAX), "/");
+	path = ft_strjoin(path, cmd);
 	i = 0;
 	if (cmd[0] == '.' && cmd[1] == '.' && cmd[2] == '/')
 	{
@@ -109,8 +109,8 @@ char	*find_cmd_path(t_var *var, char *cmd)
 	if (cmd[0] == '.' && cmd[1] == '/')
 	{
 		cmd = remo_slash(cmd);
-		cmd_path = ft_strjoin(getcwd(buf, PATH_MAX), "/", 2);
-		cmd_path = ft_strjoin(cmd_path, cmd, 0);
+		cmd_path = ft_strjoin(getcwd(buf, PATH_MAX), "/");
+		cmd_path = ft_strjoin(cmd_path, cmd);
 		if (access(cmd_path, F_OK | X_OK) == 0)
 			return (cmd_path);
 		free(cmd_path);
@@ -120,24 +120,22 @@ char	*find_cmd_path(t_var *var, char *cmd)
 	{
 		while (var->path[i] && check_path(var->path[i]) == 1)
 		{
-			cmd_path = ft_strjoin2(var->path[i], cmd);
+			cmd_path = ft_strjoin(var->path[i], cmd);
 			if (access(cmd_path, F_OK | X_OK) == 0)
 				return (cmd_path);
 			free(cmd_path);
 			i++;
 		}
 		i = 0;
-		cmd = ft_strjoin("..", cmd, 0);
+		cmd = ft_strjoin("..", cmd);
 		while (var->path[i] && check_path(var->path[i]) == 1)
 		{
-			cmd_path = ft_strjoin(var->path[i], cmd, 1);
+			cmd_path = ft_strjoin(var->path[i], cmd);
 			if (access(cmd_path, F_OK | X_OK) == 0)
-				return (free(cmd), cmd_path);
+				return (cmd_path);
 			free(cmd_path);
 			i++;
 		}
-		free(cmd);
-		free(path);
 	}
 	return (0);
 }
