@@ -106,7 +106,7 @@ char	*lexer2(char *s, t_lex *lex, int i)
 {
 	lex->s1[lex->x] = ft_substr(s, 0, i);
 	lex->x++;
-	s = ft_substr(s, i, ft_strlen(s));
+	s = ft_substr_free(s, i, ft_strlen(s));
 	//free(lex->s1);
 	return (s);
 }
@@ -333,7 +333,7 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 {
 	char	*s1;
 
-	s1 = malloc(sizeof(char));
+	s1 = ft_calloc(1, sizeof(char));
 	s1[0] = '\0';
 	if (point(s) == 1)
 	{
@@ -347,16 +347,17 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	s = del_if_quote2(s);
 	s = replace_dol_(s, var->last_err_com);
 	s = dollars_ch(s, env);
-	lex->s1 = malloc((count(s) + 1) * sizeof(char *));
-	lex->stoken = malloc((count(s) + 1) * sizeof(int));
-	lex->supatok = malloc((count(s) + 1) * sizeof(int));
+	lex->s1 = ft_calloc((count(s) + 1), sizeof(char *));
+	lex->stoken = ft_calloc((count(s) + 1), sizeof(int));
+	lex->supatok = ft_calloc((count(s) + 1), sizeof(int));
+	//memset(lex->stoken, 0, (count(s) + 1) * sizeof(int));
 	lex->x = 0;
-	memset(lex->stoken, 0, (count(s) + 1) * sizeof(int));
 	lex->c = 0;
 	lex->rap = 0;
 	lex->y = count(s);
 	lexer1(s, lex);
 	lex->s1[count(s)] = NULL;
+	//printf("turururun\n");
 	free(s1);
-	free(s);
+	//free(s);
 }

@@ -45,6 +45,8 @@ SRCS		:=            parsing/pid.c	\
 						  parsing/testeur.c \
 						  parsing/exe.c \
 						  parsing/free.c \
+						  parsing/ft_calloc.c\
+						  parsing/ft_bzero.c\
 						  #parsing/tokenodes.c \
                           #parsing/test.c \
                           #parsing/∞shell.c \

@@ -87,7 +87,7 @@ typedef struct s_var {
 	char	**cpyenv;
 	char	*cmd;
 	char	**cmd1;
-	char	*cmdpath;
+	int		lacontedetagrandmere;
 	char	*promt;
 	char	*line;
 	char	**line2;
@@ -160,6 +160,8 @@ int		execve_builtin(char **s, char **env, t_var *var, t_lex *lex);
 int		ft_isdigit(int c);
 int		ft_num(char *str);
 
+void	*ft_calloc(size_t count, size_t size);
+void	ft_bzero(void *s, size_t n);
 char	*ft_substr_free(char *s, unsigned int start, size_t len);
 char	*ft_strdup_free(char *src);
 char	*ft_strjoin_free(char *s1, char *s2, int freeable);

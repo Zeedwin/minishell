@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/08 02:15:33 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/08 16:25:04 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void	historyset(t_var *var, t_lex *lex)
 		add_history(var->line);
 		var->previous_line = ft_strdup(var->line);
 	}
-	free(var->previous_line);
+	//free(var->previous_line);
 }
 
 int	count_pipe(int *supatok, t_lex *lex)
@@ -500,6 +500,12 @@ void	process(char **env, t_var *var, int i)
 	creat_pid(&lex, var);
 	if (parsing_syntax(&lex) == 1)
 		exe_s(&lex, var, &pip, env);
+	if (lex.s1)
+	{
+		//free(lex.s1);
+		free_2(lex.s1);
+		lex.s1 = NULL;
+	}
 }
 
 void	set_termios(int in_cmd)
@@ -575,6 +581,7 @@ int	main(int ac, char **av, char **envp)
 		printf("\033[1;91mError: No environment detected\n");
 		return (1);
 	}
+	//printf("");
 	g_global.last_err_com = 0;
 	g_global.last_pipe = 0;
 	g_global.check_pipe = 0;

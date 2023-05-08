@@ -110,8 +110,8 @@ char	*check_replace_prog(char *s, t_var *var)
 void	executeur(char **s, char **env, t_var *var)
 {
 	char	*cmdpath;
-	
-	var->cmdpath = find_cmd_path(var, s[0]);
+
+	cmdpath = find_cmd_path(var, s[0]);
 	if (var->nopath == 0)
 		cmdpath = 0;
 	if (var->last_pipe == 1)
@@ -129,8 +129,7 @@ void	executeur(char **s, char **env, t_var *var)
 		}
 		exit(1);
 	}
-	free(var->cmdpath);
-	execve(var->cmdpath, s, env);
+	execve(cmdpath, s, env);
 }
 
 void	executeur_final(char **s, char **env, t_var *var, t_lex *lex)

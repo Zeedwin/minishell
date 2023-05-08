@@ -1,52 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pid.c                                              :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 10:38:12 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/08 15:59:22 by jgirard-         ###   ########.fr       */
+/*   Created: 2022/03/22 15:29:14 by jgirard-          #+#    #+#             */
+/*   Updated: 2023/05/08 14:22:27 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
-void	creat_pid(t_lex *lex, t_var *var)
+void	ft_bzero(void *s, size_t n)
 {
-	int	i;
-	int	z;
+	unsigned char	*str;
+	size_t			i;
 
+	str = (unsigned char *)s;
 	i = 0;
-	z = 0;
-	while (i < ft_malloc(lex) - 1)
+	while (i < n)
 	{
-		if (lex->supatok[i] != TOKEN_WORD)
-			i++;
-		else
-		{
-			if (&lex->s[i][0] == NULL)
-				break;
-			if (find_cmd_path(var, lex->s[i][0]) == 0)
-				i++;
-			else
-			{
-				z++;
-				i++;
-			}
-		}
-	}
-	var->shell = malloc(sizeof(pid_t) * (z));
-}
-
-void	wait_pid(t_var *var, t_pipe *pip)
-{
-	int	i;
-
-	i = 0;
-	while (var->shell[i])
-	{
-		waitpid(var->shell[i], &pip->status, 0);
+		str[i] = 0;
 		i++;
 	}
 }
