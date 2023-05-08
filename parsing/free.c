@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:03:37 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/08 02:41:50 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/08 03:18:45 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,16 @@ void	free_1(int **s, t_lex *lex)
 void	free_final(t_lex *lex, t_pipe *pip, t_var *var)
 {
 	(void)pip;
-	//free_2(lex->s1);
+	if(lex->s1)
+		free_2(lex->s1);
 	//free(lex->stoken);
 	//free(lex->supatok);
 //	free_3(lex->s);
-	(void)lex;
 //	free(var->line);
 	//free(var->previous_line);
+	free(var->promt);
+	if(var->line)
+		free(var->line);
 	if (var->path)
 		free_2(var->path);
 }

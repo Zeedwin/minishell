@@ -98,17 +98,16 @@ char	*find_cmd_path(t_var *var, char *cmd)
 	char	*path;
 	char	*path0;
 
-	path0 = ft_strjoin(getcwd(buf, PATH_MAX), "/");
-	path = ft_strjoin(path0, cmd);
-	free(path0);
+	path0 = ft_strjoin_free(getcwd(buf, PATH_MAX), "/", 0);
+	path = ft_strjoin_free(path0, cmd, 1);
 	i = 0;
 	if (cmd[0] == '.' && cmd[1] == '.' && cmd[2] == '/')
 	{
+		free(path);
 		return (0);
 	}
 	if (access(path, F_OK | X_OK) == 0)
 	{
-		free(path);
 		return (path);
 	}
 	if (cmd[0] == '.' && cmd[1] == '/')
@@ -125,10 +124,12 @@ char	*find_cmd_path(t_var *var, char *cmd)
 	{
 		while (var->path[i] && check_path(var->path[i]) == 1)
 		{
-			cmd_path = ft_strjoin(var->path[i], cmd);
+			cmd_path = ft_strjoin_free(var->path[i], cmd, 0);
 			if (access(cmd_path, F_OK | X_OK) == 0)
+			{
+				free(path);
 				return (cmd_path);
-			//free(path);
+			}
 			free(cmd_path);
 			i++;
 		}
@@ -142,7 +143,6 @@ char	*find_cmd_path(t_var *var, char *cmd)
 			free(cmd_path);
 			i++;
 		}
-		//free(path);
 	}
 	free(cmd);
 	free(path);
