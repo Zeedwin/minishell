@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/08 16:25:04 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/08 19:33:12 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -486,11 +486,6 @@ void	process(char **env, t_var *var, int i)
 		var->line = readline(var->promt);
 	var->c = 0;
 	var->pidnum = 0;
-	if (!var->line)
-	{
-		printf("exit\n");
-		exit(0);
-	}
 	init_tab(&lex, var->line, var->cpyenv, var);
 	tokenizer(&lex);
 	lex.s = separate_tok(var, &lex, lex.s);
@@ -500,6 +495,12 @@ void	process(char **env, t_var *var, int i)
 	creat_pid(&lex, var);
 	if (parsing_syntax(&lex) == 1)
 		exe_s(&lex, var, &pip, env);
+	if (!var->line)
+	{
+		//free_final(&lex, &pip, var);
+		printf("exit\n");
+		exit(0);
+	}
 	if (lex.s1)
 	{
 		//free(lex.s1);
@@ -591,6 +592,7 @@ int	main(int ac, char **av, char **envp)
 	while (1)
 	{
 		process(g_global.cpyenv, &g_global, i);
+		//system("leaks minishell");
 		i++;
 	}
 }

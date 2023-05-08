@@ -98,12 +98,6 @@ char	*find_cmd_path(t_var *var, char *cmd)
 	char	*path;
 	char	*path0;
 
-	var->lacontedetagrandmere = 0;
-	if (!cmd)
-	{
-		var->lacontedetagrandmere = 1;
-		return (NULL);
-	}
 	path0 = ft_strjoin_free(getcwd(buf, PATH_MAX), "/", 0);
 	path = ft_strjoin_free(path0, cmd, 1);
 	i = 0;
@@ -152,6 +146,6 @@ char	*find_cmd_path(t_var *var, char *cmd)
 	}
 	free(cmd);
 	free(path);
-	free(cmd_path);
+	//free(cmd_path);
 	return (0);
 }

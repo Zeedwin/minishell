@@ -104,9 +104,13 @@ int	check_vide(char *s)
 
 char	*lexer2(char *s, t_lex *lex, int i)
 {
+	//char	*temp;
+
+	//temp = ft_substr(s, 0, i);
+	//free(lex->s1);
 	lex->s1[lex->x] = ft_substr(s, 0, i);
 	lex->x++;
-	s = ft_substr_free(s, i, ft_strlen(s));
+	s = ft_substr(s, i, ft_strlen(s));
 	//free(lex->s1);
 	return (s);
 }
@@ -156,7 +160,7 @@ int	lexer1(char *s, t_lex *lex)
 			{	
 				s = ft_substr_free(s, i, ft_strlen(s));
 				lexer1(s, lex);
-				free(s);
+				//free(s);
 				return (1);
 			}
 		}
@@ -227,7 +231,7 @@ char	*del_if_quote(char *s)
 
 	i = 0;
 	k = 0;
-	while (s[i] != '\0')
+	while (s && s[i] != '\0')
 	{
 		if (s[i] == '"')
 		{
@@ -251,7 +255,7 @@ char	*del_if_quote2(char *s)
 
 	i = 0;
 	k = 0;
-	while (s[i] != '\0')
+	while (s && s[i] != '\0')
 	{
 		if (s[i] == '\'')
 		{
@@ -272,7 +276,7 @@ char	*del_par_com(char *s)
 	int		i;
 
 	i = 0;
-	while (s[i] != '\0')
+	while (s && s[i] != '\0')
 	{
 		if (s[i] == '#')
 		{
@@ -289,7 +293,7 @@ char	*change_tab(char *s)
 	int	i;
 
 	i = 0;
-	while (s[i] != '\0')
+	while (s && s[i] != '\0')
 	{
 		if (s[i] == '"')
 		{
@@ -312,6 +316,8 @@ char	*change_tab(char *s)
 
 char	*space(char *s)
 {
+	if (!s)
+		return (NULL);
 	if (s[0] == '$')
 	{
 		s = ft_strjoin(" ", s);
@@ -322,6 +328,8 @@ char	*space(char *s)
 
 int point(char *s)
 {
+	if (!s)
+		return (2);
 	if (ft_strlen(s) == 2 && s[0] == '.' && s[1] == '.')
 		return (1);
 	if (ft_strlen(s) == 1 && s[0] == '.')
@@ -359,5 +367,5 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	lex->s1[count(s)] = NULL;
 	//printf("turururun\n");
 	free(s1);
-	//free(s);
+	free(s);
 }
