@@ -106,7 +106,7 @@ char	*lexer2(char *s, t_lex *lex, int i)
 {
 	lex->s1[lex->x] = ft_substr(s, 0, i);
 	lex->x++;
-	s = ft_substr_free(s, i, ft_strlen(s));
+	s = ft_substr(s, i, ft_strlen(s));
 	//free(lex->s1);
 	return (s);
 }
@@ -188,7 +188,7 @@ int	lexer1(char *s, t_lex *lex)
 		}
 		lex->rap++;
 		lexer1(s, lex);
-		free(s);
+		//free(s);
 		return (1);
 	}
 	free(s);
@@ -357,4 +357,5 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	lexer1(s, lex);
 	lex->s1[count(s)] = NULL;
 	free(s1);
+	free(s);
 }
