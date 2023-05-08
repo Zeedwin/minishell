@@ -106,7 +106,8 @@ char	*lexer2(char *s, t_lex *lex, int i)
 {
 	lex->s1[lex->x] = ft_substr(s, 0, i);
 	lex->x++;
-	s = ft_substr(s, i, ft_strlen(s));
+	s = ft_substr_free(s, i, ft_strlen(s));
+	//free(lex->s1);
 	return (s);
 }
 
@@ -190,6 +191,7 @@ int	lexer1(char *s, t_lex *lex)
 		free(s);
 		return (1);
 	}
+	free(s);
 	return (1);
 }
 
@@ -348,11 +350,11 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	lex->stoken = malloc((count(s) + 1) * sizeof(int));
 	lex->supatok = malloc((count(s) + 1) * sizeof(int));
 	lex->x = 0;
+	memset(lex->stoken, 0, (count(s) + 1) * sizeof(int));
 	lex->c = 0;
 	lex->rap = 0;
 	lex->y = count(s);
 	lexer1(s, lex);
 	lex->s1[count(s)] = NULL;
-	free(s);
 	free(s1);
 }

@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/05 14:18:50 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/08 02:15:33 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	historyset(t_var *var, t_lex *lex)
 
 	i = 0;
 	if (var->previous_line == NULL)
-		var->previous_line = ft_strdup(var->line);
+		var->previous_line = (var->line);
 	if (var->check_pipe == 1)
 	{
 		while (var->previous_line[i] != '\0')
@@ -143,6 +143,7 @@ void	historyset(t_var *var, t_lex *lex)
 		add_history(var->line);
 		var->previous_line = ft_strdup(var->line);
 	}
+	free(var->previous_line);
 }
 
 int	count_pipe(int *supatok, t_lex *lex)
@@ -499,10 +500,6 @@ void	process(char **env, t_var *var, int i)
 	creat_pid(&lex, var);
 	if (parsing_syntax(&lex) == 1)
 		exe_s(&lex, var, &pip, env);
-	if (!var->line)
-	{
-		free_final(&lex, &pip, var);
-	}
 }
 
 void	set_termios(int in_cmd)

@@ -29,3 +29,22 @@ char	*ft_strdup(const char *src)
 	p[i] = '\0';
 	return (p);
 }
+
+char	*ft_strdup_free(char *src)
+{
+	int		i;
+	char	*p;
+
+	i = 0;
+	p = malloc((ft_strlen(src) + 1) * sizeof(char));
+	if (!p)
+		return (0);
+	while (src[i])
+	{
+		p[i] = src[i];
+		i++;
+	}
+	p[i] = '\0';
+	free(src);
+	return (p);
+}

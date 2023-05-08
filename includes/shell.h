@@ -160,6 +160,9 @@ int		execve_builtin(char **s, char **env, t_var *var, t_lex *lex);
 int		ft_isdigit(int c);
 int		ft_num(char *str);
 
+char	*ft_substr_free(char *s, unsigned int start, size_t len);
+char	*ft_strdup_free(char *src);
+char	*ft_strjoin_free(char *s1, char *s2, int freeable);
 size_t	ft_strlcpy(char *restrict dst, const char *restrict src, size_t dstsize);
 char	***separate_tok(t_var *var, t_lex *lex, char ***s);
 void	tokenizer(t_lex *lex);

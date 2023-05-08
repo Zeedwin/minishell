@@ -38,8 +38,8 @@ void	currpath(t_var *var)
 	promtf = ft_strcpy(promtf, promt1);
 	promtf[i] = '>';
 	promtf[i + 1] = '\0';
-	promtf = ft_strjoin("\033[1;36m➜\033[1;32m", promtf);
-	promtf = ft_strjoin(promtf, "\033[0m ");
+	promtf = ft_strjoin_free("\033[1;36m➜\033[1;32m", promtf, 2);
+	promtf = ft_strjoin_free(promtf, "\033[0m ", 1);
 	var->promt = ft_realloc(promtf, i);
 	//free(promtf);
 }
