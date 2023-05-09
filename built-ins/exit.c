@@ -34,7 +34,7 @@ void	ft_exit(t_var *var, t_lex *lex)
 	else if (exitcd > 255)
 	{
 		g_global.exitcode = exitcd % 255;
-		exit(g_global.exitcode);
+		exit(exitcd);
 	}
 	exit(0);
 }

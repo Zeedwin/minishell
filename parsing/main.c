@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/09 15:56:51 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/09 18:47:27 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,7 @@ int	delimiteur(t_lex *lex, t_var *var)
 	{
 		num_read = 0;
 		var->is_in_heredoc = 2;
+		g_global.lacontedetagrandmere += 1;
 		fd = open("tmp/tmp.txt", O_CREAT | O_RDWR | O_TRUNC, 0777);
 		while (1)
 		{
@@ -478,7 +479,7 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		var->z = 0;
 	}
 	var->i = 0;
-	if (lex->s[var->z] == NULL && var->lacontedetagrandmere == 0)
+	if (lex->s[var->z] == NULL)
 	{
 		free_final(lex, pip, var);
 		return (0);
@@ -506,7 +507,15 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 						close(var->fd);
 					wait_pid(var, pip);
 					g_global.is_in_cat = 0;
-					var->last_err_com = WEXITSTATUS(pip->status);
+					if (g_global.exitcode == 130)
+						var->last_err_com = 130;
+					if (g_global.lacontedetagrandmere > 0)
+					{
+						var->last_err_com = 130;
+						g_global.lacontedetagrandmere = 0;
+					}
+					else if (g_global.exitcode == 0)
+						var->last_err_com = WEXITSTATUS(pip->status);
 					free_final(lex, pip, var);
 					var->last_pipe = 0;
 					return (0);
@@ -585,7 +594,6 @@ void	process(char **env, t_var *var, int i)
 		exe_s(&lex, var, &pip, env);
 	if (!var->line)
 	{
-		var->lacontedetagrandmere = 1;
 		//free(lex.s);
 		printf("exit\n");
 		exit(0);
@@ -629,16 +637,24 @@ void	init_termios(void)
 void	ctrlc(int sig)
 {
 	(void)sig;
+	
+	if(g_global.is_in_heredoc != 0 && g_global.lacontedetagrandmere == 0)
+		g_global.lacontedetagrandmere += 1;
 	if (g_global.is_in_cat == 0 && g_global.is_in_heredoc == 0)
 	{
-		g_global.exitcode = 130;
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	else if (g_global.is_in_heredoc == 2)
-		exit(g_global.exitcode);
+	{
+		printf("dsdasd\n");
+	//	g_global.lacontedetagrandmere += 1;
+		exit(130);
+	}
+	else if (g_global.is_in_cat != 0)
+		g_global.lacontedetagrandmere += 1;
 }
 
 void	ctrlbs(int sig)
@@ -672,7 +688,6 @@ int	main(int ac, char **av, char **envp)
 		printf("\033[1;91mError: No environment detected\n");
 		return (1);
 	}
-	//printf("");
 	g_global.exitcode = 0;
 	g_global.last_err_com = 0;
 	g_global.last_pipe = 0;
@@ -682,7 +697,9 @@ int	main(int ac, char **av, char **envp)
 	init_termios();
 	while (1)
 	{
+		//printf("lacontedetagrandmere = %d\n", g_global.lacontedetagrandmere);
 		process(g_global.cpyenv, &g_global, i);
+		//printf("%d\n", g_global.last_err_com);
 		//system("leaks minishell");
 		i++;
 	}
