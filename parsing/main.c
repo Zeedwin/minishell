@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/09 15:14:02 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/09 15:56:51 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -631,13 +631,14 @@ void	ctrlc(int sig)
 	(void)sig;
 	if (g_global.is_in_cat == 0 && g_global.is_in_heredoc == 0)
 	{
+		g_global.exitcode = 130;
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	else if (g_global.is_in_heredoc == 2)
-		exit(1);
+		exit(g_global.exitcode);
 }
 
 void	ctrlbs(int sig)
