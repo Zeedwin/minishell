@@ -10,7 +10,7 @@
 NAME        := minishell
 CC        := gcc
 FLAGS    := -Wall -Wextra -Werror -g -I/Users/$(USER)/homebrew/opt/readline/include
-LDFLAGS :=  -lreadline -L/Users/$(USER)/homebrew/opt/readline/lib -lreadline -lhistory  -g -fsanitize=address
+LDFLAGS :=  -lreadline -L/Users/$(USER)/homebrew/opt/readline/lib -lreadline -lhistory  -g #-fsanitize=address
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################

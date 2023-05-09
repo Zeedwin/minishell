@@ -1,0 +1,13 @@
+Makefile
+a
+a.out
+a.out.dSYM
+a.txt
+built-ins
+includes
+m
+minishell
+parsing
+script.sh
+t.txt
+tmp

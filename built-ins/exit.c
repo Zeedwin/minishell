@@ -26,10 +26,10 @@ void	ft_exit(t_var *var, t_lex *lex)
 	}
 	if (exitcd != 0 && exitcd <= 255)
 	{
-		var->exitcode = exitcd;
-		printf("exitcode = %d\n", var->exitcode);
+		g_global.exitcode = exitcd;
+		printf("exitcode = %d\n", g_global.exitcode);
 		fflush(stdout);
-		exit(var->exitcode);
+		exit(g_global.exitcode);
 	}
 	exit(0);
 }

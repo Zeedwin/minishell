@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/09 11:04:22 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/09 14:51:39 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -584,6 +584,7 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	}
 	//printf("");
+	g_global.exitcode = 0;
 	g_global.last_err_com = 0;
 	g_global.last_pipe = 0;
 	g_global.check_pipe = 0;
