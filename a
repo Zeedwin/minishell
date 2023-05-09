@@ -1,10 +1,1 @@
-total 136
--rw-r--r--   1 hdelmann  2022_nice   3150 Apr 27 12:32 Makefile
--rwxr-xr-x   1 hdelmann  2022_nice      0 Apr 27 13:18 a
-drwxr-xr-x   3 hdelmann  2022_nice    102 Apr 27 12:32 a.out.dSYM
-drwxr-xr-x  14 hdelmann  2022_nice    476 Apr 27 12:33 built-ins
-drwxr-xr-x   4 hdelmann  2022_nice    136 Apr 27 12:32 includes
--rwxr-xr-x   1 hdelmann  2022_nice  58884 Apr 27 13:15 minishell
-drwxr-xr-x  53 hdelmann  2022_nice   1802 Apr 27 13:15 parsing
--rwxr-xr-x   1 hdelmann  2022_nice    653 Apr 27 12:32 script.sh
-drwxr-xr-x   3 hdelmann  2022_nice    102 Apr 27 12:32 tmp
+/Users/hdelmann/42/minishell
