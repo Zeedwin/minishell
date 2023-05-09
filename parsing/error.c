@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 09:52:39 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/04/27 09:57:33 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/09 15:43:50 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ int	parsing_syntax(t_lex *lex)
 			|| lex->supatok[i] == TOKEN_REDIR_S
 			|| lex->supatok[i] == TOKEN_REDIR_S2)
 		{
+			if(i + 1 >= ft_malloc(lex) - 2)
+			{
+				printf("bash: syntax error near unexpected token 'newline'\n");
+				return (0);
+			}
 			if (lex->s[i + 1] == NULL && lex->supatok[i + 1] != TOKEN_WORD)
 			{
 				printf("bash: syntax error near unexpected token 'newline'\n");
