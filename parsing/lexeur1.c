@@ -160,7 +160,7 @@ int	lexer1(char *s, t_lex *lex)
 			{	
 				s = ft_substr_free(s, i, ft_strlen(s));
 				lexer1(s, lex);
-				//free(s);
+				free(s);
 				return (1);
 			}
 		}

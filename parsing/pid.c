@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:38:12 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/08 19:41:23 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/09 10:37:33 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	creat_pid(t_lex *lex, t_var *var)
 		else
 		{
 			if (&lex->s[i][0] == NULL)
-				break;
+				break ;
 			if (find_cmd_path(var, lex->s[i][0]) == 0)
 				i++;
 			else

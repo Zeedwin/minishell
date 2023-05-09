@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/08 19:33:12 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/09 11:04:22 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -391,7 +391,7 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		var->z = 0;
 	}
 	var->i = 0;
-	if (lex->s[var->z] == NULL)
+	if (lex->s[var->z] == NULL && var->lacontedetagrandmere == 0)
 	{
 		free_final(lex, pip, var);
 		return (0);
@@ -497,7 +497,8 @@ void	process(char **env, t_var *var, int i)
 		exe_s(&lex, var, &pip, env);
 	if (!var->line)
 	{
-		//free_final(&lex, &pip, var);
+		var->lacontedetagrandmere = 1;
+		//free(lex.s);
 		printf("exit\n");
 		exit(0);
 	}
