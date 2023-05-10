@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/08 04:06:08 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/04/27 22:53:10 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:38:26 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,10 @@ int	ft_num(char *str)
 	int	i;
 
 	i = 0;
+	if (str[0] == '-')
+		i++;
 	while (str[i])
 	{
-	//	printf("str = %c\n", str[i]);
 		if (ft_isdigit(str[i]) == 0 && str[i])
 		{
 			return (0);

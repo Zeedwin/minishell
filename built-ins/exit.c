@@ -16,25 +16,27 @@ void	ft_exit(t_var *var, t_lex *lex)
 {
 	int	exitcd;
 
-	fflush(stdout);
 	exitcd = 0;
 	if (lex->s[var->z][1] && ft_num(lex->s[var->z][1]) == 1)
-	{
 		exitcd = atoi(lex->s[var->z][1]);
-		printf("sex\n");
-		printf("%d\n", exitcd);
+	else if (lex->s[var->z][1] && ft_num(lex->s[var->z][1]) == 0)
+	{
+		printf("exit\n");
+		printf("bash : exit: %s: numeric argument required\n",
+			lex->s[var->z][1]);
+		exit(2);
 	}
 	if (exitcd != 0 && exitcd <= 255)
 	{
-		g_global.exitcode = exitcd;
-		printf("exitcode = %d\n", g_global.exitcode);
-		fflush(stdout);
-		exit(g_global.exitcode);
+		printf("exit\n");
+		exit(exitcd);
 	}
 	else if (exitcd > 255)
 	{
 		g_global.exitcode = exitcd % 255;
+		printf("exit\n");
 		exit(exitcd);
 	}
+	printf("exit\n");
 	exit(0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/10 16:49:10 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/10 17:07:58 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -567,13 +567,12 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 	return (0);
 }
 
-void	process(char **env, t_var *var, int i)
+void	process(char **env, t_var *var)
 {
 	t_lex	lex;
 	t_pipe	pip;
 	char *lineread;
 
-	(void)i;
 	var->check_after_redir = 0;
 	var->nopath = 0;
 	var->line = NULL;
@@ -695,9 +694,6 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	g_global.cpyenv = ft_strcpy_env(g_global.cpyenv, envp);
-	int i;
-
-	i = 0;
 	if (g_global.cpyenv[0] == NULL)
 	{
 		printf("\033[1;91mError: No environment detected\n");
@@ -713,10 +709,6 @@ int	main(int ac, char **av, char **envp)
 	init_termios();
 	while (1)
 	{
-		//printf("lacontedetagrandmere = %d\n", g_global.lacontedetagrandmere);
-		process(g_global.cpyenv, &g_global, i);
-		//printf("%d\n", g_global.last_err_com);
-		//system("leaks minishell");
-		i++;
+		process(g_global.cpyenv, &g_global);
 	}
 }
