@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/10 14:48:17 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/10 16:49:10 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -571,11 +571,14 @@ void	process(char **env, t_var *var, int i)
 {
 	t_lex	lex;
 	t_pipe	pip;
+	char *lineread;
 
 	(void)i;
 	var->check_after_redir = 0;
 	var->nopath = 0;
 	var->line = NULL;
+	lineread = NULL;
+	var->last_pipe = 0;
 	if (var->last_pipe != 1)
 		var->fd = 0;
 	if (g_global.lacontedetagrandmere > 0)
@@ -587,9 +590,17 @@ void	process(char **env, t_var *var, int i)
 	currpath(var);
 	find_path(g_global.cpyenv, var);
 	if (var->last_pipe == 1)
-		var->line = readline(">");
+		lineread = readline(">");
 	else
-		var->line = readline(var->promt);
+		lineread = readline(var->promt);
+	if (!lineread)
+	{
+//		free(lex.s);
+		printf("exit\n");
+		exit(0);
+	}
+	var->line = malloc(sizeof(char) * (ft_strlen(lineread) + 1));
+	var->line = ft_strcpy(var->line, lineread);
 	var->c = 0;
 	var->pidnum = 0;
 	init_tab(&lex, var->line, var->cpyenv, var);
@@ -601,17 +612,11 @@ void	process(char **env, t_var *var, int i)
 	creat_pid(&lex, var);
 	if (parsing_syntax(&lex) == 1)
 		exe_s(&lex, var, &pip, env);
-	if (!var->line)
-	{
-		//free(lex.s);
-		printf("exit\n");
-		exit(0);
-	}
 	if (lex.s1)
 	{
 		//free(lex.s1);
-//		free_2(lex.s1);
-	//	lex.s1 = NULL;
+		free_2(lex.s1);
+		lex.s1 = NULL;
 	}
 }
 

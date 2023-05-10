@@ -110,7 +110,7 @@ char	*lexer2(char *s, t_lex *lex, int i)
 	//free(lex->s1);
 	lex->s1[lex->x] = ft_substr(s, 0, i);
 	lex->x++;
-	s = ft_substr(s, i, ft_strlen(s));
+	s = ft_substr_free(s, i, ft_strlen(s));
 	//free(lex->s1);
 	return (s);
 }
@@ -160,7 +160,7 @@ int	lexer1(char *s, t_lex *lex)
 			{	
 				s = ft_substr(s, i, ft_strlen(s));
 				lexer1(s, lex);
-				free(s);
+				//free(s);
 				return (1);
 			}
 		}
@@ -173,10 +173,10 @@ int	lexer1(char *s, t_lex *lex)
 					break ;
 				i++;
 			}
-			i++;
+			i++;	
 			lex->s1[lex->x] = ft_substr(s, 0, i);
 			lex->x++;
-			s = ft_substr(s, i, ft_strlen(s));
+			s = ft_substr_free(s, i, ft_strlen(s));
 		}
 		else if (s[i] == '|' || (s[i] == '<' && s[i + 1] != '<')
 			|| (s[i] == '>' && s[i + 1] != '>'))
@@ -184,7 +184,7 @@ int	lexer1(char *s, t_lex *lex)
 			i++;
 			lex->s1[lex->x] = ft_substr(s, 0, i);
 			lex->x++;
-			s = ft_substr(s, i, ft_strlen(s));
+			s = ft_substr_free(s, i, ft_strlen(s));
 		}
 		else if (s[i] == '\'')
 		{
@@ -196,27 +196,29 @@ int	lexer1(char *s, t_lex *lex)
 				i++;
 			}
 			i++;
+			free(lex->s1[lex->x]);
 			lex->s1[lex->x] = ft_substr(s, 0, i);
 			lex->x++;
-			s = ft_substr(s, i, ft_strlen(s));
+			s = ft_substr_free(s, i, ft_strlen(s));		
 		}
 		else if ((s[i] == '<' && s[i + 1] == '<')
 			|| (s[i] == '>' && s[i + 1] == '>'))
 		{
 			i = i + 2;
+			free(lex->s1[lex->x]);
 			lex->s1[lex->x] = ft_substr(s, 0, i);
 			lex->x++;
-			s = ft_substr(s, i, ft_strlen(s));
+			s = ft_substr_free(s, i, ft_strlen(s));
 		}
 		else
 		{
 			while (s[i] != '\0' && s[i] != ' ' && s[i] != '"'
-			&& s[i] != '\'' && s[i] != '|' && s[i] != '>' && s[i] != '<' )
+				&& s[i] != '\'' && s[i] != '|' && s[i] != '>' && s[i] != '<' )
 				i++;
-			free(lex->s1);
+			free(lex->s1[lex->x]);
 			lex->s1[lex->x] = ft_substr(s, 0, i);
 			lex->x++;
-			s = ft_substr(s, i, ft_strlen(s));
+			s = ft_substr_free(s, i, ft_strlen(s));
 		}
 		lex->rap++;
 		lexer1(s, lex);
@@ -367,6 +369,7 @@ int point(char *s)
 void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 {
 	char	*s1;
+	char *s2;
 
 	s1 = ft_calloc(1, sizeof(char));
 	s1[0] = '\0';
@@ -390,7 +393,9 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	lex->c = 0;
 	lex->rap = 0;
 	lex->y = count(s);
-	lexer1(s, lex);
+	s2 = malloc(sizeof(char) * (ft_strlen(s) + 1));
+	s2 = ft_strcpy(s2, s);
+	lexer1(s2, lex);
 	lex->s1[count(s)] = NULL;
 	//printf("turururun\n");
 	free(s1);
