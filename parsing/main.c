@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/10 11:37:12 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/10 11:59:16 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -426,7 +426,7 @@ int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 		dup2(fdtmp, STDOUT_FILENO);
 		var->z = var->z + plus + 1 + var->i;
 	}
-	else if (var->z + plus > 0 && did_fail == 0)
+	else if (var->z > 0 && did_fail == 0)
 	{	
 		g_global.is_in_cat = 1;
 		var->shell[var->pidnum] = fork();
@@ -487,7 +487,7 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 	}
 	while (var->z < ft_malloc(lex) - 1 - var->check_after_redir)
 	{
-		if (lex->supatok[var->z] == TOKEN_WORD)
+		if (lex->supatok[var->z] == TOKEN_WORD && lex->s[var->z] != NULL)
 		{
 			if (lex->s[var->z + 1] == NULL)
 			{
@@ -547,7 +547,9 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		else if (lex->supatok[var->z] == TOKEN_PIPE)
 		{
 			if (lex->s[var->z + 1] == NULL)
+			{
 				var->last_pipe = 1;
+			}
 			minipipe(pip, lex, var);
 		}
 		else if (lex->supatok[var->z] == TOKEN_REDIR_S

@@ -78,7 +78,6 @@ char	***separate_tok(t_var *var, t_lex *lex, char ***sf)
 	i = 0;
 	k = 0;
 	sf = (char ***)malloc(sizeof(char **) * ft_malloc(lex));
-	printf("malloc de %d\n", ft_malloc(lex));
 	while (lex->s1[i])
 	{
 		if (lex->stoken[i] == TOKEN_PIPE || lex->stoken[i] == TOKEN_REDIR_S)
