@@ -166,30 +166,57 @@ int	lexer1(char *s, t_lex *lex)
 		}
 		if (s[i] == '"' )
 		{
-			i = lexer3(i, s, 0);
-			s = lexer2(s, lex, i);
+			i++;
+			while (1)
+			{
+				if (s[i] == '"')
+					break ;
+				i++;
+			}
+			i++;
+			lex->s1[lex->x] = ft_substr(s, 0, i);
+			lex->x++;
+			s = ft_substr(s, i, ft_strlen(s));
 		}
 		else if (s[i] == '|' || (s[i] == '<' && s[i + 1] != '<')
 			|| (s[i] == '>' && s[i + 1] != '>'))
 		{
 			i++;
-			s = lexer2(s, lex, i);
+			lex->s1[lex->x] = ft_substr(s, 0, i);
+			lex->x++;
+			s = ft_substr(s, i, ft_strlen(s));
 		}
 		else if (s[i] == '\'')
 		{
-			i = lexer3(i, s, 2);
-			s = lexer2(s, lex, i);
+			i++;
+			while (1)
+			{
+				if (s[i] == '\'')
+					break ;
+				i++;
+			}
+			i++;
+			lex->s1[lex->x] = ft_substr(s, 0, i);
+			lex->x++;
+			s = ft_substr(s, i, ft_strlen(s));
 		}
 		else if ((s[i] == '<' && s[i + 1] == '<')
 			|| (s[i] == '>' && s[i + 1] == '>'))
 		{
 			i = i + 2;
-			s = lexer2(s, lex, i);
+			lex->s1[lex->x] = ft_substr(s, 0, i);
+			lex->x++;
+			s = ft_substr(s, i, ft_strlen(s));
 		}
 		else
 		{
-			i = lexer3(i, s, 1);
-			s = lexer2(s, lex, i);
+			while (s[i] != '\0' && s[i] != ' ' && s[i] != '"'
+			&& s[i] != '\'' && s[i] != '|' && s[i] != '>' && s[i] != '<' )
+				i++;
+			free(lex->s1);
+			lex->s1[lex->x] = ft_substr(s, 0, i);
+			lex->x++;
+			s = ft_substr(s, i, ft_strlen(s));
 		}
 		lex->rap++;
 		lexer1(s, lex);

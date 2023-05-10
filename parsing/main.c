@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/10 11:59:16 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/10 14:48:17 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -610,8 +610,8 @@ void	process(char **env, t_var *var, int i)
 	if (lex.s1)
 	{
 		//free(lex.s1);
-		free_2(lex.s1);
-		lex.s1 = NULL;
+//		free_2(lex.s1);
+	//	lex.s1 = NULL;
 	}
 }
 
