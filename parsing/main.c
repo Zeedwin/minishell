@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/09 18:47:27 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/10 10:32:33 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -363,9 +363,7 @@ int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 	fd_e = -2;
 	fdtmp = dup(0);
 	if ((lex->supatok[var->z + var->i] == TOKEN_REDIR_S
-		|| lex->supatok[var->z + var->i] == TOKEN_REDIR_E
-		|| lex->supatok[var->z + var->i] == TOKEN_REDIR_S2
-		|| lex->supatok[var->z + var->i] == TOKEN_REDIR_E2)
+		|| lex->supatok[var->z + var->i] == TOKEN_REDIR_S2)
 		&& (var->z == 0 || lex->supatok[var->z - 1] == TOKEN_PIPE))
 	{ 
 		lex->s = cpy3truc(var, lex, lex->s, var->z);
