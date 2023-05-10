@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/10 10:32:33 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/10 11:37:12 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,9 @@ int	delimiteur(t_lex *lex, t_var *var)
 		fd = open("tmp/tmp.txt", O_CREAT | O_RDWR | O_TRUNC, 0777);
 		while (1)
 		{
+			//rl_on_new_line();
+			//rl_replace_line(">", 0);
+			//rl_redisplay();
 			num_read = read(STDIN_FILENO, buffer, BUF_SIZE);
 			s = del_backn(buffer);
 			if (ft_strcmp(s, lex->s[var->z + var->i + 1][0]) == 0)
@@ -573,6 +576,12 @@ void	process(char **env, t_var *var, int i)
 	var->line = NULL;
 	if (var->last_pipe != 1)
 		var->fd = 0;
+	if (g_global.lacontedetagrandmere > 0)
+	{
+		var->last_err_com = 130;
+		g_global.lacontedetagrandmere = 0;
+	}
+	g_global.is_in_heredoc = 0;
 	currpath(var);
 	find_path(g_global.cpyenv, var);
 	if (var->last_pipe == 1)
@@ -648,6 +657,7 @@ void	ctrlc(int sig)
 	else if (g_global.is_in_heredoc == 2)
 	{
 		printf("dsdasd\n");
+		g_global.exitcode = 130;
 	//	g_global.lacontedetagrandmere += 1;
 		exit(130);
 	}
@@ -689,6 +699,7 @@ int	main(int ac, char **av, char **envp)
 	g_global.exitcode = 0;
 	g_global.last_err_com = 0;
 	g_global.last_pipe = 0;
+	g_global.is_in_heredoc = 0;
 	g_global.check_pipe = 0;
 	g_global.previous_line = NULL;
 	init_sign();

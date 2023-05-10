@@ -77,7 +77,7 @@ char	***separate_tok(t_var *var, t_lex *lex, char ***sf)
 	j = 0;
 	i = 0;
 	k = 0;
-	sf = (char ***)malloc(sizeof(char **) * ft_malloc(lex) - 2);
+	sf = (char ***)malloc(sizeof(char **) * ft_malloc(lex));
 	printf("malloc de %d\n", ft_malloc(lex));
 	while (lex->s1[i])
 	{
