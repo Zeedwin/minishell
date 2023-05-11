@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/10 17:07:58 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/10 10:32:33 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,9 +183,6 @@ int	delimiteur(t_lex *lex, t_var *var)
 		fd = open("tmp/tmp.txt", O_CREAT | O_RDWR | O_TRUNC, 0777);
 		while (1)
 		{
-			//rl_on_new_line();
-			//rl_replace_line(">", 0);
-			//rl_redisplay();
 			num_read = read(STDIN_FILENO, buffer, BUF_SIZE);
 			s = del_backn(buffer);
 			if (ft_strcmp(s, lex->s[var->z + var->i + 1][0]) == 0)
@@ -426,7 +423,7 @@ int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 		dup2(fdtmp, STDOUT_FILENO);
 		var->z = var->z + plus + 1 + var->i;
 	}
-	else if (var->z > 0 && did_fail == 0)
+	else if (var->z + plus > 0 && did_fail == 0)
 	{	
 		g_global.is_in_cat = 1;
 		var->shell[var->pidnum] = fork();
@@ -487,7 +484,7 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 	}
 	while (var->z < ft_malloc(lex) - 1 - var->check_after_redir)
 	{
-		if (lex->supatok[var->z] == TOKEN_WORD && lex->s[var->z] != NULL)
+		if (lex->supatok[var->z] == TOKEN_WORD)
 		{
 			if (lex->s[var->z + 1] == NULL)
 			{
@@ -547,9 +544,7 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		else if (lex->supatok[var->z] == TOKEN_PIPE)
 		{
 			if (lex->s[var->z + 1] == NULL)
-			{
 				var->last_pipe = 1;
-			}
 			minipipe(pip, lex, var);
 		}
 		else if (lex->supatok[var->z] == TOKEN_REDIR_S
@@ -567,39 +562,23 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 	return (0);
 }
 
-void	process(char **env, t_var *var)
+void	process(char **env, t_var *var, int i)
 {
 	t_lex	lex;
 	t_pipe	pip;
-	char *lineread;
 
+	(void)i;
 	var->check_after_redir = 0;
 	var->nopath = 0;
 	var->line = NULL;
-	lineread = NULL;
-	var->last_pipe = 0;
 	if (var->last_pipe != 1)
 		var->fd = 0;
-	if (g_global.lacontedetagrandmere > 0)
-	{
-		var->last_err_com = 130;
-		g_global.lacontedetagrandmere = 0;
-	}
-	g_global.is_in_heredoc = 0;
 	currpath(var);
 	find_path(g_global.cpyenv, var);
 	if (var->last_pipe == 1)
-		lineread = readline(">");
+		var->line = readline(">");
 	else
-		lineread = readline(var->promt);
-	if (!lineread)
-	{
-//		free(lex.s);
-		printf("exit\n");
-		exit(0);
-	}
-	var->line = malloc(sizeof(char) * (ft_strlen(lineread) + 1));
-	var->line = ft_strcpy(var->line, lineread);
+		var->line = readline(var->promt);
 	var->c = 0;
 	var->pidnum = 0;
 	init_tab(&lex, var->line, var->cpyenv, var);
@@ -611,6 +590,12 @@ void	process(char **env, t_var *var)
 	creat_pid(&lex, var);
 	if (parsing_syntax(&lex) == 1)
 		exe_s(&lex, var, &pip, env);
+	if (!var->line)
+	{
+		//free(lex.s);
+		printf("exit\n");
+		exit(0);
+	}
 	if (lex.s1)
 	{
 		//free(lex.s1);
@@ -663,7 +648,6 @@ void	ctrlc(int sig)
 	else if (g_global.is_in_heredoc == 2)
 	{
 		printf("dsdasd\n");
-		g_global.exitcode = 130;
 	//	g_global.lacontedetagrandmere += 1;
 		exit(130);
 	}
@@ -694,6 +678,9 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	g_global.cpyenv = ft_strcpy_env(g_global.cpyenv, envp);
+	int i;
+
+	i = 0;
 	if (g_global.cpyenv[0] == NULL)
 	{
 		printf("\033[1;91mError: No environment detected\n");
@@ -702,13 +689,16 @@ int	main(int ac, char **av, char **envp)
 	g_global.exitcode = 0;
 	g_global.last_err_com = 0;
 	g_global.last_pipe = 0;
-	g_global.is_in_heredoc = 0;
 	g_global.check_pipe = 0;
 	g_global.previous_line = NULL;
 	init_sign();
 	init_termios();
 	while (1)
 	{
-		process(g_global.cpyenv, &g_global);
+		//printf("lacontedetagrandmere = %d\n", g_global.lacontedetagrandmere);
+		process(g_global.cpyenv, &g_global, i);
+		//printf("%d\n", g_global.last_err_com);
+		//system("leaks minishell");
+		i++;
 	}
 }

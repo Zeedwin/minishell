@@ -128,7 +128,7 @@ typedef struct s_lex
 char	*replace_dol_(char *s, int i);
 char	*ft_realloc(char *map, int i);
 void	executeur_final(char **s, char **env, t_var *var, t_lex *lex);
-void	process(char **env, t_var *var);
+void	process(char **env, t_var *var, int i);
 int		ft_malloc(t_lex *lex);
 int		minipipe(t_pipe	*pip, t_lex *lex, t_var *var);
 void	init_tab(t_lex *lex, char *s, char **envp, t_var *var);

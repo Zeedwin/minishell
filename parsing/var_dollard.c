@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_dollard.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:43:50 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/10 14:30:34 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/08 19:31:42 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,6 @@ char	*appl_chang(char *so, char *sc, int k, int o)
 	{
 		while (so[i] != '$')
 		{
-			if (so[i] == '\'')
-			{
-				i++;
-				while (so[i] != '\'')
-					i++;
-				i++;
-			}
-			if(so[i] == '<' && so[i + 1] == '<')
-			{
-				i += 2;
-				while (so[i] == ' ' && so[i] != '\0')
-					i++;
-				while (so[i] != ' ' && so[i] != '|' && so[i] != '>' && so[i] != '<' && so[i] != '\0')
-					i++;
-			}
 			sf[i] = so[i];
 			i++;
 		}
@@ -95,6 +80,7 @@ char	*change_value(char *s, char **env)
 			while (g_global.cpyenv[i][o] != '\0')
 			{
 				s2[j] = env[i][o];
+				fflush(stdout);
 				j++;
 				o++;
 			}
@@ -117,9 +103,7 @@ char	*replace_dol(char *s, char **env)
 	j = 0;
 	o = 0;
 	while (s[i] != '$' && s[i] != '\0')
-	{
 		i++;
-	}
 	sf = malloc(sizeof(char) * (i + 1));
 	i = 0;
 	while (s[i] != '$' && s[i] != '\0')
@@ -174,14 +158,6 @@ char	*dollars_ch(char *s, char **env)
 				i++;
 			i++;
 		}
-		if(s[i] == '<' && s[i + 1] == '<')
-		{
-			i += 2;
-			while (s[i] == ' ' && s[i] != '\0')
-				i++;
-			while (s[i] != ' ' && s[i] != '|' && s[i] != '>' && s[i] != '<' && s[i] != '\0')
-				i++;
-		}
 		if (s[i] == '$')
 		{
 			o = 0;
@@ -225,36 +201,6 @@ char	*replace_dol_(char *s, int i)
 	sf = malloc(sizeof(char) * ft_strlen(s) + 1);
 	while (s && s[j] != '\0')
 	{
-		if (s[j] == '\'')
-		{
-			sf[o] = s[j];
-			j++;
-			o++;
-			while (s[j] != '\'')
-			{
-				sf[o] = s[j];
-				j++;
-				o++;
-			}
-			sf[o] = s[j];
-			j++;
-			o++;
-		}
-		if(s[j] == '<' && s[j + 1] == '<')
-		{
-			while ((s[j] == ' ' || s[j] == '<') && s[j] != '\0')
-			{
-				sf[o] = s[j];
-				j++;
-				o++;
-			}
-			while (s[j] != ' ' && s[j] != '|' && s[j] != '>' && s[j] != '<' && s[j] != '\0')
-			{
-				sf[o] = s[j];
-				j++;
-				o++;
-			}
-		}
 		if (s[j] == '$' && s[j + 1] == '?')
 		{
 			sf = realloc(sf, ft_strlen(s) + ft_strlen(res));
@@ -264,7 +210,6 @@ char	*replace_dol_(char *s, int i)
 				o++;
 				k++;
 			}
-			k = 0;
 			j += 2;
 		}
 		else

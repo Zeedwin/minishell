@@ -32,7 +32,6 @@ void	currpath(t_var *var)
 		}
 		exit(EXIT_FAILURE);
 	}
-	//var->oldpwd = ft_strjoin("", promt1);
 	var->promt = malloc((ft_strlen(promt1) + 2) * sizeof(char));
 	promtf = var->promt;
 	i = ft_strlen(promt1);
