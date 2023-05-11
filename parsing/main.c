@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/10 17:07:58 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/11 11:55:58 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -426,7 +426,7 @@ int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 		dup2(fdtmp, STDOUT_FILENO);
 		var->z = var->z + plus + 1 + var->i;
 	}
-	else if (var->z > 0 && did_fail == 0)
+	else if (var->z >= 0 && did_fail == 0)
 	{	
 		g_global.is_in_cat = 1;
 		var->shell[var->pidnum] = fork();
