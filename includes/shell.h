@@ -125,10 +125,11 @@ typedef struct s_lex
 	int		rap;
 }			t_lex;
 
+void	rl_replace_line(const char *text, int clear_undo);
 char	*replace_dol_(char *s, int i);
 char	*ft_realloc(char *map, int i);
 void	executeur_final(char **s, char **env, t_var *var, t_lex *lex);
-void	process(char **env, t_var *var, int i);
+void	process(char **env, t_var *var);
 int		ft_malloc(t_lex *lex);
 int		minipipe(t_pipe	*pip, t_lex *lex, t_var *var);
 void	init_tab(t_lex *lex, char *s, char **envp, t_var *var);
