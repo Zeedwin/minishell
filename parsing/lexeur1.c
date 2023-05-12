@@ -151,14 +151,15 @@ int	lexer1(char *s, t_lex *lex)
 	int	i;
 
 	i = 0;
-	if (lex->x <= lex->y)
+	if (lex->x < lex->y)
 	{
 		while (s[i] == ' ' && s[i] != '\0')
 		{
 			i++;
 			if (s[i] != ' ')
 			{	
-				s = ft_substr(s, i, ft_strlen(s));
+				s += i;
+				//s = ft_substr(s, i, ft_strlen(s));
 				lexer1(s, lex);
 				//free(s);
 				return (1);
@@ -176,7 +177,8 @@ int	lexer1(char *s, t_lex *lex)
 			i++;	
 			lex->s1[lex->x] = ft_substr(s, 0, i);
 			lex->x++;
-			s = ft_substr_free(s, i, ft_strlen(s));
+			s += i;
+			//s = ft_substr_free(s, i, ft_strlen(s));
 		}
 		else if (s[i] == '|' || (s[i] == '<' && s[i + 1] != '<')
 			|| (s[i] == '>' && s[i + 1] != '>'))
@@ -184,7 +186,8 @@ int	lexer1(char *s, t_lex *lex)
 			i++;
 			lex->s1[lex->x] = ft_substr(s, 0, i);
 			lex->x++;
-			s = ft_substr_free(s, i, ft_strlen(s));
+			s += i;
+			//s = ft_substr_free(s, i, ft_strlen(s));
 		}
 		else if (s[i] == '\'')
 		{
@@ -196,36 +199,39 @@ int	lexer1(char *s, t_lex *lex)
 				i++;
 			}
 			i++;
-			free(lex->s1[lex->x]);
+			//free(lex->s1[lex->x]);
 			lex->s1[lex->x] = ft_substr(s, 0, i);
 			lex->x++;
-			s = ft_substr_free(s, i, ft_strlen(s));		
+			s += i;
+			//s = ft_substr_free(s, i, ft_strlen(s));		
 		}
 		else if ((s[i] == '<' && s[i + 1] == '<')
 			|| (s[i] == '>' && s[i + 1] == '>'))
 		{
 			i = i + 2;
-			free(lex->s1[lex->x]);
+			//free(lex->s1[lex->x]);
 			lex->s1[lex->x] = ft_substr(s, 0, i);
 			lex->x++;
-			s = ft_substr_free(s, i, ft_strlen(s));
+			s += i;
+			//s = ft_substr_free(s, i, ft_strlen(s));
 		}
 		else
 		{
 			while (s[i] != '\0' && s[i] != ' ' && s[i] != '"'
 				&& s[i] != '\'' && s[i] != '|' && s[i] != '>' && s[i] != '<' )
 				i++;
-			free(lex->s1[lex->x]);
+			//free(lex->s1[lex->x]);
 			lex->s1[lex->x] = ft_substr(s, 0, i);
 			lex->x++;
-			s = ft_substr_free(s, i, ft_strlen(s));
+			s += i;
+			//s = ft_substr_free(s, i, ft_strlen(s));
 		}
 		lex->rap++;
 		lexer1(s, lex);
 		//free(s);
 		return (1);
 	}
-	free(s);
+//	free(s);
 	return (1);
 }
 
@@ -400,4 +406,5 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	//printf("turururun\n");
 	free(s1);
 	free(s);
+	free(s2);
 }

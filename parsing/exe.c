@@ -140,7 +140,7 @@ void	executeur_final(char **s, char **env, t_var *var, t_lex *lex)
 		dup2(var->fd, STDIN_FILENO);
 	if (var->z > 0 && lex->supatok[var->z - 1] == TOKEN_PIPE)
 		dup2(var->fd, STDIN_FILENO);
-	if (lex->supatok[var->z - 1] == TOKEN_PIPE
+	if (var->z >= 2 && lex->supatok[var->z - 1] == TOKEN_PIPE
 		&& lex->supatok[var->z - 2] == TOKEN_BUILTIN_OUTP)
 	{
 		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);

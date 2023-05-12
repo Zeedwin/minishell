@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pid.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:38:12 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/09 10:37:33 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/12 09:18:54 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	creat_pid(t_lex *lex, t_var *var)
 {
 	int	i;
+	char *s;
 	int	z;
 
 	i = 0;
@@ -27,16 +28,18 @@ void	creat_pid(t_lex *lex, t_var *var)
 		{
 			if (&lex->s[i][0] == NULL)
 				break ;
-			if (find_cmd_path(var, lex->s[i][0]) == 0)
+			s = find_cmd_path(var, &lex->s1[i][0]);
+			if (s == 0)
 				i++;
 			else
 			{
 				z++;
 				i++;
 			}
+			free(s);
 		}
 	}
-	var->shell = malloc(sizeof(pid_t) * (z));
+	var->shell = malloc(sizeof(pid_t) * (z + 1));
 }
 
 void	wait_pid(t_var *var, t_pipe *pip)

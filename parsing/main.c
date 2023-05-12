@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/11 11:55:58 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/12 09:20:22 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -495,8 +495,8 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 				var->shell[var->pidnum] = fork();
 				if (var->shell[var->pidnum] == 0)
 				{
-					if (var->last_pipe == 1
-						|| lex->supatok[var->z - 1] == TOKEN_PIPE)
+					if (var->z > 0 && (var->last_pipe == 1
+						|| lex->supatok[var->z - 1] == TOKEN_PIPE))
 					{
 						dup2(var->fd, STDIN_FILENO);
 					}
@@ -609,6 +609,7 @@ void	process(char **env, t_var *var)
 	turbotokenizer(&lex);
 	historyset(var, &lex);
 	creat_pid(&lex, var);
+	//free_2(lex.s1);
 	if (parsing_syntax(&lex) == 1)
 		exe_s(&lex, var, &pip, env);
 	if (lex.s1)
