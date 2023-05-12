@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:48:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/10 16:56:15 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/12 12:01:01 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	env(char **cpyenv)
 	int	j;
 	int	flag;
 
-	(void)cpyenv;
 	flag = 0;
 	j = 0;
 	i = 0;
@@ -99,9 +98,9 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var)
 		return (cpyenv);
 	}
 	i = 0;
-	while (lex->s[var->z][k][i])
+	while (lex->s[var->z][k])
 	{
-		i++;
+		k++;
 	}
 	i = 0;
 	cpycpy = ft_strcpy_env(cpycpy, cpyenv);
@@ -144,8 +143,16 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var)
 		free(cpycpy);
 		return (exp_env);
 	}
-	exp_env[j] = lex->s[var->z][1];
-	exp_env[j + 1] = NULL;
+	i = 1;
+	printf("mongus\n");
+	while (lex->s[var->z][i])
+	{
+		exp_env[j] = ft_strdup(lex->s[var->z][i]);
+		printf("\n\nexported = %s\n\n", lex->s[var->z][i]);
+		j++;
+		i++;
+	}
+	exp_env[j] = NULL;
 	free(cpycpy);
 	return (exp_env);
 }

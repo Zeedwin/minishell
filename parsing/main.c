@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/12 11:16:19 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/12 12:07:44 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -584,7 +584,7 @@ void	process(char **env, t_var *var)
 {
 	t_lex	lex;
 	t_pipe	pip;
-	char *lineread;
+	char	*lineread;
 
 	var->check_after_redir = 0;
 	var->nopath = 0;
@@ -608,7 +608,6 @@ void	process(char **env, t_var *var)
 		lineread = readline(var->promt);
 	if (!lineread)
 	{
-//		free(lex.s);
 		printf("exit\n");
 		exit(0);
 	}
@@ -624,13 +623,11 @@ void	process(char **env, t_var *var)
 	turbotokenizer(&lex);
 	//historyset(var, &lex);
 	creat_pid(&lex, var);
-	//free_2(lex.s1);
 	if (parsing_syntax(&lex) == 1)
 		exe_s(&lex, var, &pip, env);
 	//free(var->line);
 	/*if (lex.s1)
 	{
-		//free(lex.s1);
 		free_2(lex.s1);
 		lex.s1 = NULL;
 	}*/
@@ -667,7 +664,7 @@ void	init_termios(void)
 void	ctrlc(int sig)
 {
 	(void)sig;
-	
+
 	if(g_global.is_in_heredoc != 0 && g_global.lacontedetagrandmere == 0)
 		g_global.lacontedetagrandmere += 1;
 	if (g_global.is_in_cat == 0 && g_global.is_in_heredoc == 0)

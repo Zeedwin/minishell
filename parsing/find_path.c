@@ -147,6 +147,5 @@ char	*find_cmd_path(t_var *var, char *cmd)
 	}
 	free(cmd);
 	free(path);
-	//free(cmd_path);
 	return (0);
 }

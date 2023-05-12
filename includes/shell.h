@@ -127,6 +127,7 @@ typedef struct s_lex
 	int		rap;
 }			t_lex;
 
+char	**ft_realloc2(char **map, int i);
 void	rl_replace_line(const char *text, int clear_undo);
 char	*replace_dol_(char *s, int i);
 char	*ft_realloc(char *map, int i);
