@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/12 09:20:22 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/12 11:16:19 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_realloc(char *map, int i)
 	int		x;
 
 	x = 0;
-	map_tp = malloc(i * sizeof(char *));
+	map_tp = malloc((i + 1) * sizeof(char *));
 	while (map[x])
 	{
 		map_tp[x] = map[x];
@@ -98,14 +98,14 @@ int	testspace(t_var *var)
 	i = 0;
 	while (var->line[i] != '\0')
 	{
-		if (var->line[i] != ' ')
+		if (var->line[i] != ' ' && var->line[i] != '\t')
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
-void	historyset(t_var *var, t_lex *lex)
+/*void	historyset(t_var *var, t_lex *lex)
 {
 	int	i;
 	int	j;
@@ -144,7 +144,7 @@ void	historyset(t_var *var, t_lex *lex)
 		var->previous_line = ft_strdup(var->line);
 	}
 	//free(var->previous_line);
-}
+}*/
 
 int	count_pipe(int *supatok, t_lex *lex)
 {
@@ -164,7 +164,7 @@ int	count_pipe(int *supatok, t_lex *lex)
 	return (j);
 }
 
-int	delimiteur(t_lex *lex, t_var *var)
+int	delimiteur(t_lex *lex, t_var *var, int plus)
 {
 	char	buffer[BUF_SIZE];
 	char	*s;
@@ -173,6 +173,7 @@ int	delimiteur(t_lex *lex, t_var *var)
 	int		status;
 	pid_t	balls;
 
+	s = NULL;
 	var->is_in_heredoc = 1;
 	balls = fork();
 	if (balls == 0)
@@ -187,8 +188,9 @@ int	delimiteur(t_lex *lex, t_var *var)
 			//rl_replace_line(">", 0);
 			//rl_redisplay();
 			num_read = read(STDIN_FILENO, buffer, BUF_SIZE);
+			buffer[num_read] = '\0';
 			s = del_backn(buffer);
-			if (ft_strcmp(s, lex->s[var->z + var->i + 1][0]) == 0)
+			if (ft_strcmp(s, lex->s[var->z + var->i + plus + 1][0]) == 0)
 			{
 				close(fd);
 				exit(0);
@@ -366,7 +368,9 @@ int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 	fd_e = -2;
 	fdtmp = dup(0);
 	if ((lex->supatok[var->z + var->i] == TOKEN_REDIR_S
-		|| lex->supatok[var->z + var->i] == TOKEN_REDIR_S2)
+		|| lex->supatok[var->z + var->i] == TOKEN_REDIR_S2 
+		|| lex->supatok[var->z + var->i] == TOKEN_REDIR_E
+		|| lex->supatok[var->z + var->i] == TOKEN_REDIR_E2)
 		&& (var->z == 0 || lex->supatok[var->z - 1] == TOKEN_PIPE))
 	{ 
 		lex->s = cpy3truc(var, lex, lex->s, var->z);
@@ -383,31 +387,37 @@ int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 	{
 		if (lex->supatok[var->z + var->i] == TOKEN_REDIR_S)
 		{
-			close(fd_s);
+			if(fd_s != -2)
+				close(fd_s);
 			fd_s = open(lex->s[var->z + plus + var->i + 1][0],
 					O_CREAT | O_WRONLY | O_TRUNC, 0777);
 		}
 		else if (lex->supatok[var->z + var->i] == TOKEN_REDIR_E)
 		{
-			close(fd_e);
+			if(fd_e != -2)
+				close(fd_e);
 			fd_e = open(lex->s[var->z + plus + var->i + 1][0], O_RDWR, 0777);
 			if (fd_e == -1 && errno == ENOENT)
 			{
-				printf("minishell: no such file or directory: %s\n",
-					lex->s[var->z + plus + var->i + 1][0]);
+				if (var->fail_dir == 0)
+					printf("minishell: no such file or directory: %s\n",
+						lex->s[var->z + plus + var->i + 1][0]);
+				var->fail_dir = 1;
 				break ;
 			}
 		}
 		else if (lex->supatok[var->z + var->i] == TOKEN_REDIR_S2)
 		{
-			close (fd_s);
+			if(fd_s != -2)
+				close (fd_s);
 			fd_s = open(lex->s[var->z + plus + var->i + 1][0],
 					O_CREAT | O_APPEND | O_WRONLY, 0777);
 		}
 		else if (lex->supatok[var->z + var->i] == TOKEN_REDIR_E2)
 		{
-			did_fail |= delimiteur(lex, var);
-			close (fd_e);
+			did_fail |= delimiteur(lex, var, plus);
+			if(fd_s != -2)
+				close (fd_e);
 			fd_e = open("tmp/tmp.txt", O_RDWR, 0777);
 		}
 		if (var->z + plus > 0 && var->check_after_redir == 0)
@@ -418,7 +428,7 @@ int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 					lex->s[var->z + plus + var->i + 1]);
 		var->i = var->i + 2;
 	}
-	if (lex->supatok[var->z - 1] == TOKEN_BUILTIN_OUTP)
+	if (var->fail_dir == 0 && lex->supatok[var->z - 1] == TOKEN_BUILTIN_OUTP)
 	{
 		if (fd_s != -2 && find_cmd_path(var, lex->s[var->z + plus - 1][0]) != 0)
 			dup2(fd_s, STDOUT_FILENO);
@@ -426,7 +436,7 @@ int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 		dup2(fdtmp, STDOUT_FILENO);
 		var->z = var->z + plus + 1 + var->i;
 	}
-	else if (var->z >= 0 && did_fail == 0)
+	else if (var->fail_dir == 0 && var->z >= 0 && did_fail == 0)
 	{	
 		g_global.is_in_cat = 1;
 		var->shell[var->pidnum] = fork();
@@ -462,7 +472,7 @@ int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 			var->last_pipe = 0;
 		}
 	}
-	else if (lex->supatok[var->z - 2] == TOKEN_BUILTIN_OUTP)
+	else if (var->fail_dir == 0 && lex->supatok[var->z - 2] == TOKEN_BUILTIN_OUTP)
 	{
 		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
 		dup2(var->fd, STDIN_FILENO);
@@ -485,6 +495,7 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		free_final(lex, pip, var);
 		return (0);
 	}
+	var->fd = dup(0);
 	while (var->z < ft_malloc(lex) - 1 - var->check_after_redir)
 	{
 		if (lex->supatok[var->z] == TOKEN_WORD && lex->s[var->z] != NULL)
@@ -550,6 +561,7 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 			{
 				var->last_pipe = 1;
 			}
+			var->fail_dir = 0;
 			minipipe(pip, lex, var);
 		}
 		else if (lex->supatok[var->z] == TOKEN_REDIR_S
@@ -558,6 +570,7 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 			|| lex->supatok[var->z] == TOKEN_REDIR_E2)
 		{
 			miniredir_s(lex, var, pip);
+			var->fail_dir = 0;
 			var->c = 0;
 			var->i = 0;
 		}
@@ -575,6 +588,7 @@ void	process(char **env, t_var *var)
 
 	var->check_after_redir = 0;
 	var->nopath = 0;
+	var->fail_dir = 0;
 	var->line = NULL;
 	lineread = NULL;
 	var->last_pipe = 0;
@@ -600,6 +614,7 @@ void	process(char **env, t_var *var)
 	}
 	var->line = malloc(sizeof(char) * (ft_strlen(lineread) + 1));
 	var->line = ft_strcpy(var->line, lineread);
+	add_history(var->line);
 	var->c = 0;
 	var->pidnum = 0;
 	init_tab(&lex, var->line, var->cpyenv, var);
@@ -607,17 +622,18 @@ void	process(char **env, t_var *var)
 	lex.s = separate_tok(var, &lex, lex.s);
 	lex.s = del_brak(lex.s);
 	turbotokenizer(&lex);
-	historyset(var, &lex);
+	//historyset(var, &lex);
 	creat_pid(&lex, var);
 	//free_2(lex.s1);
 	if (parsing_syntax(&lex) == 1)
 		exe_s(&lex, var, &pip, env);
-	if (lex.s1)
+	//free(var->line);
+	/*if (lex.s1)
 	{
 		//free(lex.s1);
 		free_2(lex.s1);
 		lex.s1 = NULL;
-	}
+	}*/
 }
 
 void	set_termios(int in_cmd)

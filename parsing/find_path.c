@@ -32,6 +32,7 @@ char	*remo_slash(char *s)
 		}
 		s1[j] = '\0';
 	}
+	free(s);
 	return (s1);
 }
 

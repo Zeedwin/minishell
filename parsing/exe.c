@@ -155,19 +155,19 @@ void	executeur_final(char **s, char **env, t_var *var, t_lex *lex)
 			g_global.exitcode = 130;
 		if (s[0][1] == '.' && s[0][1] == '.' && s[0][2] == '/')
 			printf("minishell: no such file or directory: %s\n", s[0]);
-		else
+		else if (var->fail_dir == 0)
 		{
 			printf("bash : %s: command not found\n", s[0]);
 			g_global.exitcode = 127;
 		}
-		if (g_global.exitcode == 130)
+		if (g_global.exitcode == 130 && var->fail_dir == 0)
 		{
 			printf("bash : %d: command not found\n", g_global.last_err_com);
 			//g_global.lacontedetagrandmere = 0;
 		}
 		exit(g_global.exitcode);
 	}
-	s[0] = remo_slash(s[0]);
+	//s[0] = remo_slash(s[0]);
 	g_global.exitcode = 0;
 	execve(cmdpath, s, env);
 }

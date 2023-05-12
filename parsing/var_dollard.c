@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:43:50 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/10 14:30:34 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/12 10:54:50 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,7 @@ char	*replace_dol_(char *s, int i)
 	k = 0;
 	o = 0;
 	res = ft_itoa(i);
-	sf = malloc(sizeof(char) * ft_strlen(s) + 1);
+	sf = malloc(sizeof(char) * (ft_strlen(s) + 1));
 	while (s && s[j] != '\0')
 	{
 		if (s[j] == '\'')

@@ -70,6 +70,7 @@ enum {
 	TOKEN_DOLLAR,
 	TOKEN_BUILTIN,
 	TOKEN_BUILTIN_OUTP,
+	TOKEN_FIN,
 };
 
 enum {
@@ -99,6 +100,7 @@ typedef struct s_var {
 	char	*previous_line;
 	int		check_pipe;
 	pid_t	*shell;
+	int		fail_dir;
 	int		pidnum;
 	int		c;
 	int		z;

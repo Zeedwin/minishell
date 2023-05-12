@@ -49,7 +49,7 @@ int	ft_malloc(t_lex *lex)
 
 	i = 0;
 	k = 0;
-	while (lex->s1[i])
+	while (lex->s1[i] != NULL)
 	{
 		if (lex->stoken[i] == TOKEN_PIPE)
 			k++;
@@ -58,7 +58,7 @@ int	ft_malloc(t_lex *lex)
 		else if (lex->stoken[i] == TOKEN_WORD)
 		{
 			k++;
-			while (lex->stoken[i] == TOKEN_WORD)
+			while (lex->stoken[i] != TOKEN_FIN && lex->stoken[i] == TOKEN_WORD)
 				i++;
 			i--;
 		}

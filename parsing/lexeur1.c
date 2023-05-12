@@ -228,9 +228,10 @@ int	lexer1(char *s, t_lex *lex)
 		}
 		lex->rap++;
 		lexer1(s, lex);
-		//free(s);
+		lex->s1[lex->x] = NULL;
 		return (1);
 	}
+	lex->s1[lex->x] = NULL;
 //	free(s);
 	return (1);
 }
@@ -258,7 +259,39 @@ char	*suppr_pos(char *s, int pos)
 	return (s1);
 }
 
-char	*del_if_quote(char *s)
+int error_quote(char *s)
+{
+	int i;
+
+	i = 0;
+	while(s[i] != '\0')
+	{
+		if(s[i] == '"')
+		{
+			i++;
+			while(s[i] != '\0' && s[i] != '"')
+			{
+				i++;
+				if(s[i] == '\0')
+					return(0);
+			}
+		}
+		if(s[i] == '\'')
+		{
+			i++;
+			while(s[i] != '\0' && s[i] != '\'')
+			{
+				i++;
+				if(s[i] == '\0')
+					return(0);
+			}
+		}
+		i++;
+	}
+	return(1);
+}
+
+/*char	*del_if_quote(char *s)
 {
 	int	i;
 	int	j;
@@ -280,9 +313,9 @@ char	*del_if_quote(char *s)
 	else
 		s = suppr_pos(s, j);
 	return (s);
-}
+}*/
 
-char	*del_if_quote2(char *s)
+/*char	*del_if_quote2(char *s)
 {
 	int	i;
 	int	j;
@@ -304,7 +337,7 @@ char	*del_if_quote2(char *s)
 	else
 		s = suppr_pos(s, j);
 	return (s);
-}
+}*/
 
 char	*del_par_com(char *s)
 {
@@ -384,11 +417,14 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 		printf("bash : %s: command not found\n", s);
 		s = ft_strdup(s1);
 	}
+	if (error_quote(s) == 0)
+	{
+		printf("quote open : error\n");
+		s = ft_strdup(s1);
+	}
 	s = space(s);
 	s = change_tab(s);
-	s = del_if_quote(s);
 	s = del_par_com(s);
-	s = del_if_quote2(s);
 	s = replace_dol_(s, var->last_err_com);
 	s = dollars_ch(s, env);
 	lex->s1 = ft_calloc((count(s) + 1), sizeof(char *));
@@ -403,6 +439,8 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	s2 = ft_strcpy(s2, s);
 	lexer1(s2, lex);
 	lex->s1[count(s)] = NULL;
+	lex->stoken[count(s)] = TOKEN_FIN;
+	lex->supatok[count(s)] = TOKEN_FIN;
 	//printf("turururun\n");
 	free(s1);
 	free(s);

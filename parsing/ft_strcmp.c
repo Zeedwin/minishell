@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 20:26:53 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/04/27 10:05:27 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/12 10:53:37 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*del_backn(char *s)
 	int		i;
 	char	*s1;
 
-	s1 = malloc(ft_strlen(s) * sizeof(char));
+	s1 = malloc((ft_strlen(s) + 1) * sizeof(char));
 	i = 0;
 	while (s[i] != '\n' && s[i] != '\0')
 	{
@@ -25,6 +25,7 @@ char	*del_backn(char *s)
 		i++;
 	}
 	s1[i] = '\0';
+	//free(s);
 	return (s1);
 }
 
