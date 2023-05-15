@@ -83,35 +83,30 @@ char	*check_replace_prog(char *s, t_var *var)
 	i = ft_strlen(var->line) + ft_strlen(s);
 	j = 0;
 	s1 = NULL;
-	if (s[0] == '.')
+	if (s[0] == '.' && s[1] == '/')
 	{
-		if (s[1] == '/')
+		if (check_doc(s) != 0)
 		{
-			if (check_doc(s) != 0)
+			s = check_doc(s);
+			s1 = malloc(sizeof(char) * i);
+			i = 0;
+			while (var->line[i] != '\0')
 			{
-				s = check_doc(s);
-				s1 = malloc(sizeof(char) * i);
-				i = 0;
-				while (var->line[i] != '\0')
-				{
-					s1[i] = var->line[i];
-					i++;
-				}
-				s1[i] = '/';
+				s1[i] = var->line[i];
 				i++;
-				while (s[j] != '\0')
-				{
-					s1[i] = s[j];
-					i++;
-					j++;
-				}
-				s1[i] = '\0';
 			}
-			else
+			s1[i] = '/';
+			i++;
+			while (s[j] != '\0')
 			{
-				return (0);
+				s1[i] = s[j];
+				i++;
+				j++;
 			}
+			s1[i] = '\0';
 		}
+		else
+			return (0);
 	}
 	return (s);
 }
@@ -138,45 +133,5 @@ void	executeur(char **s, char **env, t_var *var)
 		}
 		exit(g_global.exitcode);
 	}
-	execve(cmdpath, s, env);
-}
-
-void	executeur_final(char **s, char **env, t_var *var, t_lex *lex)
-{
-	char	*cmdpath;
-
-	if (var->last_pipe == 1)
-		dup2(var->fd, STDIN_FILENO);
-	if (var->z > 0 && lex->supatok[var->z - 1] == TOKEN_PIPE)
-		dup2(var->fd, STDIN_FILENO);
-	if (var->z >= 2 && lex->supatok[var->z - 1] == TOKEN_PIPE
-		&& lex->supatok[var->z - 2] == TOKEN_BUILTIN_OUTP)
-	{
-		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
-		dup2(var->fd, STDIN_FILENO);
-	}
-	cmdpath = find_cmd_path(var, s[0]);
-	if (var->nopath == 0)
-		cmdpath = 0;
-	if (cmdpath == 0)
-	{
-		if (g_global.lacontedetagrandmere > 0)
-			g_global.exitcode = 130;
-		if (s[0][1] == '.' && s[0][1] == '.' && s[0][2] == '/')
-			printf("minishell: no such file or directory: %s\n", s[0]);
-		else if (var->fail_dir == 0)
-		{
-			printf("bash : %s: command not found\n", s[0]);
-			g_global.exitcode = 127;
-		}
-		else if (g_global.exitcode == 130 && var->fail_dir == 0)
-		{
-			printf("bash : %d: command not found\n", g_global.last_err_com);
-			//g_global.lacontedetagrandmere = 0;
-		}
-		exit(g_global.exitcode);
-	}
-	//s[0] = remo_slash(s[0]);
-	g_global.exitcode = 0;
 	execve(cmdpath, s, env);
 }

@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:38:12 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/15 13:11:48 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/15 13:13:18 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,4 @@ void	wait_pid(t_var *var, t_pipe *pip)
 		waitpid(var->shell[i], &pip->status, 0);
 		i++;
 	}
-	//free(var->shell);
 }

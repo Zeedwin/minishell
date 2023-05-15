@@ -6,11 +6,75 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 09:52:39 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/09 15:43:50 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/15 13:43:34 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
+
+int	parsing_syntax3(t_lex *lex, int i)
+{
+	if (lex->supatok[i] == TOKEN_PIPE)
+	{
+		if ((i < ft_malloc(lex) - 3 && lex->supatok[i + 1] == TOKEN_PIPE)
+			|| lex->s[i + 1] == NULL)
+		{
+			printf("bash: syntax error near unexpected token '|'\n");
+			return (0);
+		}
+	}
+	if (lex->supatok[0] == TOKEN_PIPE)
+	{
+		printf("bash: syntax error near unexpected token '|'\n");
+		return (0);
+	}
+	return (1);
+}
+
+int	parsing_syntax2(t_lex *lex, int i)
+{
+	if (lex->supatok[i + 1] == TOKEN_REDIR_S2)
+	{
+		printf("bash: syntax error near unexpected token '>>'\n");
+		return (0);
+	}
+	if (lex->supatok[i + 1] == TOKEN_REDIR_S)
+	{
+		printf("bash: syntax error near unexpected token '>'\n");
+		return (0);
+	}
+	if (lex->supatok[i + 1] == TOKEN_PIPE)
+	{
+		printf("bash: syntax error near unexpected token '|'\n");
+		return (0);
+	}
+	return (1);
+}
+
+int	parsing_syntax1(t_lex *lex, int i)
+{
+	if (i + 1 >= ft_malloc(lex) - 2)
+	{
+		printf("bash: syntax error near unexpected token 'newline'\n");
+		return (0);
+	}
+	if (lex->s[i + 1] == NULL && lex->supatok[i + 1] != TOKEN_WORD)
+	{
+		printf("bash: syntax error near unexpected token 'newline'\n");
+		return (0);
+	}
+	if (lex->supatok[i + 1] == TOKEN_REDIR_E2)
+	{
+		printf("bash: syntax error near unexpected token '<<'\n");
+		return (0);
+	}
+	if (lex->supatok[i + 1] == TOKEN_REDIR_E)
+	{
+		printf("bash: syntax error near unexpected token '<'\n");
+		return (0);
+	}
+	return (1);
+}
 
 int	parsing_syntax(t_lex *lex)
 {
@@ -24,55 +88,13 @@ int	parsing_syntax(t_lex *lex)
 			|| lex->supatok[i] == TOKEN_REDIR_S
 			|| lex->supatok[i] == TOKEN_REDIR_S2)
 		{
-			if(i + 1 >= ft_malloc(lex) - 2)
-			{
-				printf("bash: syntax error near unexpected token 'newline'\n");
+			if (parsing_syntax1(lex, i) == 0)
 				return (0);
-			}
-			if (lex->s[i + 1] == NULL && lex->supatok[i + 1] != TOKEN_WORD)
-			{
-				printf("bash: syntax error near unexpected token 'newline'\n");
+			if (parsing_syntax2(lex, i) == 0)
 				return (0);
-			}
-			if (lex->supatok[i + 1] == TOKEN_REDIR_E2)
-			{
-				printf("bash: syntax error near unexpected token '<<'\n");
-				return (0);
-			}
-			if (lex->supatok[i + 1] == TOKEN_REDIR_E)
-			{
-				printf("bash: syntax error near unexpected token '<'\n");
-				return (0);
-			}
-			if (lex->supatok[i + 1] == TOKEN_REDIR_S2)
-			{
-				printf("bash: syntax error near unexpected token '>>'\n");
-				return (0);
-			}
-			if (lex->supatok[i + 1] == TOKEN_REDIR_S)
-			{
-				printf("bash: syntax error near unexpected token '>'\n");
-				return (0);
-			}
-			if (lex->supatok[i + 1] == TOKEN_PIPE)
-			{
-				printf("bash: syntax error near unexpected token '|'\n");
-				return (0);
-			}
 		}
-		if (lex->supatok[i] == TOKEN_PIPE)
-		{
-			if (i < ft_malloc(lex) - 3 && lex->supatok[i + 1] == TOKEN_PIPE)
-			{
-				printf("bash: syntax error near unexpected token '|'\n");
-				return (0);
-			}
-		}
-		if (lex->supatok[0] == TOKEN_PIPE)
-		{
-			printf("bash: syntax error near unexpected token '|'\n");
+		if (parsing_syntax3(lex, i) == 0)
 			return (0);
-		}
 		i++;
 	}
 	return (1);

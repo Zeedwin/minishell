@@ -189,7 +189,7 @@ int		equalfinder(char *path);
 void	wait_pid(t_var *var, t_pipe *pip);
 void	creat_pid(t_lex *lex, t_var *var);
 char	*remo_slash(char *s);
-
+int	check_path(char *s);
 //built-ins
 int		cd(char **s, t_var *var);
 char	**export(char **cpyenv, t_lex *lex, t_var *var);
