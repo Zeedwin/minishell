@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/15 12:29:08 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/15 12:57:22 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -578,6 +578,7 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 		else
 			var->z++;
 	}
+	free_final(lex, pip, var);
 	return (0);
 }
 
