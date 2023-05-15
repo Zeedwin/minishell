@@ -84,6 +84,7 @@ enum {
 };
 
 typedef struct s_var {
+	int 	count_wait;
 	int		check_after_redir;
 	char	**path;
 	char	**cpyenv;

@@ -102,7 +102,7 @@ char	*find_cmd_path(t_var *var, char *cmd)
 	path0 = ft_strjoin_free(getcwd(buf, PATH_MAX), "/", 0);
 	path = ft_strjoin_free(path0, cmd, 1);
 	i = 0;
-	if (cmd[0] == '.' && cmd[1] == '.' && cmd[2] == '/')
+	if ((cmd[0] == '.' && cmd[1] == '.' && cmd[2] == '/') || (cmd[0] == 'r' && cmd[1] == '\0'))
 	{
 		free(path);
 		return (0);

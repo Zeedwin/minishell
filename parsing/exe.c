@@ -160,7 +160,7 @@ void	executeur_final(char **s, char **env, t_var *var, t_lex *lex)
 			printf("bash : %s: command not found\n", s[0]);
 			g_global.exitcode = 127;
 		}
-		if (g_global.exitcode == 130 && var->fail_dir == 0)
+		else if (g_global.exitcode == 130 && var->fail_dir == 0)
 		{
 			printf("bash : %d: command not found\n", g_global.last_err_com);
 			//g_global.lacontedetagrandmere = 0;

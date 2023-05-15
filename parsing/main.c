@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/12 12:07:44 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/15 11:14:59 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -428,7 +428,7 @@ int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 					lex->s[var->z + plus + var->i + 1]);
 		var->i = var->i + 2;
 	}
-	if (var->fail_dir == 0 && lex->supatok[var->z - 1] == TOKEN_BUILTIN_OUTP)
+	if (var->z > 0 && var->fail_dir == 0 && lex->supatok[var->z - 1] == TOKEN_BUILTIN_OUTP)
 	{
 		if (fd_s != -2 && find_cmd_path(var, lex->s[var->z + plus - 1][0]) != 0)
 			dup2(fd_s, STDOUT_FILENO);
@@ -517,6 +517,7 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip, char **envp)
 				{
 					if (var->fd != 0 && var->last_pipe != 1)
 						close(var->fd);
+					//if (var->no_wait == 0)
 					wait_pid(var, pip);
 					g_global.is_in_cat = 0;
 					if (g_global.exitcode == 130)
