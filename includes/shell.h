@@ -90,7 +90,8 @@ typedef struct s_var {
 	char	**cpyenv;
 	char	*cmd;
 	char	**cmd1;
-	int 	iff;
+	int		counti;
+	int		countj;
 	int		lacontedetagrandmere;
 	char	*promt;
 	char	*line;
@@ -165,7 +166,15 @@ char	*ft_itoa(int nb);
 char	***del_brak(char ***s);
 int		execve_builtin(char **s, char **env, t_var *var, t_lex *lex);
 int		ft_isdigit(int c);
+int		error_quote(char *s);
+char	*suppr_pos(char *s, int pos);
+int		check_vide(char *s);
+char	*change_tab(char *s);
+int		point(char *s);
+char	*space(char *s);
 int		ft_num(char *str);
+char	*del_par_com(char *s);
+
 
 void	*ft_calloc(size_t count, size_t size);
 void	ft_bzero(void *s, size_t n);
@@ -186,10 +195,13 @@ int		miniredir_s2(t_lex *lex, t_var *var, char **env, t_pipe *pip);
 int		parsing_syntax(t_lex *lex);
 int		test_builtin(char **s);
 int		equalfinder(char *path);
+int		count(char *s, t_var *var);
 void	wait_pid(t_var *var, t_pipe *pip);
 void	creat_pid(t_lex *lex, t_var *var);
 char	*remo_slash(char *s);
-int	check_path(char *s);
+int		check_path(char *s);
+int		lexer1(char *s, t_lex *lex);
+
 //built-ins
 int		cd(char **s, t_var *var);
 char	**export(char **cpyenv, t_lex *lex, t_var *var);

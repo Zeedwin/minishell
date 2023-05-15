@@ -12,138 +12,12 @@
 
 #include "../includes/shell.h"
 
-int	count2(int i, char *s, int code)
+char	*lexeur2(char *s, t_lex *lex, int i)
 {
-	if (code == 0)
-	{
-		while (s[i] != '"' && s[i] != '\0')
-		{
-			i++;
-			if (s[i - 1] == '\\' && s[i] == '"')
-				i++;
-		}
-	}
-	if (code == 3)
-	{
-		while (s[i] != '\'' && s[i] != '\0')
-		{
-			i++;
-			if (s[i - 1] == '\\' && s[i] == '\'')
-				i++;
-		}
-	}
-	if (code == 1)
-		while (s[i] != '\0' && s[i] == ' ')
-			i++;
-	if (code == 2)
-		while (s[i] != ' ' && s[i] != '"' && s[i] != '\0' && s[i] != '\''
-			&& s[i] != '|' && s[i] != '>' && s[i] != '<' )
-			i++;
-	return (i);
-}
-
-int	count(char *s)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == '"')
-		{
-			j++;
-			i++;
-			i = count2(i, s, 0);
-			i++;
-		}
-		else if (s[i] == '\'')
-		{
-			j++;
-			i++;
-			i = count2(i, s, 3);
-			i++;
-		}
-		else if (s[i] == ' ')
-			i = count2(i, s, 1);
-		else if ((s[i] == '|') || (s[i] == '<' && s[i + 1] != '<')
-			|| (s[i] == '>' && s[i + 1] != '>'))
-		{
-			i++;
-			j++;
-		}
-		else if ((s[i] == '<' && s[i + 1] == '<')
-			|| (s[i] == '>' && s[i + 1] == '>'))
-		{
-			i = i + 2;
-			j++;
-		}
-		else
-		{
-			j++;
-			i = count2(i, s, 2);
-		}
-	}
-	return (j);
-}
-
-int	check_vide(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] >= 33 && s[i] <= 126)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-char	*lexer2(char *s, t_lex *lex, int i)
-{
-	//char	*temp;
-
-	//temp = ft_substr(s, 0, i);
-	//free(lex->s1);
 	lex->s1[lex->x] = ft_substr(s, 0, i);
 	lex->x++;
-	s = ft_substr_free(s, i, ft_strlen(s));
-	//free(lex->s1);
+	s += i;
 	return (s);
-}
-
-int	lexer3(int i, char *s, int code)
-{
-	if (code == 0)
-	{
-		i++;
-		while (1)
-		{
-			if (s[i] == '"')
-				break ;
-			i++;
-		}
-		i++;
-	}
-	if (code == 2)
-	{
-		i++;
-		while (1)
-		{
-			if (s[i] == '\'')
-				break ;
-			i++;
-		}
-		i++;
-	}
-	if (code == 1)
-		while (s[i] != '\0' && s[i] != ' ' && s[i] != '"'
-			&& s[i] != '\'' && s[i] != '|' && s[i] != '>' && s[i] != '<' )
-				i++;
-	return (i);
 }
 
 int	lexer1(char *s, t_lex *lex)
@@ -159,9 +33,7 @@ int	lexer1(char *s, t_lex *lex)
 			if (s[i] != ' ')
 			{	
 				s += i;
-				//s = ft_substr(s, i, ft_strlen(s));
 				lexer1(s, lex);
-				//free(s);
 				return (1);
 			}
 		}
@@ -174,20 +46,14 @@ int	lexer1(char *s, t_lex *lex)
 					break ;
 				i++;
 			}
-			i++;	
-			lex->s1[lex->x] = ft_substr(s, 0, i);
-			lex->x++;
-			s += i;
-			//s = ft_substr_free(s, i, ft_strlen(s));
+			i++;
+			s = lexeur2(s, lex, i);
 		}
 		else if (s[i] == '|' || (s[i] == '<' && s[i + 1] != '<')
 			|| (s[i] == '>' && s[i + 1] != '>'))
 		{
 			i++;
-			lex->s1[lex->x] = ft_substr(s, 0, i);
-			lex->x++;
-			s += i;
-			//s = ft_substr_free(s, i, ft_strlen(s));
+			s = lexeur2(s, lex, i);
 		}
 		else if (s[i] == '\'')
 		{
@@ -199,32 +65,20 @@ int	lexer1(char *s, t_lex *lex)
 				i++;
 			}
 			i++;
-			//free(lex->s1[lex->x]);
-			lex->s1[lex->x] = ft_substr(s, 0, i);
-			lex->x++;
-			s += i;
-			//s = ft_substr_free(s, i, ft_strlen(s));		
+			s = lexeur2(s, lex, i);
 		}
 		else if ((s[i] == '<' && s[i + 1] == '<')
 			|| (s[i] == '>' && s[i + 1] == '>'))
 		{
 			i = i + 2;
-			//free(lex->s1[lex->x]);
-			lex->s1[lex->x] = ft_substr(s, 0, i);
-			lex->x++;
-			s += i;
-			//s = ft_substr_free(s, i, ft_strlen(s));
+			s = lexeur2(s, lex, i);
 		}
 		else
 		{
 			while (s[i] != '\0' && s[i] != ' ' && s[i] != '"'
 				&& s[i] != '\'' && s[i] != '|' && s[i] != '>' && s[i] != '<' )
 				i++;
-			//free(lex->s1[lex->x]);
-			lex->s1[lex->x] = ft_substr(s, 0, i);
-			lex->x++;
-			s += i;
-			//s = ft_substr_free(s, i, ft_strlen(s));
+			s = lexeur2(s, lex, i);
 		}
 		lex->rap++;
 		lexer1(s, lex);
@@ -232,183 +86,16 @@ int	lexer1(char *s, t_lex *lex)
 		return (1);
 	}
 	lex->s1[lex->x] = NULL;
-//	free(s);
 	return (1);
 }
 
-char	*suppr_pos(char *s, int pos)
-{
-	char	*s1;
-	int		i;
-	int		j;
-
-	s1 = malloc(sizeof(char) * ft_strlen(s));
-	i = 0;
-	j = 0;
-	while (s[i] != '\0')
-	{
-		if (i != pos)
-		{
-			s1[j] = s[i];
-			j++;
-		}
-		i++;
-	}
-	s1[j] = '\0';
-	free(s);
-	return (s1);
-}
-
-int error_quote(char *s)
-{
-	int i;
-
-	i = 0;
-	while(s[i] != '\0')
-	{
-		if(s[i] == '"')
-		{
-			i++;
-			while(s[i] != '\0' && s[i] != '"')
-			{
-				i++;
-				if(s[i] == '\0')
-					return(0);
-			}
-		}
-		if(s[i] == '\'')
-		{
-			i++;
-			while(s[i] != '\0' && s[i] != '\'')
-			{
-				i++;
-				if(s[i] == '\0')
-					return(0);
-			}
-		}
-		i++;
-	}
-	return(1);
-}
-
-/*char	*del_if_quote(char *s)
-{
-	int	i;
-	int	j;
-	int	k;
-
-	i = 0;
-	k = 0;
-	while (s && s[i] != '\0')
-	{
-		if (s[i] == '"')
-		{
-			j = i;
-			k++;
-		}
-		i++;
-	}
-	if (k % 2 == 0)
-		return (s);
-	else
-		s = suppr_pos(s, j);
-	return (s);
-}*/
-
-/*char	*del_if_quote2(char *s)
-{
-	int	i;
-	int	j;
-	int	k;
-
-	i = 0;
-	k = 0;
-	while (s && s[i] != '\0')
-	{
-		if (s[i] == '\'')
-		{
-			j = i;
-			k++;
-		}
-		i++;
-	}
-	if (k % 2 == 0)
-		return (s);
-	else
-		s = suppr_pos(s, j);
-	return (s);
-}*/
-
-char	*del_par_com(char *s)
-{
-	int		i;
-
-	i = 0;
-	while (s && s[i] != '\0')
-	{
-		if (s[i] == '#')
-		{
-			s = ft_realloc(s, i);
-			s[i] = '\0';
-		}
-		i++;
-	}
-	return (s);
-}
-
-char	*change_tab(char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s && s[i] != '\0')
-	{
-		if (s[i] == '"')
-		{
-			i++;
-			while (s[i] != '\0' && s[i] != '"')
-				i++;
-		}
-		if (s[i] == '\'')
-		{
-			i++;
-			while (s[i] != '\0' && s[i] != '\'')
-				i++;
-		}
-		if (s[i] == '\t')
-			s[i] = ' ';
-		i++;
-	}
-	return (s);
-}
-
-char	*space(char *s)
-{
-	if (!s)
-		return (NULL);
-	if (s[0] == '$')
-	{
-		s = ft_strjoin(" ", s);
-		return (s);
-	}
-	return (s);
-}
-
-int point(char *s)
-{
-	if (!s)
-		return (2);
-	if (ft_strlen(s) == 2 && s[0] == '.' && s[1] == '.')
-		return (1);
-	if (ft_strlen(s) == 1 && s[0] == '.')
-		return (1);
-	return (2);
-}
+/*void	init_tab1(t_lex *lex, char *s, char **env, t_var *var)
+{}*/
 
 void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 {
 	char	*s1;
-	char *s2;
+	char	*s2;
 
 	s1 = ft_calloc(1, sizeof(char));
 	s1[0] = '\0';
@@ -427,21 +114,19 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	s = del_par_com(s);
 	s = replace_dol_(s, var->last_err_com);
 	s = dollars_ch(s, env);
-	lex->s1 = ft_calloc((count(s) + 1), sizeof(char *));
-	lex->stoken = ft_calloc((count(s) + 1), sizeof(int));
-	lex->supatok = ft_calloc((count(s) + 1), sizeof(int));
-	//memset(lex->stoken, 0, (count(s) + 1) * sizeof(int));
+	lex->s1 = ft_calloc((count(s, var) + 1), sizeof(char *));
+	lex->stoken = ft_calloc((count(s, var) + 1), sizeof(int));
+	lex->supatok = ft_calloc((count(s, var) + 1), sizeof(int));
 	lex->x = 0;
 	lex->c = 0;
 	lex->rap = 0;
-	lex->y = count(s);
+	lex->y = count(s, var);
 	s2 = malloc(sizeof(char) * (ft_strlen(s) + 1));
 	s2 = ft_strcpy(s2, s);
 	lexer1(s2, lex);
-	lex->s1[count(s)] = NULL;
-	lex->stoken[count(s)] = TOKEN_FIN;
-	lex->supatok[count(s)] = TOKEN_FIN;
-	//printf("turururun\n");
+	lex->s1[count(s, var)] = NULL;
+	lex->stoken[count(s, var)] = TOKEN_FIN;
+	lex->supatok[count(s, var)] = TOKEN_FIN;
 	free(s1);
 	free(s);
 	free(s2);

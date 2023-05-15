@@ -36,23 +36,3 @@ size_t	ft_strlcpy(char *restrict dst, const char *restrict src,
 		i++;
 	return (i);
 }
-// int main()
-// {
-	// char src[] = "coucou";
-	// char dest[10]; memset(dest, 'A', 10);
-	// char stdsrc[] = "coucou";
-	// char stddest[10]; memset(stddest, 'A', 10);
-	// printf("%zu\n", ft_strlcpy(dest, src, 0));
-	// printf("%s\n", dest);
-	// printf("%zu\n", strlcpy(stddest, stdsrc, 0));
-	// printf("%s\n", stddest);
-	// printf("%zu\n", ft_strlcpy(dest, src, 1));
-	// printf("%s\n", dest);
-	// printf("%zu\n", strlcpy(stddest, stdsrc, 1));
-	// printf("%s\n", stddest);
-	// printf("%zu\n", ft_strlcpy(dest, src, 2));
-	// printf("%s\n", dest);
-	// printf("%zu\n", strlcpy(stddest, stdsrc, 2));
-	// printf("%s\n", stddest);
-// }
-// 

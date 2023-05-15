@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:03:37 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/15 13:02:53 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/15 14:31:04 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	free_3(char ***s)
 	i = 0;
 	while (s[i])
 	{
-		//s[i] = NULL;
 		free_2(s[i]);
 		i++;
 	}
@@ -68,8 +67,6 @@ void	free_final(t_lex *lex, t_pipe *pip, t_var *var)
 		free(lex->stoken);
 	if (lex->supatok)
 		free(lex->supatok);
-//	free(var->line);
-	//free(var->previous_line);
 	if (var && var->promt)
 		free(var->promt);
 	if (var && var->line)

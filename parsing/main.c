@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/15 12:57:22 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/15 14:38:03 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -587,10 +587,8 @@ void	process(char **env, t_var *var)
 	t_lex	lex;
 	t_pipe	pip;
 	char	*lineread;
-	
-	/*if(var->iff > 0)
-		printf("var->path = %s\n", var->path[0]);
-	var->iff++;*/
+
+	var->count_wait = 0;
 	var->check_after_redir = 0;
 	var->nopath = 0;
 	var->fail_dir = 0;
