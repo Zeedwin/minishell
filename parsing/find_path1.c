@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:55:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/15 14:25:57 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/15 15:11:53 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ char	*find_cmd_path1(t_var *var, char *cmd, char *path, char *cmd_path)
 
 char	*find_cmd_path(t_var *var, char *cmd)
 {
-	int		i;
 	char	*cmd_path;
 	char	buf[PATH_MAX];
 	char	*path;
@@ -68,7 +67,6 @@ char	*find_cmd_path(t_var *var, char *cmd)
 	path0 = ft_strjoin_free(getcwd(buf, PATH_MAX), "/", 0);
 	path = ft_strjoin_free(path0, cmd, 1);
 	cmd_path = NULL;
-	i = 0;
 	if ((cmd[0] == '.' && cmd[1] == '.' && cmd[2] == '/')
 		|| (cmd[0] == 'r' && cmd[1] == '\0'));
 	else if (access(path, F_OK | X_OK) == 0)

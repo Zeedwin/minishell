@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:48:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/15 13:26:05 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:26:16 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	if_in_quotes(char *s)
 	return (0);
 }
 
-char	**export(char **cpyenv, t_lex *lex, t_var *var)
+char	**export(char **cpyenv, t_lex *lex, t_var *var, int exp)
 {
 	int		i;
 	int		len;
@@ -80,6 +80,7 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var)
 	int		j;
 	int		check;
 
+	(void)exp;
 	k = 1;
 	check = 0;
 	len = 0;
@@ -87,7 +88,7 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var)
 	j = 0;
 	cpycpy = NULL;
 	if (lex->s1[2] && lex->s1[1] && if_in_quotes(lex->s1[2]) == 1)
-		lex->s[var->z][1] = ft_strjoin(lex->s[var->z][1], lex->s[var->z][2]);
+		lex->s[var->z][exp] = ft_strjoin(lex->s[var->z][1], lex->s[var->z][2]);
 	else if (!lex->s1[1])
 	{
 		while (g_global.cpyenv[i])
@@ -106,7 +107,7 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var)
 	cpycpy = ft_strcpy_env(cpycpy, cpyenv);
 	while (cpycpy[i])
 	{
-		if ((ft_strncmp(cpycpy[i], lex->s[var->z][1],
+		if ((ft_strncmp(cpycpy[i], lex->s[var->z][exp],
 				equalfinder(cpycpy[i])) == 0))
 			len--;
 		i++;
@@ -121,17 +122,18 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var)
 	if (!exp_env)
 		return (NULL);
 	i = 0;
-	while (cpycpy[i])
+	while (g_global.cpyenv[i])
 	{
-		if ((ft_strncmp(cpycpy[i], lex->s[var->z][1],
-				equalfinder(cpycpy[i])) == 0))
+		if ((ft_strncmp(g_global.cpyenv[i], lex->s[var->z][exp],
+				equalfinder(g_global.cpyenv[i])) == 0))
 		{
-			//check = 1;
-			exp_env[j] = lex->s[var->z][1];
+			check = 1;
+			exp_env[j] = ft_strdup(lex->s[var->z][exp]);
 			j++;
 		}
 		else
 		{
+			//printf("kayle lvl 16\n");
 			exp_env[j] = cpycpy[i];
 			j++;
 		}
@@ -139,14 +141,14 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var)
 	}
 	if (check == 1)
 	{
-		printf("im pregananant\n");
+		//printf("im pregananant\n");
 		exp_env[j] = NULL;
 		free(cpycpy);
 		return (exp_env);
 	}
-	i = 1;
-	printf("mongus\n");
-	while (lex->s[var->z][i])
+	//i = 1;
+	//printf("mongus\n");
+	/*while (lex->s[var->z][i])
 	{
 		//if (check == 1)
 		//	i++;
@@ -155,8 +157,9 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var)
 		printf("in export = %s\n", exp_env[j]);
 		j++;
 		i++;
-	}
-	exp_env[j] = NULL;
+	}*/
+	exp_env[j] = ft_strdup(lex->s[var->z][exp]);
+	exp_env[j + 1] = NULL;
 	free(cpycpy);
 	return (exp_env);
 }

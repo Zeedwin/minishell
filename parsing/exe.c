@@ -27,14 +27,26 @@ int	exec_builtin_out(char **s, t_var *var, t_lex *lex)
 
 int	execve_builtin(char **s, char **env, t_var *var, t_lex *lex)
 {
-	(void)env;
-	int i;
+	int	i;
 
-	i = 1;
+	(void)env;
 	if (ft_strcmp(*s, "cd") == 0 || ft_strcmp(*s, "CD") == 0)
 		cd(s, var);
+	i = 1;
 	if (ft_strcmp(*s, "export") == 0)
-		g_global.cpyenv = export(g_global.cpyenv, lex, var);
+	{
+		if (lex->s[var->z][1] == NULL)
+			g_global.cpyenv = export(g_global.cpyenv, lex, var, 0);
+		else
+		{
+			while (lex->s[var->z][i])
+			{
+				g_global.cpyenv = export(g_global.cpyenv, lex, var, i);
+				i++;
+			}
+		}
+	}
+	i = 1;
 	if (ft_strcmp(*s, "unset") == 0)
 	{
 		while (lex->s[var->z][i])

@@ -204,7 +204,7 @@ int		lexer1(char *s, t_lex *lex);
 
 //built-ins
 int		cd(char **s, t_var *var);
-char	**export(char **cpyenv, t_lex *lex, t_var *var);
+char	**export(char **cpyenv, t_lex *lex, t_var *var, int i);
 char	**unset(char **cpyenvp, char *unsetstr);
 int		exec_builtin_out(char **s, t_var *var, t_lex *lex);
 int		echo(t_var	*var, t_lex *lex);
