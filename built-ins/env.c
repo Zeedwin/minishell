@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:48:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/12 12:01:01 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/15 11:31:55 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var)
 		lex->s[var->z][1] = ft_strjoin(lex->s[var->z][1], lex->s[var->z][2]);
 	else if (!lex->s1[1])
 	{
-		while (cpyenv[i])
+		while (g_global.cpyenv[i])
 		{
-			printf("declare -x %s\n", cpyenv[i]);
+			printf("declare -x %s\n", g_global.cpyenv[i]);
 			i++;
 		}
 		return (cpyenv);
@@ -126,7 +126,7 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var)
 		if ((ft_strncmp(cpycpy[i], lex->s[var->z][1],
 				equalfinder(cpycpy[i])) == 0))
 		{
-			check = 1;
+			//check = 1;
 			exp_env[j] = lex->s[var->z][1];
 			j++;
 		}
@@ -139,6 +139,7 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var)
 	}
 	if (check == 1)
 	{
+		printf("im pregananant\n");
 		exp_env[j] = NULL;
 		free(cpycpy);
 		return (exp_env);
@@ -147,8 +148,11 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var)
 	printf("mongus\n");
 	while (lex->s[var->z][i])
 	{
+		//if (check == 1)
+		//	i++;
 		exp_env[j] = ft_strdup(lex->s[var->z][i]);
 		printf("\n\nexported = %s\n\n", lex->s[var->z][i]);
+		printf("in export = %s\n", exp_env[j]);
 		j++;
 		i++;
 	}
@@ -185,7 +189,7 @@ char	**unset(char **cpyenvp, char *unsetstr)
 		free(cpycpy);
 		return (NULL);
 	}
-	new_envp = (char **)malloc(sizeof(char *) * (k));
+	new_envp = (char **)malloc(sizeof(char *) * (k + 2));
 	if (!new_envp)
 		return (NULL);
 	i = 0;
