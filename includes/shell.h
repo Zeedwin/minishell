@@ -90,6 +90,7 @@ typedef struct s_var {
 	char	**cpyenv;
 	char	*cmd;
 	char	**cmd1;
+	int 	iff;
 	int		lacontedetagrandmere;
 	char	*promt;
 	char	*line;

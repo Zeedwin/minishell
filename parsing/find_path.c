@@ -58,6 +58,7 @@ void	find_path(char **env, t_var *var)
 	i = 0;
 	while (env[i])
 	{
+		//printf("env[%d] = %s\n", i, env[i]);
 		if (ft_strncmp(env[i], "PATH=", 5) != 0)
 		{
 			i++;
@@ -76,7 +77,7 @@ void	find_path(char **env, t_var *var)
 			var->nopath = 1;
 			i++;
 		}
-	}	
+	}
 }
 
 int	check_path(char *s)
@@ -145,7 +146,9 @@ char	*find_cmd_path(t_var *var, char *cmd)
 			i++;
 		}
 	}
-	free(cmd);
+	//printf("cwd = =%s\n", var->path[0]);
+	if(var->path != NULL)
+		free(cmd);
 	free(path);
 	return (0);
 }

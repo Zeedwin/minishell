@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:03:37 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/12 09:19:51 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/15 12:26:33 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ void	free_2(char **s)
 	while (s[i])
 	{
 		free(s[i]);
+		s[i] = NULL;
 		i++;
 	}
+	s = NULL;
 	free(s);
 }
 
@@ -33,8 +35,10 @@ void	free_3(char ***s)
 	while (s[i])
 	{
 		free_2(s[i]);
+		s[i] = NULL;
 		i++;
 	}
+	s = NULL;
 	free(s);
 }
 

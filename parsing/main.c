@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/15 11:14:59 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/15 12:29:08 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -586,11 +586,16 @@ void	process(char **env, t_var *var)
 	t_lex	lex;
 	t_pipe	pip;
 	char	*lineread;
-
+	
+	/*if(var->iff > 0)
+		printf("var->path = %s\n", var->path[0]);
+	var->iff++;*/
 	var->check_after_redir = 0;
 	var->nopath = 0;
 	var->fail_dir = 0;
 	var->line = NULL;
+	if(var->path != NULL)
+		var->path = NULL;
 	lineread = NULL;
 	var->last_pipe = 0;
 	if (var->last_pipe != 1)
@@ -603,6 +608,7 @@ void	process(char **env, t_var *var)
 	g_global.is_in_heredoc = 0;
 	currpath(var);
 	find_path(g_global.cpyenv, var);
+	//printf("\nvarpath = %s\n\n", var->path[0]);
 	if (var->last_pipe == 1)
 		lineread = readline(">");
 	else

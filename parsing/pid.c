@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:38:12 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/15 11:28:07 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/15 11:32:20 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	creat_pid(t_lex *lex, t_var *var)
 			free(s);
 		}
 	}
-	var->shell = malloc(sizeof(pid_t) * (z + 1));
+	var->shell = malloc(sizeof(pid_t) * (z + 2));
 	var->count_wait = z + 1;
 	var->shell[z] = -2;
 }
