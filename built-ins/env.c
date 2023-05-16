@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:48:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/15 16:26:16 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/16 13:40:03 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,10 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var, int exp)
 	int		len;
 	char	**exp_env;
 	char	**cpycpy;
-	int		k;
 	int		j;
 	int		check;
 
-	(void)exp;
-	k = 1;
-	check = 0;
-	len = 0;
-	i = 0;
-	j = 0;
-	cpycpy = NULL;
+	(norm(), check = 0, len = 0, i = 0, j = 0, cpycpy = NULL);
 	if (lex->s1[2] && lex->s1[1] && if_in_quotes(lex->s1[2]) == 1)
 		lex->s[var->z][exp] = ft_strjoin(lex->s[var->z][1], lex->s[var->z][2]);
 	else if (!lex->s1[1])
@@ -98,13 +91,7 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var, int exp)
 		}
 		return (cpyenv);
 	}
-	i = 0;
-	while (lex->s[var->z][k])
-	{
-		k++;
-	}
-	i = 0;
-	cpycpy = ft_strcpy_env(cpycpy, cpyenv);
+	(norm(), cpycpy = ft_strcpy_env(cpycpy, cpyenv), i = 0);
 	while (cpycpy[i])
 	{
 		if ((ft_strncmp(cpycpy[i], lex->s[var->z][exp],
@@ -114,10 +101,7 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var, int exp)
 		len++;
 	}
 	if (len < 0)
-	{
-		free(cpycpy);
-		return (NULL);
-	}
+		return (free(cpycpy), NULL);
 	exp_env = malloc(sizeof(char *) * (len + 2));
 	if (!exp_env)
 		return (NULL);
@@ -133,7 +117,6 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var, int exp)
 		}
 		else
 		{
-			//printf("kayle lvl 16\n");
 			exp_env[j] = cpycpy[i];
 			j++;
 		}
@@ -141,23 +124,8 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var, int exp)
 	}
 	if (check == 1)
 	{
-		//printf("im pregananant\n");
-		exp_env[j] = NULL;
-		free(cpycpy);
-		return (exp_env);
+		return (exp_env[j] = NULL, free(cpycpy), exp_env);
 	}
-	//i = 1;
-	//printf("mongus\n");
-	/*while (lex->s[var->z][i])
-	{
-		//if (check == 1)
-		//	i++;
-		exp_env[j] = ft_strdup(lex->s[var->z][i]);
-		printf("\n\nexported = %s\n\n", lex->s[var->z][i]);
-		printf("in export = %s\n", exp_env[j]);
-		j++;
-		i++;
-	}*/
 	exp_env[j] = ft_strdup(lex->s[var->z][exp]);
 	exp_env[j + 1] = NULL;
 	free(cpycpy);
@@ -166,49 +134,29 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var, int exp)
 
 char	**unset(char **cpyenvp, char *unsetstr)
 {
-	int		i;
-	int		j;
-	int		k;
-	int		c;
-	char	**new_envp;
-	char	**cpycpy;
+	t_init	ini;
 
-	k = 0;
-	i = 0;
-	if (!unsetstr)
-		return (cpyenvp);
-	c = ft_strlen(unsetstr);
-	cpycpy = NULL;
-	cpycpy = ft_strcpy_env(cpyenvp, cpyenvp);
-	while (cpycpy[i])
+	(norm(), ini.k = 0, ini.i = 0, ini.c = ft_strlen(unsetstr),
+		ini.cpycpy = ft_strcpy_env(cpyenvp, cpyenvp));
+	while (ini.cpycpy[ini.i])
 	{
-		if (ft_strncmp(cpycpy[i], unsetstr, c) == 0)
-			k--;
-		k++;
-		i++;
+		if (ft_strncmp(ini.cpycpy[ini.i], unsetstr, ini.c) == 0)
+			ini.k--;
+		(norm(), ini.k++, ini.i++);
 	}
-	if (k < 0)
-	{
-		free(cpycpy);
+	if (ini.k < 0)
+		return (free(ini.cpycpy), NULL);
+	ini.new_envp = (char **)malloc(sizeof(char *) * (ini.k + 2));
+	if (!ini.new_envp)
 		return (NULL);
-	}
-	new_envp = (char **)malloc(sizeof(char *) * (k + 2));
-	if (!new_envp)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (cpycpy[i])
+	(norm(), ini.i = 0, ini.j = 0);
+	while (ini.cpycpy[ini.i])
 	{
-		if (ft_strncmp(cpycpy[i], unsetstr, c) == 0)
-			i++;
+		if (ft_strncmp(ini.cpycpy[ini.i], unsetstr, ini.c) == 0)
+			ini.i++;
 		else
-		{
-			new_envp[j] = cpycpy[i];
-			i++;
-			j++;
-		}
+			(norm(), ini.new_envp[ini.j] = ini.cpycpy[ini.i], ini.i++, ini.j++);
 	}
-	new_envp[j] = NULL;
-	free(cpycpy);
-	return (new_envp);
+	ini.new_envp[ini.j] = NULL;
+	return (free(ini.cpycpy), ini.new_envp);
 }

@@ -23,19 +23,18 @@ int	file_input_check(char *file)
 		return (0);
 }
 
+void	norm(void)
+{
+}
+
 int	cd(char **s, t_var *var)
 {
 	int		i;
 	int		k;
 
-	//g_global.cpyenv = export(g_global.cpyenv, lex, var, 1);
-	i = 0;
-	k = 0;
+	(norm(), i = 0, k = -1);
 	if (ft_strcmp(s[i], "cd") && ft_strcmp(s[i + 1], ".."))
 		return (chdir(".."), 1);
-	if (ft_strcmp(s[i], "cd") && ft_strcmp(s[i + 1], "-") == 0)
-		return (chdir("$OLDPWD"), 1);
-	k = i;
 	while (s[k])
 		k++;
 	if (ft_strcmp(s[i], "cd") == 0 && file_input_check(s[i + 1]) == 1)
@@ -45,10 +44,7 @@ int	cd(char **s, t_var *var)
 		return (1);
 	}
 	else if (k == 1)
-	{
-		chdir(getenv("HOME"));
-		return (1);
-	}
+		return (chdir(getenv("HOME")), 1);
 	else if (ft_strcmp(s[i], "cd") == 0 && file_input_check(s[i + 1]) != 1)
 	{
 		printf("bash: cd: %s: No such file or directory\n", s[i + 1]);
