@@ -51,6 +51,7 @@ SRCS		:=    		  parsing/utils_5.c \
 						  built-ins/pwd.c \
 						  built-ins/env.c \
 						  built-ins/echo.c \
+						  built-ins/env2.c \
 						  parsing/ft_strnstr.c \
 						  parsing/ft_strdup.c \
 						  parsing/testeur.c \

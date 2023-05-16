@@ -25,11 +25,10 @@ int	exec_builtin_out(char **s, t_var *var, t_lex *lex)
 	return (1);
 }
 
-int	execve_builtin(char **s, char **env, t_var *var, t_lex *lex)
+int	execve_builtin(char **s, t_var *var, t_lex *lex)
 {
 	int	i;
 
-	(void)env;
 	if (ft_strcmp(*s, "cd") == 0 || ft_strcmp(*s, "CD") == 0)
 		cd(s, var);
 	i = 1;
@@ -40,20 +39,16 @@ int	execve_builtin(char **s, char **env, t_var *var, t_lex *lex)
 		else
 		{
 			while (lex->s[var->z][i])
-			{
-				g_global.cpyenv = export(g_global.cpyenv, lex, var, i);
-				i++;
-			}
+				(norm(), g_global.cpyenv
+					= export(g_global.cpyenv, lex, var, i), i++);
 		}
 	}
 	i = 1;
 	if (ft_strcmp(*s, "unset") == 0)
 	{
 		while (lex->s[var->z][i])
-		{
-			g_global.cpyenv = unset(g_global.cpyenv, lex->s[var->z][i]);
-			i++;
-		}
+			(norm(), g_global.cpyenv
+				= unset(g_global.cpyenv, lex->s[var->z][i]), i++);
 	}
 	return (0);
 }

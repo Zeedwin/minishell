@@ -6,49 +6,11 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:48:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/16 13:40:03 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/16 14:38:16 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
-
-void	env(char **cpyenv)
-{
-	int	i;
-	int	j;
-	int	flag;
-
-	flag = 0;
-	j = 0;
-	i = 0;
-	while (cpyenv[i])
-	{
-		j = 0;
-		while (cpyenv[i][j])
-		{
-			if (cpyenv[i][j] == '=')
-				flag = 1;
-			j++;
-		}
-		if (flag == 1)
-			printf("%s\n", cpyenv[i]);
-		flag = 0;
-		i++;
-	}
-}
-
-/*
-int check_if_in_env(char **env, char *exported)
-{
-    int i;
-
-    i = 0;
-    while (env[i])
-    {
-
-    } 
-}
-*/
 
 int	if_in_quotes(char *s)
 {
@@ -70,66 +32,61 @@ int	if_in_quotes(char *s)
 	return (0);
 }
 
+char	**exportprint(char	**cpyenv)
+{
+	int	i;
+
+	i = -1;
+	while (g_global.cpyenv[++i])
+		printf("declare -x %s\n", g_global.cpyenv[i]);
+	return (cpyenv);
+}
+
+char	**elp(t_lex *lex, t_var *var, t_init *ine)
+{
+	while (g_global.cpyenv[ine->i])
+	{
+		if ((ft_strncmp(g_global.cpyenv[ine->i], lex->s[var->z][ine->exper],
+				equalfinder(g_global.cpyenv[ine->i])) == 0))
+			(norm(), ine->check = 1,
+				ine->exp_env[ine->j] = ft_strdup(lex->s[var->z][ine->exper]),
+					ine->j++);
+		else
+			(norm(), ine->exp_env[ine->j] = ine->cpycpy[ine->i], ine->j++);
+		ine->i++;
+	}
+	if (ine->check == 1)
+		return (ine->exp_env[ine->j] = NULL, free(ine->cpycpy), ine->exp_env);
+	return (ine->exp_env[ine->j] = ft_strdup(lex->s[var->z][ine->exper]),
+			ine->exp_env[ine->j + 1] = NULL, free(ine->cpycpy), ine->exp_env);
+}
+
 char	**export(char **cpyenv, t_lex *lex, t_var *var, int exp)
 {
-	int		i;
-	int		len;
-	char	**exp_env;
-	char	**cpycpy;
-	int		j;
-	int		check;
+	t_init	ine;
 
-	(norm(), check = 0, len = 0, i = 0, j = 0, cpycpy = NULL);
+	ine.exper = exp;
+	(norm(), ine.check = 0, ine.len = 0,
+		ine.i = 0, ine.j = 0, ine.cpycpy = NULL);
 	if (lex->s1[2] && lex->s1[1] && if_in_quotes(lex->s1[2]) == 1)
 		lex->s[var->z][exp] = ft_strjoin(lex->s[var->z][1], lex->s[var->z][2]);
 	else if (!lex->s1[1])
+		return (exportprint(cpyenv));
+	(norm(), ine.cpycpy = ft_strcpy_env(ine.cpycpy, cpyenv), ine.i = 0);
+	while (ine.cpycpy[ine.i])
 	{
-		while (g_global.cpyenv[i])
-		{
-			printf("declare -x %s\n", g_global.cpyenv[i]);
-			i++;
-		}
-		return (cpyenv);
+		if ((ft_strncmp(ine.cpycpy[ine.i], lex->s[var->z][exp],
+				equalfinder(ine.cpycpy[ine.i])) == 0))
+			ine.len--;
+		(norm(), ine.i++, ine.len++);
 	}
-	(norm(), cpycpy = ft_strcpy_env(cpycpy, cpyenv), i = 0);
-	while (cpycpy[i])
-	{
-		if ((ft_strncmp(cpycpy[i], lex->s[var->z][exp],
-				equalfinder(cpycpy[i])) == 0))
-			len--;
-		i++;
-		len++;
-	}
-	if (len < 0)
-		return (free(cpycpy), NULL);
-	exp_env = malloc(sizeof(char *) * (len + 2));
-	if (!exp_env)
+	if (ine.len < 0)
+		return (free(ine.cpycpy), NULL);
+	ine.exp_env = malloc(sizeof(char *) * (ine.len + 2));
+	if (!ine.exp_env)
 		return (NULL);
-	i = 0;
-	while (g_global.cpyenv[i])
-	{
-		if ((ft_strncmp(g_global.cpyenv[i], lex->s[var->z][exp],
-				equalfinder(g_global.cpyenv[i])) == 0))
-		{
-			check = 1;
-			exp_env[j] = ft_strdup(lex->s[var->z][exp]);
-			j++;
-		}
-		else
-		{
-			exp_env[j] = cpycpy[i];
-			j++;
-		}
-		i++;
-	}
-	if (check == 1)
-	{
-		return (exp_env[j] = NULL, free(cpycpy), exp_env);
-	}
-	exp_env[j] = ft_strdup(lex->s[var->z][exp]);
-	exp_env[j + 1] = NULL;
-	free(cpycpy);
-	return (exp_env);
+	ine.i = 0;
+	return (elp(lex, var, &ine));
 }
 
 char	**unset(char **cpyenvp, char *unsetstr)
