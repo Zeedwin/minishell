@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:47:01 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/15 13:48:12 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/16 14:50:36 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	executeur_final(char **s, char **env, t_var *var, t_lex *lex)
 
 	if (var->last_pipe == 1)
 		dup2(var->fd, STDIN_FILENO);
-	if (var->z > 0 && lex->supatok[var->z - 1] == TOKEN_PIPE)
+	if (var->z > 0 && lex->supatok[var->z - 1] == TK_PIPE)
 		dup2(var->fd, STDIN_FILENO);
-	if (var->z >= 2 && lex->supatok[var->z - 1] == TOKEN_PIPE
-		&& lex->supatok[var->z - 2] == TOKEN_BUILTIN_OUTP)
+	if (var->z >= 2 && lex->supatok[var->z - 1] == TK_PIPE
+		&& lex->supatok[var->z - 2] == TK_BUILTIN_OUTP)
 	{
 		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
 		dup2(var->fd, STDIN_FILENO);

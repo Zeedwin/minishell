@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/16 14:56:09 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/16 16:15:25 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 	var->fd = dup(0);
 	while (var->z < ft_malloc(lex) - 1 - var->check_after_redir)
 	{
-		if (lex->supatok[var->z] == TOKEN_WORD && lex->s[var->z] != NULL)
+		if (lex->supatok[var->z] == TK_WORD && lex->s[var->z] != NULL)
 		{
 			if (lex->s[var->z + 1] == NULL)
 			{
@@ -40,7 +40,7 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 				if (var->shell[var->pidnum] == 0)
 				{
 					if (var->z > 0 && (var->last_pipe == 1
-							|| lex->supatok[var->z - 1] == TOKEN_PIPE))
+						|| lex->supatok[var->z - 1] == TK_PIPE))
 					{
 						dup2(var->fd, STDIN_FILENO);
 					}
@@ -50,7 +50,6 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 				{
 					if (var->fd != 0 && var->last_pipe != 1)
 						close(var->fd);
-					//if (var->no_wait == 0)
 					wait_pid(var, pip);
 					g_global.is_in_cat = 0;
 					if (g_global.exitcode == 130)
@@ -70,26 +69,26 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 			else
 				var->z++;
 		}
-		else if (lex->supatok[var->z] == TOKEN_BUILTIN
-			&& lex->supatok[var->z + 1] == TOKEN_PIPE)
+		else if (lex->supatok[var->z] == TK_BUILTIN
+			&& lex->supatok[var->z + 1] == TK_PIPE)
 			var->z += 2;
-		else if (var->z > 0 && lex->supatok[var->z] == TOKEN_BUILTIN
-			&& lex->supatok[var->z - 1] == TOKEN_PIPE)
+		else if (var->z > 0 && lex->supatok[var->z] == TK_BUILTIN
+			&& lex->supatok[var->z - 1] == TK_PIPE)
 			var->z++;
-		else if (lex->supatok[var->z] == TOKEN_BUILTIN && var->z == 0)
+		else if (lex->supatok[var->z] == TK_BUILTIN && var->z == 0)
 		{
 			execve_builtin(lex->s[var->z], var, lex);
 			var->z++;
 		}
-		else if (lex->supatok[var->z] == TOKEN_BUILTIN_OUTP
+		else if (lex->supatok[var->z] == TK_BUILTIN_OUTP
 			&& lex->s[var->z + 1] == NULL)
 		{
 			exec_builtin_out(lex->s[var->z], var, lex);
 			var->z++;
 		}
-		else if (lex->supatok[var->z] == TOKEN_BUILTIN_OUTP)
+		else if (lex->supatok[var->z] == TK_BUILTIN_OUTP)
 			var->z++;
-		else if (lex->supatok[var->z] == TOKEN_PIPE)
+		else if (lex->supatok[var->z] == TK_PIPE)
 		{
 			if (lex->s[var->z + 1] == NULL)
 			{
@@ -98,13 +97,12 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 			var->fail_dir = 0;
 			minipipe(pip, lex, var);
 		}
-		else if (lex->supatok[var->z] == TOKEN_REDIR_S
-			|| lex->supatok[var->z] == TOKEN_REDIR_E
-			|| lex->supatok[var->z] == TOKEN_REDIR_S2
-			|| lex->supatok[var->z] == TOKEN_REDIR_E2)
+		else if (lex->supatok[var->z] == TK_REDIR_S
+			|| lex->supatok[var->z] == TK_REDIR_E
+			|| lex->supatok[var->z] == TK_REDIR_S2
+			|| lex->supatok[var->z] == TK_REDIR_E2)
 		{
 			miniredir_s(lex, var, pip);
-			var->fail_dir = 0;
 			var->c = 0;
 			var->i = 0;
 		}

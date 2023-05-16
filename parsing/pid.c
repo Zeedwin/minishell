@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:38:12 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/16 11:28:51 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/16 16:01:02 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	creat_pid(t_lex *lex, t_var *var)
 	i = 0;
 	while (i < ft_malloc(lex) - 1)
 	{
-		if (lex->supatok[i] != TOKEN_WORD)
+		if (lex->supatok[i] != TK_WORD)
 			i++;
 		else
 		{
@@ -37,7 +37,7 @@ void	creat_pid(t_lex *lex, t_var *var)
 			free(s);
 		}
 	}
-	var->shell = malloc(sizeof(pid_t) * (var->count_wait + 1));
+	var->shell = ft_calloc((var->count_wait + 1), sizeof(pid_t));
 }
 
 void	wait_pid(t_var *var, t_pipe *pip)
@@ -47,8 +47,7 @@ void	wait_pid(t_var *var, t_pipe *pip)
 	i = 0;
 	while (i <= var->count_wait)
 	{
-		if (var->shell[i])
-			waitpid(var->shell[i], &pip->status, 0);
+		waitpid(var->shell[i], &pip->status, 0);
 		i++;
 	}
 }

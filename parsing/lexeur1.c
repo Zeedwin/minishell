@@ -118,8 +118,8 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	s2 = ft_strcpy(s2, s);
 	lexer1(s2, lex);
 	lex->s1[count(s, var)] = NULL;
-	lex->stoken[count(s, var)] = TOKEN_FIN;
-	lex->supatok[count(s, var)] = TOKEN_FIN;
+	lex->stoken[count(s, var)] = TK_FIN;
+	lex->supatok[count(s, var)] = TK_FIN;
 	free(s);
 	free(s2);
 }

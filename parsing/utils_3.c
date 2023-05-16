@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:37:26 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/16 13:34:51 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/16 16:07:17 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ char	**add_if_after(char **s1)
 
 int	miniredir_s1(t_lex *lex, t_var *var)
 {
-	if ((lex->supatok[var->z + var->i] == TOKEN_REDIR_S
-			|| lex->supatok[var->z + var->i] == TOKEN_REDIR_S2
-			|| lex->supatok[var->z + var->i] == TOKEN_REDIR_E
-			|| lex->supatok[var->z + var->i] == TOKEN_REDIR_E2)
-		&& (var->z == 0 || lex->supatok[var->z - 1] == TOKEN_PIPE))
+	if ((lex->supatok[var->z + var->i] == TK_REDIR_S
+			|| lex->supatok[var->z + var->i] == TK_REDIR_S2
+			|| lex->supatok[var->z + var->i] == TK_REDIR_E
+			|| lex->supatok[var->z + var->i] == TK_REDIR_E2)
+		&& (var->z == 0 || lex->supatok[var->z - 1] == TK_PIPE))
 	{
 		lex->s = cpy3truc(var, lex, lex->s, var->z);
 		lex->s[var->z] = add_if_after(
@@ -77,14 +77,14 @@ int	miniredir_s1(t_lex *lex, t_var *var)
 
 int	miniredir_s3(t_lex *lex, t_var *var, int plus)
 {
-	if (lex->supatok[var->z + var->i] == TOKEN_REDIR_S)
+	if (lex->supatok[var->z + var->i] == TK_REDIR_S)
 	{
 		if (var->fd_s != -2)
 			close(var->fd_s);
 		var->fd_s = open(lex->s[var->z + plus + var->i + 1][0],
 				O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	}
-	else if (lex->supatok[var->z + var->i] == TOKEN_REDIR_E)
+	else if (lex->supatok[var->z + var->i] == TK_REDIR_E)
 	{
 		if (var->fd_e != -2)
 			close(var->fd_e);
@@ -112,10 +112,10 @@ int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 	fdtmp = dup(0);
 	dup2(STDOUT_FILENO, fdtmp);
 	var->fd_s = -2;
-	while (lex->supatok[var->z + var->i] == TOKEN_REDIR_S
-		|| lex->supatok[var->z + var->i] == TOKEN_REDIR_E
-		|| lex->supatok[var->z + var->i] == TOKEN_REDIR_S2
-		|| lex->supatok[var->z + var->i] == TOKEN_REDIR_E2)
+	while (lex->supatok[var->z + var->i] == TK_REDIR_S
+		|| lex->supatok[var->z + var->i] == TK_REDIR_E
+		|| lex->supatok[var->z + var->i] == TK_REDIR_S2
+		|| lex->supatok[var->z + var->i] == TK_REDIR_E2)
 	{
 		if (miniredir_s3(lex, var, plus) == 0)
 			break ;

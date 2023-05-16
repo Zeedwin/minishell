@@ -60,17 +60,17 @@ typedef struct s_pipe {
 }	t_pipe;
 
 enum {
-	TOKEN_WORD,
-	TOKEN_PIPE,
-	TOKEN_REDIR_S,
-	TOKEN_REDIR_E,
-	TOKEN_REDIR_S2,
-	TOKEN_REDIR_E2,
-	TOKEN_CMD,
-	TOKEN_DOLLAR,
-	TOKEN_BUILTIN,
-	TOKEN_BUILTIN_OUTP,
-	TOKEN_FIN,
+	TK_WORD,
+	TK_PIPE,
+	TK_REDIR_S,
+	TK_REDIR_E,
+	TK_REDIR_S2,
+	TK_REDIR_E2,
+	TK_CMD,
+	TK_DOLLAR,
+	TK_BUILTIN,
+	TK_BUILTIN_OUTP,
+	TK_FIN,
 };
 
 enum {
@@ -111,6 +111,9 @@ typedef struct s_var {
 	int		pidnum;
 	int		c;
 	int		z;
+	int		j;
+	int		p;
+	int		k;
 	int		nopath;
 	int		i;
 	int		is_in_heredoc;
@@ -202,6 +205,7 @@ char	***del_brak(char ***s);
 int		execve_builtin(char **s, t_var *var, t_lex *lex);
 int		ft_isdigit(int c);
 int		error_quote(char *s);
+void	cpy3truc1(t_var *v, t_lex *lex);
 char	*suppr_pos(char *s, int pos);
 int		check_vide(char *s);
 char	*change_tab(char *s);

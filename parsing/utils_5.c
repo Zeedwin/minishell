@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:38:19 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/16 14:08:04 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/16 14:50:36 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ void	minipipe1(t_var *var, t_pipe *pip, t_lex *lex)
 {
 	dup2(var->fd, STDIN_FILENO);
 	if (find_cmd_path(var, lex->s[var->z - 1][0]) != 0
-		&& lex->supatok[var->z - 1] == TOKEN_WORD)
+		&& lex->supatok[var->z - 1] == TK_WORD)
 		dup2(pip->tube[1], STDOUT_FILENO);
 	close(pip->tube[0]);
-	if (lex->supatok[var->z - 1] == TOKEN_WORD)
+	if (lex->supatok[var->z - 1] == TK_WORD)
 	{
 		executeur(lex->s[var->z - 1], g_global.cpyenv, var);
 	}
@@ -74,12 +74,12 @@ void	minipipe3(t_var *var, t_lex *lex, int fdtmp)
 int	turbotokenizer1(t_lex *lex, int i)
 {
 	if (lex->s[i][0][0] == '>' && lex->s[i][0][0 + 1] != '>')
-		lex->supatok[i] = TOKEN_REDIR_S;
+		lex->supatok[i] = TK_REDIR_S;
 	else if (lex->s[i][0][0] == '<' && lex->s[i][0][0 + 1] != '<')
-		lex->supatok[i] = TOKEN_REDIR_E;
+		lex->supatok[i] = TK_REDIR_E;
 	else if (lex->s[i][0][0] == '>' && lex->s[i][0][0 + 1] == '>')
-		lex->supatok[i] = TOKEN_REDIR_S2;
+		lex->supatok[i] = TK_REDIR_S2;
 	else if (lex->s[i][0][0] == '<' && lex->s[i][0][0 + 1] == '<')
-		lex->supatok[i] = TOKEN_REDIR_E2;
+		lex->supatok[i] = TK_REDIR_E2;
 	return (0);
 }

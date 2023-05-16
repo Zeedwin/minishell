@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:59 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/16 13:52:37 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/16 15:02:06 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	count_pipe(int *supatok, t_lex *lex)
 	j = 0;
 	while (lex->s[i])
 	{
-		if (supatok[i] == TOKEN_PIPE)
+		if (supatok[i] == TK_PIPE)
 		{
 			j++;
 		}
@@ -72,8 +72,8 @@ int	minipipe(t_pipe	*pip, t_lex *lex, t_var *var)
 	fdtmp = dup(0);
 	dup2(STDOUT_FILENO, fdtmp);
 	pipe(pip->tube);
-	if (lex->supatok[var->z - 1] != TOKEN_BUILTIN
-		&& lex->supatok[var->z - 1] != TOKEN_BUILTIN_OUTP)
+	if (lex->supatok[var->z - 1] != TK_BUILTIN
+		&& lex->supatok[var->z - 1] != TK_BUILTIN_OUTP)
 	{
 		g_global.is_in_cat = 1;
 		var->shell[var->pidnum] = fork();
@@ -82,57 +82,35 @@ int	minipipe(t_pipe	*pip, t_lex *lex, t_var *var)
 		else
 			minipipe2(var, pip);
 	}
-	else if (lex->supatok[var->z - 1] == TOKEN_BUILTIN_OUTP)
+	else if (lex->supatok[var->z - 1] == TK_BUILTIN_OUTP)
 		minipipe3(var, lex, fdtmp);
 	return (1);
 }
 
-char	***cpy3truc(t_var *var, t_lex *lex, char ***sf, int decale)
+char	***cpy3truc(t_var *v, t_lex *lex, char ***sf, int decale)
 {
-	int	i;
-	int	j;
-	int	k;
-
-	(void)var;
-	j = 0;
-	i = 0;
-	k = 0;
-	sf = (char ***)malloc(sizeof(char **) * ft_malloc(lex) + 1);
-	while (lex->s1[i])
+	(norm(), v->p = 0, v->k = 0, v->j = 0,
+		sf = (char ***)malloc(sizeof(char **) * ft_malloc(lex)));
+	while (lex->s1[v->p])
 	{
-		if (k == decale)
+		if (v->k == decale)
+			(norm(), sf[v->k] = NULL, v->k++);
+		if (lex->stoken[v->p] == TK_PIPE || lex->stoken[v->p] == TK_REDIR_S)
+			(norm(), sf[v->k] = malloc(sizeof(char *) * 2), sf[v->k][0] =
+				malloc(sizeof(char) * (ft_strlen(lex->s1[v->p]) + 1)),
+				sf[v->k][0] = ft_strcpy(sf[v->k][0], lex->s1[v->p]),
+				sf[v->k][1] = NULL, v->k++, v->p++);
+		else if (lex->stoken[v->p] == TK_WORD)
 		{
-			sf[k] = NULL;
-			k++;
-		}
-		if (lex->stoken[i] == TOKEN_PIPE || lex->stoken[i] == TOKEN_REDIR_S)
-		{
-			sf[k] = malloc(sizeof(char *) * 2);
-			sf[k][0] = malloc(sizeof(char) * (ft_strlen(lex->s1[i]) + 1));
-			sf[k][0] = ft_strcpy(sf[k][0], lex->s1[i]);
-			sf[k][1] = NULL;
-			k++;
-			i++;
-		}
-		else if (lex->stoken[i] == TOKEN_WORD)
-		{
-			j = i;
-			while (lex->stoken[i] == TOKEN_WORD && lex->s1[i])
-				i++;
-			sf[k] = malloc(sizeof(char *) * (i - j + 1));
-			i = j;
-			j = 0;
-			while (lex->stoken[i] == TOKEN_WORD && lex->s1[i])
-			{
-				sf[k][j] = malloc(sizeof(char) * (ft_strlen(lex->s1[i]) + 1));
-				sf[k][j] = ft_strcpy(sf[k][j], lex->s1[i]);
-				j++;
-				i++;
-				sf[k][j] = NULL;
-			}
-			k++;
+			cpy3truc1(v, lex);
+			(norm(), sf[v->k] = malloc(sizeof(char *) * (v->p - v->j + 1)),
+				v->p = v->j, v->j = 0);
+			while (lex->stoken[v->p] == TK_WORD && lex->s1[v->p])
+				(norm(), sf[v->k][v->j] = malloc(sizeof(char) * (ft_strlen(lex
+					->s1[v->p]) + 1)), sf[v->k][v->j] = ft_strcpy(sf[v->k][v->
+					j], lex->s1[v->p]), v->j++, v->p++, sf[v->k][v->j] = NULL);
+			v->k++;
 		}
 	}
-	sf[k] = NULL;
-	return (sf);
+	return (sf[v->k] = NULL, sf);
 }

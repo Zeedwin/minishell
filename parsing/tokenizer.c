@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:42:56 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/16 13:57:02 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/16 14:50:36 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,15 @@ void	token_builtin(t_lex *lex)
 	i = 0;
 	while (i < ft_malloc(lex) - 2)
 	{
-		if (lex->supatok[i] == TOKEN_WORD)
+		if (lex->supatok[i] == TK_WORD)
 		{
 			if (test_builtin(lex->s[i]) == 1)
 			{
-				lex->supatok[i] = TOKEN_BUILTIN;
+				lex->supatok[i] = TK_BUILTIN;
 			}
 			else if (test_builtin(lex->s[i]) == 2)
 			{
-				lex->supatok[i] = TOKEN_BUILTIN_OUTP;
+				lex->supatok[i] = TK_BUILTIN_OUTP;
 			}
 		}
 		i++;
