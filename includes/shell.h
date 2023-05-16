@@ -84,7 +84,7 @@ enum {
 };
 
 typedef struct s_var {
-	int 	count_wait;
+	int		count_wait;
 	int		check_after_redir;
 	char	**path;
 	char	**cpyenv;
@@ -122,12 +122,12 @@ typedef struct s_lex
 {
 	int		x;
 	char	**s1;
+	int		ii;
 	char	***s;
 	int		*stoken;
 	int		*supatok;
 	int		c;
 	int		y;
-	int		rap;
 }			t_lex;
 
 char	**ft_realloc2(char **map, int i);
@@ -154,7 +154,8 @@ void	find_path(char **env, t_var *var);
 char	*ft_strcpy(char *dest, char *src);
 int		quotecheker(char *s, char c);
 char	*ft_strtrim(char const *s1, char const *set);
-size_t	ft_strlcpy(char *restrict dst, const char *restrict src, size_t dstsize);
+size_t	ft_strlcpy(char *restrict dst,
+			const char *restrict src, size_t dstsize);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strnstr(const char *haystack, const char *needle, int len);
@@ -173,15 +174,15 @@ char	*change_tab(char *s);
 int		point(char *s);
 char	*space(char *s);
 int		ft_num(char *str);
+void	i_lexer(char *s, t_lex *lex, int code);
 char	*del_par_com(char *s);
-
-
 void	*ft_calloc(size_t count, size_t size);
 void	ft_bzero(void *s, size_t n);
 char	*ft_substr_free(char *s, unsigned int start, size_t len);
 char	*ft_strdup_free(char *src);
 char	*ft_strjoin_free(char *s1, char *s2, int freeable);
-size_t	ft_strlcpy(char *restrict dst, const char *restrict src, size_t dstsize);
+size_t	ft_strlcpy(char *restrict dst, const char *restrict src,
+			size_t dstsize);
 char	***separate_tok(t_var *var, t_lex *lex, char ***s);
 void	tokenizer(t_lex *lex);
 void	turbotokenizer(t_lex *lex);

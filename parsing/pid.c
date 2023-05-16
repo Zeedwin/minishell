@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:38:12 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/15 15:59:33 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/16 11:28:51 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	wait_pid(t_var *var, t_pipe *pip)
 	i = 0;
 	while (i <= var->count_wait)
 	{
-		waitpid(var->shell[i], &pip->status, 0);
+		if (var->shell[i])
+			waitpid(var->shell[i], &pip->status, 0);
 		i++;
 	}
 }
