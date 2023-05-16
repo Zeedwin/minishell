@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:42:56 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/04/27 21:14:34 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/16 13:57:02 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,24 @@
 
 int	test_builtin(char **s)
 {
-	if (s[0][0] == 'c' && s[0][1] == 'd' && s[0][2] == '\0')
+	if (ft_strcmp(s[0], "cd") == 0)
 		return (1);
-	else if (s[0][0] == 'e' && s[0][1] == 'n'
-		&& s[0][2] == 'v' && s[0][3] == '\0')
+	else if (ft_strcmp(s[0], "env") == 0)
 		return (2);
-	else if (s[0][0] == 'e' && s[0][1] == 'x' && s[0][2] == 'p'
-		&& s[0][3] == 'o' && s[0][4] == 'r'
-		&& s[0][5] == 't' && s[0][6] == '\0')
+	else if (ft_strcmp(s[0], "export") == 0)
 		return (1);
-	else if (s[0][0] == 'e' && s[0][1] == 'c' && s[0][2] == 'h'
-		&& s[0][3] == 'o' && s[0][4] == '\0')
+	else if (ft_strcmp(s[0], "echo") == 0)
 	{
 		if (s[1] != NULL && s[1][0] == '-' && s[1][1] == 'n' && s[0][2] == '\0')
 			return (2);
 		else
 			return (0);
 	}
-	else if (s[0][0] == 'p' && s[0][1] == 'w'
-		&& s[0][2] == 'd' && s[0][3] == '\0')
+	else if (ft_strcmp(s[0], "pwd") == 0)
 		return (2);
-	else if (s[0][0] == 'u' && s[0][1] == 'n' && s[0][2] == 's'
-		&& s[0][3] == 'e' && s[0][4] == 't' && s[0][5] == '\0')
+	else if (ft_strcmp(s[0], "unset") == 0)
 		return (1);
-	else if (s[0][0] == 'e' && s[0][1] == 'x' && s[0][2] == 'i'
-		&& s[0][3] == 't' && s[0][4] == '\0')
+	else if (ft_strcmp(s[0], "exit") == 0)
 		return (2);
 	return (0);
 }

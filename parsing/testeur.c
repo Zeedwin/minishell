@@ -115,37 +115,20 @@ char	***separate_tok(t_var *var, t_lex *lex, char ***sf)
 void	turbotokenizer(t_lex *lex)
 {
 	int	i;
-	int	j;
-	int	k;
 
-	j = 0;
 	i = 0;
-	k = 0;
 	while (lex->s[i])
 	{
-		if (lex->s[i][j][k] == '|')
+		if (lex->s[i][0][0] == '|')
 			lex->supatok[i] = TOKEN_PIPE;
-		else if (lex->s[i][j][k] == '<' || lex->s[i][j][k] == '>')
-		{
-			if (lex->s[i][j][k] == '>' && lex->s[i][j][k + 1] != '>')
-				lex->supatok[i] = TOKEN_REDIR_S;
-			else if (lex->s[i][j][k] == '<' && lex->s[i][j][k + 1] != '<')
-				lex->supatok[i] = TOKEN_REDIR_E;
-			else if (lex->s[i][j][k] == '>' && lex->s[i][j][k + 1] == '>')
-				lex->supatok[i] = TOKEN_REDIR_S2;
-			else if (lex->s[i][j][k] == '<' && lex->s[i][j][k + 1] == '<')
-				lex->supatok[i] = TOKEN_REDIR_E2;
-		}
+		else if (lex->s[i][0][0] == '<' || lex->s[i][0][0] == '>')
+			turbotokenizer1(lex, i);
 		else if (test_builtin(lex->s[i]) == 1)
 			lex->supatok[i] = TOKEN_BUILTIN;
 		else if (test_builtin(lex->s[i]) == 2)
-		{
 			lex->supatok[i] = TOKEN_BUILTIN_OUTP;
-		}
 		else
-		{
 			lex->supatok[i] = TOKEN_WORD;
-		}
 		i++;
 	}
 }

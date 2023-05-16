@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:55:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/15 15:11:53 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/16 12:30:48 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ char	*find_cmd_path(t_var *var, char *cmd)
 		return (find_cmd_path2(cmd, cmd_path, buf));
 	else if (var->nopath == 1)
 		return (find_cmd_path1(var, cmd, path, cmd_path));
-	if (var->path != NULL)
-		free(cmd);
 	free(path);
 	return (0);
 }
