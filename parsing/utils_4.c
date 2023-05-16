@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:00:20 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/16 14:50:36 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/16 16:22:26 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	miniredir_s8(t_lex *lex, t_var *var, int plus, int fdtmp)
 
 int	miniredir_s7(t_lex *lex, t_var *var, int plus, t_pipe *pip)
 {
-	if (var->fail_dir == 0 && var->z >= 0 && var->did_fail == 0)
+	if (var->fail_dir == 0 && var->z + plus > 0 && var->did_fail == 0)
 	{	
 		g_global.is_in_cat = 1;
 		var->shell[var->pidnum] = fork();
@@ -102,7 +102,7 @@ int	miniredir_s7(t_lex *lex, t_var *var, int plus, t_pipe *pip)
 			miniredir_s6(lex, var, plus, pip);
 		return (0);
 	}
-	else if (var->fail_dir == 0
+	else if (var->fail_dir == 0 && var->z > 1
 		&& lex->supatok[var->z - 2] == TK_BUILTIN_OUTP)
 	{
 		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);

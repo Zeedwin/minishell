@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:37:26 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/16 16:07:17 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/16 17:02:43 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	**add_if_after(char **s1)
 
 int	miniredir_s1(t_lex *lex, t_var *var)
 {
-	if ((lex->supatok[var->z + var->i] == TK_REDIR_S
+	if((lex->supatok[var->z + var->i] == TK_REDIR_S
 			|| lex->supatok[var->z + var->i] == TK_REDIR_S2
 			|| lex->supatok[var->z + var->i] == TK_REDIR_E
 			|| lex->supatok[var->z + var->i] == TK_REDIR_E2)
@@ -118,7 +118,7 @@ int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 		|| lex->supatok[var->z + var->i] == TK_REDIR_E2)
 	{
 		if (miniredir_s3(lex, var, plus) == 0)
-			break ;
+			break;
 		var->did_fail = miniredir_s4(lex, var, plus);
 	}
 	if (miniredir_s8(lex, var, plus, fdtmp) == 0)
