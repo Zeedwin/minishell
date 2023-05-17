@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/17 16:04:06 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/17 15:14:42 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,9 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 		return (0);
 	}
 	var->fd = dup(0);
-	var->check_after_redir = 0;
-	while (var->z < ft_malloc(lex) - 1)
+	while (var->z < ft_malloc(lex) - 1 - var->check_after_redir)
 	{
-		if (lex->supatok[var->z] == TK_WORD)
+		if (lex->supatok[var->z] == TK_WORD && lex->s[var->z] != NULL)
 		{
 			if (lex->s[var->z + 1] == NULL)
 			{
@@ -37,7 +36,8 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 				var->shell[var->pidnum] = fork();
 				if (var->shell[var->pidnum] == 0)
 				{
-					if (var->z > 0 && var->last_pipe == 1)
+					if (var->z > 0 && (var->last_pipe == 1
+							|| lex->supatok[var->z - 1] == TK_PIPE))
 					{
 						dup2(var->fd, STDIN_FILENO);
 					}
@@ -46,31 +46,13 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 						var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
 						dup2(var->fd, STDIN_FILENO);
 					}
-					if (var->z >= 2 && lex->supatok[var->z - 2] == TK_REDIR_S)
-					{
-						var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
-						dup2(var->fd, STDIN_FILENO);
-					}
-					if ((var->z > 1 && lex->supatok[var->z - 1 - var->check_after_redir] == TK_PIPE
-							&& (lex->supatok[var->z - 3 - var->check_after_redir] == TK_REDIR_E2
-								|| lex->supatok[var->z - 3 - var->check_after_redir] == TK_REDIR_E)))
-					{
-						var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
-						dup2(var->fd, STDIN_FILENO);
-					}
-					else if ((var->z > 1 && lex->supatok[var->z - 1 - var->check_after_redir] == TK_PIPE)
-						|| (var->z > 2 && lex->supatok[var->z - 3] == TK_REDIR_S && lex->supatok[var->z - 1] == TK_PIPE))
-					{
-						var->fd = open(lex->s[var->memo][0], O_RDWR, 0777);
-						dup2(var->fd, STDIN_FILENO);
-					}
 					executeur_final(lex->s[var->z], g_global.cpyenv, var, lex);
 				}
 				else
 				{
-					wait_pid(var, pip);
 					if (var->fd != 0 && var->last_pipe != 1)
 						close(var->fd);
+					wait_pid(var, pip);
 					g_global.is_in_cat = 0;
 					if (g_global.exitcode == 130)
 						var->last_err_com = 130;
@@ -83,9 +65,7 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 					{
 						if (WIFSIGNALED(pip->status))
 							var->last_err_com = WTERMSIG(pip->status);
-						if (var->last_err_com == 11
-							&& (lex->supatok[0] != TK_BUILTIN
-								&& lex->supatok[0] != TK_BUILTIN_OUTP))
+						if (var->last_err_com == 11)
 							(norm(),
 								printf("Segmentation fault (core dumped)\n"),
 								var->last_err_com += 128);

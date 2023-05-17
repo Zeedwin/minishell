@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:00:20 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/17 15:32:09 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/16 16:22:26 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,17 @@ void	miniredir_s5(t_lex	*lex, t_var *var, int plus)
 {
 	if (var->last_pipe == 1)
 		dup2(var->fd, STDIN_FILENO);
-	else if (var->z > 1 && lex->supatok[var->z - 2] == TK_PIPE)
+	if (var->z > 1 && lex->supatok[var->z - 2] == TK_PIPE)
 		dup2(var->fd, STDIN_FILENO);
-	else if (var->z > 2 && lex->supatok[var->z - 2] == TK_PIPE
+	if (var->z > 2 && lex->supatok[var->z - 2] == TK_PIPE
 		&& lex->supatok[var->z - 3] == TK_BUILTIN_OUTP)
 	{
-		var->fd_e = open("tmp/tmp.txt", O_RDWR, 0777);
-		dup2(var->fd_e, STDIN_FILENO);
+		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
+		dup2(var->fd, STDIN_FILENO);
 	}
-	if (lex->supatok[var->z + plus + 1] == TK_PIPE)
-	{
-		var->fd_s = open("tmp/tmp.txt", O_RDWR, 0777);
-		dup2(var->fd_s, STDOUT_FILENO);
-	}
-	else if (lex->supatok[var->z + 2] == TK_PIPE)
-		dup2(var->fd_s, STDOUT_FILENO);
-	else if (var->fd_e != -2)
+	if (var->fd_e != -2)
 		dup2(var->fd_e, STDIN_FILENO);
-	else if (var->fd_s != -2 && find_cmd_path(var,
+	if (var->fd_s != -2 && find_cmd_path(var,
 			lex->s[var->z + plus - 1][0]) != 0)
 		dup2(var->fd_s, STDOUT_FILENO);
 	executeur(lex->s[var->z + plus - 1], g_global.cpyenv, var);
@@ -77,8 +70,7 @@ void	miniredir_s6(t_lex *lex, t_var *var, int plus, t_pipe *pip)
 		wait_pid(var, pip);
 	}
 	g_global.is_in_cat = 0;
-	printf("plus = %d\n", plus);
-	var->z = var->z + 1 + var->i;
+	var->z = var->z + plus + 1 + var->i;
 	var->last_pipe = 0;
 }
 
@@ -92,7 +84,7 @@ int	miniredir_s8(t_lex *lex, t_var *var, int plus, int fdtmp)
 			dup2(var->fd_s, STDOUT_FILENO);
 		exec_builtin_out(lex->s[var->z + plus - 1], var, lex);
 		dup2(fdtmp, STDOUT_FILENO);
-		var->z = var->z + 1 + var->i;
+		var->z = var->z + plus + 1 + var->i;
 		return (0);
 	}
 	return (1);
@@ -118,6 +110,6 @@ int	miniredir_s7(t_lex *lex, t_var *var, int plus, t_pipe *pip)
 		return (0);
 	}
 	else
-		var->z = var->z + 1 + var->i;
+		var->z = var->z + plus + 1 + var->i;
 	return (1);
 }

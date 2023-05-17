@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:37:26 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/17 15:35:21 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/17 12:03:57 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int	miniredir_s3(t_lex *lex, t_var *var, int plus)
 			close(var->fd_s);
 		var->fd_s = open(lex->s[var->z + plus + var->i + 1][0],
 				O_CREAT | O_WRONLY | O_TRUNC, 0777);
-		var->memo = var->z + plus + var->i + 1;
 	}
 	else if (lex->supatok[var->z + var->i] == TK_REDIR_E)
 	{
@@ -110,7 +109,6 @@ int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 	plus = miniredir_s1(lex, var);
 	var->did_fail = 0;
 	var->fd_e = -2;
-	var->memo = 0;
 	fdtmp = dup(0);
 	dup2(STDOUT_FILENO, fdtmp);
 	var->fd_s = -2;
@@ -125,7 +123,6 @@ int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 	}
 	if (miniredir_s8(lex, var, plus, fdtmp) == 0)
 		return (1);
-	else if (miniredir_s7(lex, var, plus, pip) == 0)
-		return (1);
-	return(1);
+	miniredir_s7(lex, var, plus, pip);
+	return (1);
 }
