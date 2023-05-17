@@ -87,29 +87,20 @@ char	*check_replace_prog(char *s, t_var *var)
 	int		i;
 	int		j;
 
-	i = ft_strlen(var->line) + ft_strlen(s);
-	j = 0;
-	s1 = NULL;
+	(norm(), i = ft_strlen(var->line) + ft_strlen(s), j = 0, s1 = NULL);
 	if (s[0] == '.' && s[1] == '/')
 	{
 		if (check_doc(s) != 0)
 		{
-			s = check_doc(s);
-			s1 = malloc(sizeof(char) * i);
-			i = 0;
+			(norm(), s = check_doc(s), s1 = malloc(sizeof(char) * i), i = 0);
 			while (var->line[i] != '\0')
 			{
 				s1[i] = var->line[i];
 				i++;
 			}
-			s1[i] = '/';
-			i++;
+			(norm(), s1[i] = '/', i++);
 			while (s[j] != '\0')
-			{
-				s1[i] = s[j];
-				i++;
-				j++;
-			}
+				(norm(), s1[i] = s[j], i++, j++);
 			s1[i] = '\0';
 		}
 		else

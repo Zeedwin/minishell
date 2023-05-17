@@ -145,10 +145,12 @@ typedef struct s_init
 	int		j;
 	int		k;
 	int		c;
+	int		o;
 	char	**exp_env;
 	int		len;
 	int		check;
 	int		exper;
+	char	*s2;
 }			t_init;
 
 char	**ft_realloc2(char **map, int i);

@@ -32,6 +32,7 @@ SRCS		:=    		  parsing/exe_gen.c \
 						  parsing/error.c \
 						  parsing/ft_itoa.c \
 						  parsing/var_dollard.c \
+						  parsing/var_dollard2.c \
 						  parsing/ft_strstr.c \
 						  parsing/ft_strcmp.c \
 						  parsing/tokenizer.c \

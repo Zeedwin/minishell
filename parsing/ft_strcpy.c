@@ -67,4 +67,5 @@ char	**ft_strcpy_env(char **cpyenv, char **envp)
 		i++;
 	}
 	cpyenv[i] = NULL;
-	return (cpyenv);}
+	return (cpyenv);
+}
