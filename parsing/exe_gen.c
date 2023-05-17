@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/17 12:04:37 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/17 15:14:42 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,14 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 						g_global.lacontedetagrandmere = 0;
 					}
 					else if (g_global.exitcode == 0)
-						var->last_err_com = WEXITSTATUS(pip->status);
+					{
+						if (WIFSIGNALED(pip->status))
+							var->last_err_com = WTERMSIG(pip->status);
+						if (var->last_err_com == 11)
+							(norm(),
+								printf("Segmentation fault (core dumped)\n"),
+								var->last_err_com += 128);
+					}
 					free_final(lex, pip, var);
 					var->last_pipe = 0;
 					return (0);
