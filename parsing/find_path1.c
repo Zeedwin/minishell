@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:55:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/17 14:55:18 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/17 15:25:19 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,6 @@ char	*find_cmd_path2(char *cmd, char *cmd_path, char *buf)
 	cmd_path = ft_strjoin(cmd_path, cmd);
 	if (access(cmd_path, F_OK | X_OK) == 0)
 		return (cmd_path);
-	else
-	{
-		printf("mamongus\n");
-		return (0);
-	}
 	free(cmd_path);
 	return (0);
 }
