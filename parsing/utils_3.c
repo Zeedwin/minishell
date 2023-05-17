@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:37:26 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/17 12:03:57 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/17 16:58:50 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,32 +68,34 @@ int	miniredir_s1(t_lex *lex, t_var *var)
 	{
 		lex->s = cpy3truc(var, lex, lex->s, var->z);
 		lex->s[var->z] = add_if_after(
-				lex->s[var->z + 1 + var->i + 1]);
+				lex->s[var->z + 2 + var->i]);
 		var->check_after_redir = 1;
+		turbotokenizer2(lex);
 		return (1);
 	}
 	return (0);
 }
 
-int	miniredir_s3(t_lex *lex, t_var *var, int plus)
+int	miniredir_s3(t_lex *lex, t_var *var)
 {
 	if (lex->supatok[var->z + var->i] == TK_REDIR_S)
 	{
 		if (var->fd_s != -2)
 			close(var->fd_s);
-		var->fd_s = open(lex->s[var->z + plus + var->i + 1][0],
+		var->fd_s = open(lex->s[var->z + var->i + 1][0],
 				O_CREAT | O_WRONLY | O_TRUNC, 0777);
+		var->memo = var->z + var->i + 1;
 	}
 	else if (lex->supatok[var->z + var->i] == TK_REDIR_E)
 	{
 		if (var->fd_e != -2)
 			close(var->fd_e);
-		var->fd_e = open(lex->s[var->z + plus + var->i + 1][0], O_RDWR, 0777);
+		var->fd_e = open(lex->s[var->z + var->i + 1][0], O_RDWR, 0777);
 		if (var->fd_e == -1 && errno == ENOENT)
 		{
 			if (var->fail_dir == 0)
 				printf("minishell: no such file or directory: %s\n",
-					lex->s[var->z + plus + var->i + 1][0]);
+					lex->s[var->z + var->i + 1][0]);
 			var->fail_dir = 1;
 			return (0);
 		}
@@ -103,10 +105,11 @@ int	miniredir_s3(t_lex *lex, t_var *var, int plus)
 
 int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 {
-	int	plus;
+	int plus;
 	int	fdtmp;
 
 	plus = miniredir_s1(lex, var);
+	var->z += plus;
 	var->did_fail = 0;
 	var->fd_e = -2;
 	fdtmp = dup(0);
@@ -117,12 +120,12 @@ int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 		|| lex->supatok[var->z + var->i] == TK_REDIR_S2
 		|| lex->supatok[var->z + var->i] == TK_REDIR_E2)
 	{
-		if (miniredir_s3(lex, var, plus) == 0)
+		if (miniredir_s3(lex, var) == 0)
 			break ;
-		var->did_fail = miniredir_s4(lex, var, plus);
+		var->did_fail = miniredir_s4(lex, var);
 	}
-	if (miniredir_s8(lex, var, plus, fdtmp) == 0)
+	if (miniredir_s8(lex, var, fdtmp) == 0)
 		return (1);
-	miniredir_s7(lex, var, plus, pip);
+	miniredir_s7(lex, var, pip);
 	return (1);
 }

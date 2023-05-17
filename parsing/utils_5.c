@@ -6,13 +6,13 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:38:19 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/16 14:50:36 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/17 16:39:39 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
-void	delimiteur2(t_lex *lex, char *buffer, int plus, t_var *var)
+void	delimiteur2(t_lex *lex, char *buffer, t_var *var)
 {
 	ssize_t	num_read;
 	char	*s;
@@ -27,7 +27,7 @@ void	delimiteur2(t_lex *lex, char *buffer, int plus, t_var *var)
 		num_read = read(STDIN_FILENO, buffer, BUF_SIZE);
 		buffer[num_read] = '\0';
 		s = del_backn(buffer);
-		if (ft_strcmp(s, lex->s[var->z + var->i + plus + 1][0]) == 0)
+		if (ft_strcmp(s, lex->s[var->z + var->i  + 1][0]) == 0)
 		{
 			close(var->fd_hdoc);
 			exit(0);

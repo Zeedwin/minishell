@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:59 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/16 15:02:06 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/17 16:39:23 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	count_pipe(int *supatok, t_lex *lex)
 	return (j);
 }
 
-int	delimiteur(t_lex *lex, t_var *var, int plus)
+int	delimiteur(t_lex *lex, t_var *var)
 {
 	char	buffer[BUF_SIZE];
 	int		status;
@@ -53,7 +53,7 @@ int	delimiteur(t_lex *lex, t_var *var, int plus)
 	var->is_in_heredoc = 1;
 	balls = fork();
 	if (balls == 0)
-		delimiteur2(lex, buffer, plus, var);
+		delimiteur2(lex, buffer, var);
 	else
 		waitpid(balls, &status, 0);
 	var->is_in_heredoc = 0;
