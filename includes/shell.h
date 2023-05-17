@@ -115,6 +115,7 @@ typedef struct s_var {
 	int		p;
 	int		k;
 	int		nopath;
+	int		memo;
 	int		i;
 	int		is_in_heredoc;
 	int		is_in_cat;
