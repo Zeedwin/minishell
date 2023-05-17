@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/17 15:19:08 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/17 18:51:29 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,20 +120,16 @@ void	ctrlc(int sig)
 
 void	ctrlbs(int sig)
 {	
-	write(1, "Quit: 3", 7);
 	(void)sig;
-}
-
-void	ctrld(int sig)
-{
-	(void)sig;
+	rl_on_new_line();
+	rl_redisplay();
+	g_global.last_err_com += 128;
 }
 
 void	init_sign(void)
 {
 	signal(SIGINT, ctrlc);
 	signal(SIGQUIT, ctrlbs);
-	signal(SIGKILL, ctrld);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -153,7 +149,7 @@ int	main(int ac, char **av, char **envp)
 	g_global.check_pipe = 0;
 	g_global.previous_line = NULL;
 	init_sign();
-	init_termios();
+	//init_termios();
 	while (1)
 	{
 		process(&g_global);
