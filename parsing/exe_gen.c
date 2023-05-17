@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/17 16:01:38 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/17 16:04:06 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 							&& (lex->supatok[0] != TK_BUILTIN
 								&& lex->supatok[0] != TK_BUILTIN_OUTP))
 							(norm(),
-								printf("Segmentation fault (cire dumped)\n"),
+								printf("Segmentation fault (core dumped)\n"),
 								var->last_err_com += 128);
 					}
 					free_final(lex, pip, var);
