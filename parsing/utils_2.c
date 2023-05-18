@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:59 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/17 16:39:23 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/18 11:39:30 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	minipipe(t_pipe	*pip, t_lex *lex, t_var *var)
 char	***cpy3truc(t_var *v, t_lex *lex, char ***sf, int decale)
 {
 	(norm(), v->p = 0, v->k = 0, v->j = 0,
-		sf = (char ***)malloc(sizeof(char **) * ft_malloc(lex)));
+		sf = (char ***)malloc(sizeof(char **) * (ft_malloc(lex) +1)));
 	while (lex->s1[v->p])
 	{
 		if (v->k == decale)

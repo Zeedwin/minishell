@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/17 17:02:58 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/18 11:58:47 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 		free_final(lex, pip, var);
 		return (0);
 	}
+	var->memo = 0;
 	var->fd = dup(0);
 	while (var->z < ft_malloc(lex) - 1)
 	{
