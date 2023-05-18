@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_gen.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/18 12:06:17 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/18 14:52:59 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 					}
 					else if (g_global.exitcode == 0)
 					{
+						var->last_err_com = WEXITSTATUS(pip->status);
 						if (WIFSIGNALED(pip->status))
 							var->last_err_com = WTERMSIG(pip->status);
 						if (var->last_err_com == 11)
