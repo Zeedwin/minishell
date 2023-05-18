@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_gen.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/17 17:02:58 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/18 11:45:28 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,12 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 							(norm(),
 								printf("Segmentation fault (core dumped)\n"),
 								var->last_err_com += 128);
+						if (var->last_err_com == 10)
+							(norm(),
+								printf("Bus error\n"),
+								var->last_err_com += 128);
+						if (var->last_err_com == 3)
+							var->last_err_com += 128;
 					}
 					free_final(lex, pip, var);
 					var->last_pipe = 0;
