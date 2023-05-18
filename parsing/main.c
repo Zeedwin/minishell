@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/17 18:51:29 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/18 11:33:15 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include <termios.h>
 
 t_var	g_global;
-
-
 
 void	process(t_var *var)
 {
@@ -121,9 +119,12 @@ void	ctrlc(int sig)
 void	ctrlbs(int sig)
 {	
 	(void)sig;
-	rl_on_new_line();
-	rl_redisplay();
+	//rl_on_new_line();
+	//rl_replace_line("", 0);
 	g_global.last_err_com += 128;
+	rl_redisplay();
+	printf("Quit 3\n");
+	//printf("\n");
 }
 
 void	init_sign(void)

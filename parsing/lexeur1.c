@@ -84,6 +84,11 @@ char	*init_char(char *s, t_lex *lex, t_var *var, char **env)
 
 	s1 = ft_calloc(1, sizeof(char));
 	s1[0] = '\0';
+	s = space(s);
+	s = change_tab(s);
+	s = del_par_com(s);
+	s = replace_dol_(s, var->last_err_com);
+	s = dollars_ch(s, env);
 	if (point(s) == 1)
 	{
 		printf("bash : %s: command not found\n", s);
@@ -94,11 +99,6 @@ char	*init_char(char *s, t_lex *lex, t_var *var, char **env)
 		printf("quote open : error\n");
 		s = ft_strdup(s1);
 	}
-	s = space(s);
-	s = change_tab(s);
-	s = del_par_com(s);
-	s = replace_dol_(s, var->last_err_com);
-	s = dollars_ch(s, env);
 	lex->s1 = ft_calloc((count(s, var) + 1), sizeof(char *));
 	lex->stoken = ft_calloc((count(s, var) + 1), sizeof(int));
 	lex->supatok = ft_calloc((count(s, var) + 1), sizeof(int));
