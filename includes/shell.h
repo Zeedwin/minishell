@@ -159,6 +159,7 @@ void	ctrlc(int sig);
 void	ctrld(int sig);
 void	init_sign(void);
 void	ctrlbs(int sig);
+int		incr_i(t_lex *lex, t_var *var);
 int		delimiteur(t_lex *lex, t_var *var);
 int		minipipe(t_pipe	*pip, t_lex *lex, t_var *var);
 char	***cpy3truc(t_var *var, t_lex *lex, char ***sf, int decale);

@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:00:20 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/19 13:42:14 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/19 14:44:08 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,14 @@ int	miniredir_s4(t_lex *lex, t_var *var)
 		lex->s[var->z - 1] = add_after_redir(
 				lex->s[var->z - 1],
 				lex->s[var->z + var->i + 1]);
-	var->i = var->i + 2;
-	return (var->did_fail);
+	var->i += 2;
+	return (0);
 }
 
 void	miniredir_s5(t_lex	*lex, t_var *var, t_pipe *pip)
 {
-	if (var->z > 2 && lex->supatok[var->z - 2] == TK_PIPE && lex->supatok[var->z - 3] == TK_WORD)
+	if (var->z > 2 && lex->supatok[var->z - 2] == TK_PIPE
+		&& lex->supatok[var->z - 3] == TK_WORD)
 		dup2(var->fd, STDIN_FILENO);
 	if (var->z > 2 && lex->supatok[var->z - 2] == TK_PIPE
 		&& lex->supatok[var->z - 3] == TK_BUILTIN_OUTP)
@@ -64,6 +65,7 @@ void	miniredir_s5(t_lex	*lex, t_var *var, t_pipe *pip)
 		|| lex->supatok[var->z] == TK_REDIR_E2))
 		dup2(pip->tube[1], STDOUT_FILENO);
 	close(pip->tube[0]);
+	close(pip->tube[1]);
 	executeur(lex->s[var->z - 1], g_global.cpyenv, var);
 }
 
@@ -72,18 +74,22 @@ void	miniredir_s6(t_lex *lex, t_var *var, t_pipe *pip)
 	char	*s;
 
 	s = find_cmd_path(var, lex->s[var->z - 1][0]);
-	var->pidnum++;
-	close(pip->tube[1]);
 	if (s != 0 && lex->supatok[var->z + 2] == TK_PIPE)
 	{
 		var->fd = pip->tube[0];
 	}
-	if (var->z + 1 + var->i >= ft_malloc(lex) - 2)
+	close(pip->tube[1]);
+	close(pip->tube[0]);
+	var->z = var->z + 1 + var->i;
+	if (lex->s[var->z - 1] == NULL)
 	{
+		close(var->fd);
 		wait_pid(var, pip);
 	}
+	else
+		var->pidnum++;
+	fflush(stdout);
 	g_global.is_in_cat = 0;
-	var->z = var->z + 1 + var->i;
 	var->last_pipe = 0;
 	free(s);
 }

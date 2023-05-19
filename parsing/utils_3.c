@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:37:26 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/19 13:47:57 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/19 14:32:01 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ char	**add_after_redir(char **s1, char **s2)
 		i++;
 		j++;
 	}
+	free_2(s1);
 	s3[i] = NULL;
 	return (s3);
 }
@@ -124,7 +125,8 @@ int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 	{
 		if (miniredir_s3(lex, var) == 0)
 			break ;
-		var->did_fail = miniredir_s4(lex, var);
+		else if (miniredir_s4(lex, var) == -1)
+			break ;
 	}
 	if (miniredir_s8(lex, var, fdtmp) == 0)
 		return (1);

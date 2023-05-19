@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/19 11:29:26 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/19 14:45:22 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,9 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 				var->shell[var->pidnum] = fork();
 				if (var->shell[var->pidnum] == 0)
 				{
-					if ((var->last_pipe == 1 || lex->supatok[var->z - 1] == TK_PIPE) && lex->supatok[var->z - 3] != TK_REDIR_S
-						&& lex->supatok[var->z - 3] != TK_REDIR_S2)
-					{
+					if (var->z > 0 && (var->last_pipe == 1
+							|| lex->supatok[var->z - 1] == TK_PIPE))
 						dup2(var->fd, STDIN_FILENO);
-					}
 					executeur_final(lex->s[var->z], g_global.cpyenv, var, lex);
 				}
 				else
@@ -129,33 +127,3 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 	free_final(lex, pip, var);
 	return (0);
 }
-
-				/*	if (var->z > 0 && var->last_pipe == 1)
-					{
-						dup2(var->fd, STDIN_FILENO);
-					}
-					if (var->z > 0 && lex->supatok[var->z - 1] == TK_PIPE)
-					{
-						dup2(var->fd, STDIN_FILENO);
-					}
-					if (var->z >= 2 && lex->supatok[var->z - 2] == TK_REDIR_S)
-					{
-						var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
-						dup2(var->fd, STDIN_FILENO);
-					}
-					if ((var->z > 1 && lex->supatok[var->z - var->check_after_redir] == TK_PIPE
-							&& (lex->supatok[var->z - 2 - var->check_after_redir] == TK_REDIR_E2
-								|| lex->supatok[var->z - 2 - var->check_after_redir] == TK_REDIR_E)))
-					{
-						close(var->fd);
-						var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
-						dup2(var->fd, STDIN_FILENO);
-						dup2(fdtmp, STDOUT_FILENO);
-					}
-					else if ((var->z > 1 && lex->supatok[var->z - 1 - var->check_after_redir] == TK_PIPE)
-						|| (var->z > 2 && (lex->supatok[var->z - 3] == TK_REDIR_S || lex->supatok[var->z - 3] == TK_REDIR_S2) && lex->supatok[var->z - 1] == TK_PIPE))
-					{
-						var->fd = open(lex->s[var->memo][0], O_RDWR, 0777);
-						dup2(var->fd, STDIN_FILENO);
-						dup2(fdtmp, STDOUT_FILENO);
-					}*/

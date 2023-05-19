@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:00:12 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/18 12:23:52 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/19 14:11:53 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,17 @@ int	ft_malloc2(t_lex *lex)
 		i++;
 	}
 	return (k + 2);
+}
+
+int		incr_i(t_lex *lex, t_var *var)
+{
+	if (lex->supatok[var->z + var->i + 2] == TK_REDIR_S
+		|| lex->supatok[var->z + var->i + 2] == TK_REDIR_E
+		|| lex->supatok[var->z + var->i + 2] == TK_REDIR_S2
+		|| lex->supatok[var->z + var->i + 2] == TK_REDIR_E2)
+	{
+		var->i += 2;
+		return (0);
+	}
+	return (-1);
 }
