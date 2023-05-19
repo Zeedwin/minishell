@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:43:50 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/17 12:49:08 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/19 13:49:25 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,45 +124,19 @@ char	*replace_dol(char *s, char **env)
 	return (sf);
 }
 
-char	*dollars_ch(char *s, char **env)
+char	*minidoll_ch(char *s, t_init p, char **env)
 {
-	t_init	p;
-
-	(norm(), p.i = 0, p.k = 0, p.j = 0);
-	while (p.i <= ft_strlen(s) && s[p.i] != '\0')
-	{
-		if (s[p.i] == '\'')
-		{
-			p.i++;
-			while (s[p.i] != '\'')
-				p.i++;
-			p.i++;
-		}
-		if (s[p.i] == '<' && s[p.i + 1] == '<')
-		{
-			p.i += 2;
-			while (s[p.i] == ' ' && s[p.i] != '\0')
-				p.i++;
-			while (s[p.i] != ' ' && s[p.i] != '|'
-				&& s[p.i] != '>' && s[p.i] != '<' && s[p.i] != '\0')
-				p.i++;
-		}
-		if (s[p.i] == '$')
-		{
-			p.o = 0;
-			while (s[p.i] != ' ' && p.i > 0 && s[p.i] != '"')
-				p.i--;
-			(norm(), p.k = p.i, p.i++, p.j = p.i);
-			while (s[p.i] != ' ' && s[p.i] != '\0' && s[p.i] != '"')
-				p.i++;
-			p.s2 = malloc(sizeof(char) * (p.i - p.j + 2));
-			while (p.j < p.i)
-				(norm(), p.s2[p.o] = s[p.j], p.o++, p.j++);
-			(norm(), p.s2[p.o] = '=', p.o++, p.s2[p.o] = '\0',
-				p.s2 = replace_dol(p.s2, env),
-				s = appl_chang(s, p.s2, p.k + 1, p.i));
-		}
+	p.o = 0;
+	while (s[p.i] != ' ' && p.i > 0 && s[p.i] != '"')
+		p.i--;
+	(norm(), p.k = p.i, p.i++, p.j = p.i);
+	while (s[p.i] != ' ' && s[p.i] != '\0' && s[p.i] != '"')
 		p.i++;
-	}
+	p.s2 = malloc(sizeof(char) * (p.i - p.j + 2));
+	while (p.j < p.i)
+		(norm(), p.s2[p.o] = s[p.j], p.o++, p.j++);
+	(norm(), p.s2[p.o] = '=', p.o++, p.s2[p.o] = '\0',
+		p.s2 = replace_dol(p.s2, env),
+		s = appl_chang(s, p.s2, p.k + 1, p.i));
 	return (s);
 }

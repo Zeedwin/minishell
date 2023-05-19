@@ -242,7 +242,7 @@ int		miniredir_s2(t_lex *lex, t_var *var, char **env, t_pipe *pip);
 int		parsing_syntax(t_lex *lex);
 int		test_builtin(char **s);
 int		equalfinder(char *path);
-void	delimiteur2(t_lex *lex, char *buffer,t_var *var);
+void	delimiteur2(t_lex *lex, char *buffer, t_var *var);
 void	minipipe2(t_var *var, t_pipe *pip);
 void	minipipe1(t_var *var, t_pipe *pip, t_lex *lex);
 int		count(char *s, t_var *var);
@@ -254,6 +254,7 @@ int		lexer1(char *s, t_lex *lex);
 void	free_3(char ***s);
 
 //built-ins
+char	*minidoll_ch(char *s, t_init p, char **env);
 int		cd(char **s, t_var *var);
 char	**export(char **cpyenv, t_lex *lex, t_var *var, int i);
 char	**unset(char **cpyenvp, char *unsetstr);
