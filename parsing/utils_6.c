@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:00:12 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/19 14:11:53 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/19 15:31:37 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	ft_malloc2(t_lex *lex)
 	return (k + 2);
 }
 
-int		incr_i(t_lex *lex, t_var *var)
+int	incr_i(t_lex *lex, t_var *var)
 {
 	if (lex->supatok[var->z + var->i + 2] == TK_REDIR_S
 		|| lex->supatok[var->z + var->i + 2] == TK_REDIR_E
