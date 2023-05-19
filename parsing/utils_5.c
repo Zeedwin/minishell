@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:38:19 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/19 15:31:31 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/19 16:24:07 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	minipipe1(t_var *var, t_pipe *pip, t_lex *lex)
 	if (find_cmd_path(var, lex->s[var->z - 1][0]) != 0
 		&& lex->supatok[var->z - 1] == TK_WORD)
 		dup2(pip->tube[1], STDOUT_FILENO);
-	close(pip->tube[0]);
+	(norm(), close(pip->tube[0]), close(pip->tube[1]));
 	if (lex->supatok[var->z - 1] == TK_WORD)
 		executeur(lex->s[var->z - 1], g_global.cpyenv, var);
 	exit (0);
@@ -73,6 +73,7 @@ void	minipipe2(t_var *var, t_pipe *pip)
 	g_global.is_in_cat = 0;
 	close(pip->tube[1]);
 	var->fd = pip->tube[0];
+	close(pip->tube[0]);
 	var->z += 1;
 }
 
