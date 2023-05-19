@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:37:26 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/19 14:32:01 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/19 14:56:04 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ int	miniredir_s1(t_lex *lex, t_var *var)
 			|| lex->supatok[var->z + var->i] == TK_REDIR_S2
 			|| lex->supatok[var->z + var->i] == TK_REDIR_E
 			|| lex->supatok[var->z + var->i] == TK_REDIR_E2)
-		&& (var->z == 0 || lex->supatok[var->z - 1] == TK_PIPE) && lex->s[var->z + 1][1] != NULL)
+		&& (var->z == 0 || lex->supatok[var->z - 1] == TK_PIPE)
+		&& lex->s[var->z + 1][1] != NULL)
 	{
 		lex->s = cpytrichar(lex->s, var->z);
 		lex->s[var->z][0] = ft_strdup(lex->s[var->z + 2][1]);
@@ -107,7 +108,7 @@ int	miniredir_s3(t_lex *lex, t_var *var)
 
 int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 {
-	int plus;
+	int	plus;
 	int	fdtmp;
 
 	plus = miniredir_s1(lex, var);

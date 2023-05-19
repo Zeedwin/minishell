@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
+
 char	*lexeur2(char *s, t_lex *lex, int i)
 {
 	lex->s1[lex->x] = ft_substr(s, 0, i);
@@ -79,7 +80,6 @@ int	lexer1(char *s, t_lex *lex)
 				i++;
 			s = lexeur2(s, lex, i);
 		}
-		//lex->rap++;
 		lexer1(s, lex);
 		lex->s1[lex->x] = NULL;
 		return (1);
@@ -87,9 +87,6 @@ int	lexer1(char *s, t_lex *lex)
 	lex->s1[lex->x] = NULL;
 	return (1);
 }
-
-/*void	init_tab1(t_lex *lex, char *s, char **env, t_var *var)
-{}*/
 
 void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 {
