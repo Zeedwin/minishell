@@ -44,6 +44,7 @@ SRCS		:=    		  parsing/cpytrichar.c \
                           parsing/ft_strcpy.c \
                           parsing/ft_strjoin.c \
                           parsing/ft_strncmp.c \
+						  parsing/childsupport.c \
                           parsing/main.c \
                           parsing/pathrefresh.c \
 						  parsing/ft_strtrim.c \

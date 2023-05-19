@@ -148,6 +148,8 @@ typedef struct s_init
 	int		c;
 	int		o;
 	char	**exp_env;
+	char	*sf;
+	char	*res;
 	int		len;
 	int		check;
 	int		exper;
@@ -253,6 +255,8 @@ char	*remo_slash(char *s);
 int		check_path(char *s);
 int		lexer1(char *s, t_lex *lex);
 void	free_3(char ***s);
+char	*idontwanttopaychildsupport(t_init	ma, char *s);
+char	*idowanttopaychildsupport(t_init	ma, char *s);
 
 //built-ins
 char	*minidoll_ch(char *s, t_init p, char **env);
