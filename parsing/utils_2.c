@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:59 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/18 11:39:30 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/19 09:23:07 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,6 @@ int	minipipe(t_pipe	*pip, t_lex *lex, t_var *var)
 {
 	int	fdtmp;
 
-	if (var->c == 0)
-	{
-		var->c++;
-		var->fd = dup(0);
-	}
 	fdtmp = dup(0);
 	dup2(STDOUT_FILENO, fdtmp);
 	pipe(pip->tube);
@@ -90,12 +85,12 @@ int	minipipe(t_pipe	*pip, t_lex *lex, t_var *var)
 char	***cpy3truc(t_var *v, t_lex *lex, char ***sf, int decale)
 {
 	(norm(), v->p = 0, v->k = 0, v->j = 0,
-		sf = (char ***)malloc(sizeof(char **) * (ft_malloc(lex) +1)));
+		sf = (char ***)malloc(sizeof(char **) * (ft_malloc2(lex) +1)));
 	while (lex->s1[v->p])
 	{
 		if (v->k == decale)
 			(norm(), sf[v->k] = NULL, v->k++);
-		if (lex->stoken[v->p] == TK_PIPE || lex->stoken[v->p] == TK_REDIR_S)
+		if (lex->stoken[v->p] == TK_PIPE || lex->stoken[v->p] == TK_REDIR_S || lex->stoken[v->p] == TK_REDIR_S2)
 			(norm(), sf[v->k] = malloc(sizeof(char *) * 2), sf[v->k][0] =
 				malloc(sizeof(char) * (ft_strlen(lex->s1[v->p]) + 1)),
 				sf[v->k][0] = ft_strcpy(sf[v->k][0], lex->s1[v->p]),

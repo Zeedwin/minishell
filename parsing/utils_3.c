@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:37:26 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/18 12:04:56 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/19 13:47:57 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ char	**add_if_after(char **s1)
 
 	i = 0;
 	j = 1;
-	s2 = malloc(sizeof(char *) * ft_strstrlen(s1));
+	printf("s1 = %p\n", s1);
+	fflush(stdout);
+	s2 = malloc(sizeof(char *) * (ft_strstrlen(s1) + 1));
 	while (s1[j] != NULL)
 	{
 		s2[i] = malloc(sizeof(char) * (ft_strlen(s1[j]) + 1));
@@ -66,9 +68,8 @@ int	miniredir_s1(t_lex *lex, t_var *var)
 			|| lex->supatok[var->z + var->i] == TK_REDIR_E2)
 		&& (var->z == 0 || lex->supatok[var->z - 1] == TK_PIPE) && lex->s[var->z + 1][1] != NULL)
 	{
-		lex->s = cpy3truc(var, lex, lex->s, var->z);
-		lex->s[var->z] = add_if_after(
-				lex->s[var->z + 2 + var->i]);
+		lex->s = cpytrichar(lex->s, var->z);
+		lex->s[var->z][0] = ft_strdup(lex->s[var->z + 2][1]);
 		var->check_after_redir = 1;
 		turbotokenizer2(lex);
 		return (1);
@@ -112,8 +113,8 @@ int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 	var->z += plus;
 	var->did_fail = 0;
 	var->fd_e = -2;
-	fdtmp = dup(0);
 	var->i = 0;
+	fdtmp = dup(0);
 	dup2(STDOUT_FILENO, fdtmp);
 	var->fd_s = -2;
 	while (lex->supatok[var->z + var->i] == TK_REDIR_S

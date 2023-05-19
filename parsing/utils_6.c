@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:00:12 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/17 16:34:12 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/18 12:23:52 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	turbotokenizer2(t_lex *lex)
 
 	i = 0;
 	free(lex->supatok);
-	lex->supatok = ft_calloc((lex->y + 2), sizeof(int));
+	lex->supatok = ft_calloc((lex->y + 3), sizeof(int));
 	while (lex->s[i])
 	{
 		if (lex->s[i][0][0] == '|')
@@ -40,4 +40,29 @@ void	turbotokenizer2(t_lex *lex)
 			lex->supatok[i] = TK_WORD;
 		i++;
 	}
+}
+
+int	ft_malloc2(t_lex *lex)
+{
+	int	i;
+	int	k;
+
+	i = 0;
+	k = 0;
+	while (i < ft_malloc(lex))
+	{
+		if (lex->supatok[i] == TK_PIPE)
+			k++;
+		else if (lex->supatok[i] == TK_REDIR_S)
+			k++;
+		else if (lex->supatok[i] == TK_WORD)
+		{
+			k++;
+			while (lex->supatok[i] == TK_WORD)
+				i++;
+			i--;
+		}
+		i++;
+	}
+	return (k + 2);
 }

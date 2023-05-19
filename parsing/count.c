@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   count.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:03:32 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/19 10:31:26 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/19 13:46:38 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	count(char *s, t_var *var)
 	var->countj = 0;
 	while (s[var->counti] != '\0')
 	{
-		printf("salut les Nwords %s\n", s);
 		if (s[var->counti] == '"')
 			count5(s, var, 0);
 		else if (s[var->counti] == '\'')

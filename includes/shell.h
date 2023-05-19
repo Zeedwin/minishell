@@ -185,7 +185,7 @@ void	ft_putstr(char *s);
 int		ft_strlen(const char *a);
 char	**add_if_after(char **s1);
 char	**add_after_redir(char **s1, char **s2);
-void	miniredir_s5(t_lex	*lex, t_var *var);
+void	miniredir_s5(t_lex	*lex, t_var *var, t_pipe *pip);
 int		ft_strlen2(const char *a);
 void	find_path(char **env, t_var *var);
 int		miniredir_s4(t_lex *lex, t_var *var);
@@ -196,6 +196,7 @@ int		miniredir_s8(t_lex *lex, t_var *var, int fdtmp);
 char	*ft_strtrim(char const *s1, char const *set);
 size_t	ft_strlcpy(char *restrict dst,
 			const char *restrict src, size_t dstsize);
+char	***cpytrichar(char ***s, int decale);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_strstrlen(char **s);
 char	*ft_strchr(const char *s, int c);
@@ -204,6 +205,7 @@ int		ft_strcmp(char *s1, char *s2);
 char	*ft_strstr(char *str, char *to_find);
 char	*del_backn(char *s);
 char	*dollars_ch(char *s1, char **env);
+int		ft_malloc2(t_lex *lex);
 char	*ft_itoa(int nb);
 char	***del_brak(char ***s);
 int		execve_builtin(char **s, t_var *var, t_lex *lex);
@@ -249,6 +251,7 @@ void	creat_pid(t_lex *lex, t_var *var);
 char	*remo_slash(char *s);
 int		check_path(char *s);
 int		lexer1(char *s, t_lex *lex);
+void	free_3(char ***s);
 
 //built-ins
 int		cd(char **s, t_var *var);

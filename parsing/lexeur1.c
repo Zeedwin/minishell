@@ -111,13 +111,10 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	s = replace_dol_(s, var->last_err_com);
 	s = dollars_ch(s, env);
 	lex->s1 = ft_calloc((count(s, var) + 1), sizeof(char *));
-	printf("juif\n");
-	fflush(stdout);
 	lex->stoken = ft_calloc((count(s, var) + 1), sizeof(int));
 	lex->supatok = ft_calloc((count(s, var) + 1), sizeof(int));
 	lex->x = 0;
 	lex->c = 0;
-	//lex->rap = 0;
 	lex->y = count(s, var);
 	s2 = malloc(sizeof(char) * (ft_strlen(s) + 1));
 	s2 = ft_strcpy(s2, s);
