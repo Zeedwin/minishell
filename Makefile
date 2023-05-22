@@ -15,8 +15,7 @@ LDFLAGS :=  -lreadline -L/Users/$(USER)/homebrew/opt/readline/lib -lreadline -lh
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
-SRCS		:=    		  parsing/exe_gen2.c \
-						  parsing/cpytrichar.c \
+SRCS		:=    		  parsing/cpytrichar.c \
 						  parsing/exe_gen.c \
 						  parsing/utils_6.c \
 						  parsing/utils_5.c \
@@ -45,7 +44,6 @@ SRCS		:=    		  parsing/exe_gen2.c \
                           parsing/ft_strcpy.c \
                           parsing/ft_strjoin.c \
                           parsing/ft_strncmp.c \
-						  parsing/childsupport.c \
                           parsing/main.c \
                           parsing/pathrefresh.c \
 						  parsing/ft_strtrim.c \

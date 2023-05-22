@@ -148,8 +148,6 @@ typedef struct s_init
 	int		c;
 	int		o;
 	char	**exp_env;
-	char	*sf;
-	char	*res;
 	int		len;
 	int		check;
 	int		exper;
@@ -208,18 +206,13 @@ int		ft_strcmp(char *s1, char *s2);
 char	*ft_strstr(char *str, char *to_find);
 char	*del_backn(char *s);
 char	*dollars_ch(char *s1, char **env);
-void	last_cmd(t_lex *lex, t_var *var, t_pipe *pip);
-void	child_l_cmd(t_lex *lex, t_var *var);
-void	last_cmd1(t_var *var, t_pipe *pip);
 int		ft_malloc2(t_lex *lex);
 char	*ft_itoa(int nb);
 char	***del_brak(char ***s);
-int		last_comd(t_lex *lex, t_var *var, t_pipe *pip);
 int		execve_builtin(char **s, t_var *var, t_lex *lex);
 int		ft_isdigit(int c);
 int		error_quote(char *s);
 void	cpy3truc1(t_var *v, t_lex *lex);
-void	exe_gen2(t_lex *lex, t_var *var, t_pipe *pip);
 char	*suppr_pos(char *s, int pos);
 int		check_vide(char *s);
 char	*change_tab(char *s);
@@ -260,8 +253,6 @@ char	*remo_slash(char *s);
 int		check_path(char *s);
 int		lexer1(char *s, t_lex *lex);
 void	free_3(char ***s);
-char	*idontwanttopaychildsupport(t_init	ma, char *s);
-char	*idowanttopaychildsupport(t_init	ma, char *s);
 
 //built-ins
 char	*minidoll_ch(char *s, t_init p, char **env);

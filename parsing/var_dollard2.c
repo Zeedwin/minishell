@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:47:41 by jgirard-          #+#    #+#             */
-/*   Updated: 2023/05/19 14:25:38 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/19 13:46:45 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,42 @@
 
 char	*replace_dol_(char *s, int i)
 {
-	t_init	ma;
+	char	*sf;
+	char	*res;
+	int		j;
+	int		o;
+	int		k;
 
-	(norm(), ma.j = 0, ma.k = 0, ma.o = 0, ma.res = ft_itoa(i),
-		ma.sf = malloc(sizeof(char) * (ft_strlen(s) + 1)));
-	while (s && s[ma.j] != '\0')
+	(norm(), j = 0, k = 0, o = 0, res = ft_itoa(i),
+		sf = malloc(sizeof(char) * (ft_strlen(s) + 1)));
+	while (s && s[j] != '\0')
 	{
-		if (s[ma.j] == '\'')
-			ma.sf = idowanttopaychildsupport(ma, s);
-		if (s[ma.j] == '<' && s[ma.j + 1] == '<')
-			ma.sf = idontwanttopaychildsupport(ma, s);
-		if (s[ma.j] == '$' && s[ma.j + 1] == '?')
+		if (s[j] == '\'')
 		{
-			ma.sf = realloc(ma.sf, ft_strlen(s) + ft_strlen(ma.res));
-			while (ma.res[ma.k] != '\0')
-				(norm(), ma.sf[ma.o] = ma.res[ma.k], ma.k++, ma.o++);
-			(norm(), ma.k = 0, ma.j += 2);
+			(norm(), sf[o] = s[j], j++, o++);
+			while (s[j] != '\'')
+				(norm(), sf[o] = s[j], j++, o++);
+			(norm(), sf[o] = s[j], j++, o++);
+		}
+		if (s[j] == '<' && s[j + 1] == '<')
+		{
+			while ((s[j] == ' ' || s[j] == '<') && s[j] != '\0')
+				(norm(), sf[o] = s[j], j++, o++);
+			while (s[j] != ' ' && s[j] != '|'
+				&& s[j] != '>' && s[j] != '<' && s[j] != '\0')
+				(norm(), sf[o] = s[j], j++, o++);
+		}
+		if (s[j] == '$' && s[j + 1] == '?')
+		{
+			sf = realloc(sf, ft_strlen(s) + ft_strlen(res));
+			while (res[k] != '\0')
+				(norm(), sf[o] = res[k], k++, o++);
+			(norm(), k = 0, j += 2);
 		}
 		else
-			(norm(), ma.sf[ma.o] = s[ma.j], ma.j++, ma.o++);
+			(norm(), sf[o] = s[j], j++, o++);
 	}
-	return (ma.sf[ma.o] = '\0', free (ma.res), ma.sf);
+	return (sf[o] = '\0', free (res), sf);
 }
 
 char	***del_brak(char ***s)

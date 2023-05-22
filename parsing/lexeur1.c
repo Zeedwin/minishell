@@ -51,7 +51,10 @@ int	lexer1(char *s, t_lex *lex)
 		}
 		else if (s[i] == '|' || (s[i] == '<' && s[i + 1] != '<')
 			|| (s[i] == '>' && s[i + 1] != '>'))
-			(norm(), i++, s = lexeur2(s, lex, i));
+		{
+			i++;
+			s = lexeur2(s, lex, i);
+		}
 		else if (s[i] == '\'')
 		{
 			i++;
@@ -66,7 +69,10 @@ int	lexer1(char *s, t_lex *lex)
 		}
 		else if ((s[i] == '<' && s[i + 1] == '<')
 			|| (s[i] == '>' && s[i + 1] == '>'))
-			(norm(), i = i + 2, s = lexeur2(s, lex, i));
+		{
+			i = i + 2;
+			s = lexeur2(s, lex, i);
+		}
 		else
 		{
 			while (s[i] != '\0' && s[i] != ' ' && s[i] != '"'

@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:59 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/19 16:12:59 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/19 09:23:07 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,7 @@ char	***cpy3truc(t_var *v, t_lex *lex, char ***sf, int decale)
 	{
 		if (v->k == decale)
 			(norm(), sf[v->k] = NULL, v->k++);
-		if (lex->stoken[v->p] == TK_PIPE || lex->stoken[v->p] == TK_REDIR_S
-			|| lex->stoken[v->p] == TK_REDIR_S2)
+		if (lex->stoken[v->p] == TK_PIPE || lex->stoken[v->p] == TK_REDIR_S || lex->stoken[v->p] == TK_REDIR_S2)
 			(norm(), sf[v->k] = malloc(sizeof(char *) * 2), sf[v->k][0] =
 				malloc(sizeof(char) * (ft_strlen(lex->s1[v->p]) + 1)),
 				sf[v->k][0] = ft_strcpy(sf[v->k][0], lex->s1[v->p]),

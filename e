@@ -1,0 +1,12 @@
+Makefile
+a
+built-ins
+e
+includes
+minishell
+minishell.dSYM
+parsing
+q
+r
+tmp
+w

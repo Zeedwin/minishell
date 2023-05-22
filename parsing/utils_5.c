@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:38:19 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/19 16:24:07 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/19 09:35:48 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	delimiteur2(t_lex *lex, char *buffer, t_var *var)
 		num_read = read(STDIN_FILENO, buffer, BUF_SIZE);
 		buffer[num_read] = '\0';
 		s = del_backn(buffer);
-		if (ft_strcmp(s, lex->s[var->z + var->i + 1][0]) == 0)
+		if (ft_strcmp(s, lex->s[var->z + var->i  + 1][0]) == 0)
 		{
 			close(var->fd_hdoc);
 			exit(0);
@@ -38,30 +38,28 @@ void	delimiteur2(t_lex *lex, char *buffer, t_var *var)
 
 void	minipipe1(t_var *var, t_pipe *pip, t_lex *lex)
 {
-	if (var->z > 1 && lex->supatok[var->z - 2] == TK_PIPE
-		&& lex->supatok[var->z - 3] == TK_WORD)
+	if (var->z > 1 && lex->supatok[var->z - 2] == TK_PIPE && lex->supatok[var->z - 3] == TK_WORD)
 		dup2(var->fd, STDIN_FILENO);
-	else if (var->z > 1 && lex->supatok[var->z - 2] == TK_PIPE
-		&& lex->supatok[var->z - 3] == TK_BUILTIN_OUTP)
+	else if (var->z > 1 && lex->supatok[var->z - 2] == TK_PIPE && lex->supatok[var->z - 3] == TK_BUILTIN_OUTP)
 	{
 		var->fd = open("tmp/tmp.txt", O_RDONLY, 0777);
 		dup2(var->fd, STDIN_FILENO);
 	}
-	else if (var->z > 1 && (lex->supatok[var->z - 2] == TK_REDIR_S
-			|| lex->supatok[var->z - 2] == TK_REDIR_S2))
+	else if (var->z > 1 && (lex->supatok[var->z - 2] == TK_REDIR_S || lex->supatok[var->z - 2] == TK_REDIR_S2))
 	{
 		var->fd_s = open(lex->s[var->memo][0], O_RDWR, 0777);
 		dup2(var->fd_s, STDIN_FILENO);
 	}
-	else if (var->z > 1 && (lex->supatok[var->z - 2] == TK_REDIR_E
-			|| lex->supatok[var->z - 2] == TK_REDIR_E2))
+	else if (var->z > 1 && (lex->supatok[var->z - 2] == TK_REDIR_E || lex->supatok[var->z - 2] == TK_REDIR_E2))
 		dup2(var->fd_s, STDIN_FILENO);
 	if (find_cmd_path(var, lex->s[var->z - 1][0]) != 0
 		&& lex->supatok[var->z - 1] == TK_WORD)
 		dup2(pip->tube[1], STDOUT_FILENO);
-	(norm(), close(pip->tube[0]), close(pip->tube[1]));
+	close(pip->tube[0]);
 	if (lex->supatok[var->z - 1] == TK_WORD)
+	{
 		executeur(lex->s[var->z - 1], g_global.cpyenv, var);
+	}
 	exit (0);
 }
 
@@ -73,7 +71,6 @@ void	minipipe2(t_var *var, t_pipe *pip)
 	g_global.is_in_cat = 0;
 	close(pip->tube[1]);
 	var->fd = pip->tube[0];
-	close(pip->tube[0]);
 	var->z += 1;
 }
 
