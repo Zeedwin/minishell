@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/19 10:26:57 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/22 18:04:46 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	process(t_var *var)
 	var->nopath = 0;
 	var->fail_dir = 0;
 	var->line = NULL;
-	if(var->path != NULL)
+	if (var->path != NULL)
 		var->path = NULL;
 	lineread = NULL;
 	var->last_pipe = 0;
@@ -54,7 +54,6 @@ void	process(t_var *var)
 	add_history(var->line);
 	var->c = 0;
 	var->pidnum = 0;
-	//(void)ft_calloc(12, 1);
 	init_tab(&lex, var->line, var->cpyenv, var);
 	tokenizer(&lex);
 	lex.s = separate_tok(var, &lex, lex.s);
@@ -96,8 +95,7 @@ void	init_termios(void)
 void	ctrlc(int sig)
 {
 	(void)sig;
-
-	if(g_global.is_in_heredoc != 0 && g_global.lacontedetagrandmere == 0)
+	if (g_global.is_in_heredoc != 0 && g_global.lacontedetagrandmere == 0)
 		g_global.lacontedetagrandmere += 1;
 	if (g_global.is_in_cat == 0 && g_global.is_in_heredoc == 0)
 	{
@@ -110,7 +108,6 @@ void	ctrlc(int sig)
 	{
 		printf("dsdasd\n");
 		g_global.exitcode = 130;
-	//	g_global.lacontedetagrandmere += 1;
 		exit(130);
 	}
 	else if (g_global.is_in_cat != 0)
@@ -120,12 +117,9 @@ void	ctrlc(int sig)
 void	ctrlbs(int sig)
 {	
 	(void)sig;
-	//rl_on_new_line();
-	//rl_replace_line("", 0);
 	g_global.last_err_com += 128;
 	rl_redisplay();
 	printf("Quit 3\n");
-	//printf("\n");
 }
 
 void	init_sign(void)
@@ -151,7 +145,6 @@ int	main(int ac, char **av, char **envp)
 	g_global.check_pipe = 0;
 	g_global.previous_line = NULL;
 	init_sign();
-	//init_termios();
 	while (1)
 	{
 		process(&g_global);

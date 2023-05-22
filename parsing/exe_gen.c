@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_gen.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/19 14:45:22 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/22 18:07:42 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 {
-	int fdtmp;
+	int	fdtmp;
 
 	fdtmp = dup(0);
 	var->fd = dup(0);
