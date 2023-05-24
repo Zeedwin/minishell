@@ -154,6 +154,15 @@ typedef struct s_init
 	char	*s2;
 }			t_init;
 
+typedef struct	s_ini
+{
+	char	*sf;
+	char	*res;
+	int		j;
+	int		o;
+	int		k;
+}	t_ini;
+
 char	**ft_realloc2(char **map, int i);
 void	ctrlc(int sig);
 void	ctrld(int sig);
@@ -165,7 +174,7 @@ int		minipipe(t_pipe	*pip, t_lex *lex, t_var *var);
 char	***cpy3truc(t_var *var, t_lex *lex, char ***sf, int decale);
 void	init_termios(void);
 void	rl_replace_line(const char *text, int clear_undo);
-char	*replace_dol_(char *s, int i);
+char	*replace_dol_(char *s, int i, t_ini *ini);
 void	norm(void);
 char	*ft_realloc(char *map, int i);
 void	executeur_final(char **s, char **env, t_var *var, t_lex *lex);

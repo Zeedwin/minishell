@@ -1,8 +1,1 @@
-Makefile
-a
-built-ins
-includes
-minishell
-minishell.dSYM
-parsing
-w
+/Users/hdelmann/42/oo

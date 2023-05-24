@@ -91,6 +91,7 @@ int	lexer1(char *s, t_lex *lex)
 void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 {
 	char	*s2;
+	t_ini	ini;
 
 	if (point(s) == 1)
 	{
@@ -105,7 +106,7 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	s = space(s);
 	s = change_tab(s);
 	s = del_par_com(s);
-	s = replace_dol_(s, var->last_err_com);
+	s = replace_dol_(s, var->last_err_com, &ini);
 	s = dollars_ch(s, env);
 	lex->s1 = ft_calloc((count(s, var) + 1), sizeof(char *));
 	lex->stoken = ft_calloc((count(s, var) + 1), sizeof(int));

@@ -3,53 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   var_dollard2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:47:41 by jgirard-          #+#    #+#             */
-/*   Updated: 2023/05/22 18:22:06 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/24 11:51:25 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include    "../includes/shell.h"
 
-char	*replace_dol_(char *s, int i)
+void	init_dol(t_ini *in, int i, char *s, int code)
 {
-	char	*sf;
-	char	*res;
-	int		j;
-	int		o;
-	int		k;
-
-	(norm(), j = 0, k = 0, o = 0, res = ft_itoa(i),
-		sf = malloc(sizeof(char) * (ft_strlen(s) + 1)));
-	while (s && s[j] != '\0')
+	if (code == 0)
 	{
-		if (s[j] == '\'')
+		in->j = 0;
+		in->k = 0;
+		in->o = 0;
+		in->res = ft_itoa(i);
+		in->sf = malloc(sizeof(char) * (ft_strlen(s) + 1));
+	}
+	if (code == 1)
+	{
+		(norm(), in->sf[in->o] = s[in->j], in->j++, in->o++);
+		while (s[in->j] != '\'')
+			(norm(), in->sf[in->o] = s[in->j], in->j++, in->o++);
+		(norm(), in->sf[in->o] = s[in->j], in->j++, in->o++);
+	}
+}
+
+char	*replace_dol_(char *s, int i, t_ini *in)
+{
+	init_dol(in, i, s, 0);
+	while (s && s[in->j] != '\0')
+	{
+		if (s[in->j] == '\'')
+			init_dol(in, i, s, 1);
+		if (s[in->j] == '<' && s[in->j + 1] == '<')
 		{
-			(norm(), sf[o] = s[j], j++, o++);
-			while (s[j] != '\'')
-				(norm(), sf[o] = s[j], j++, o++);
-			(norm(), sf[o] = s[j], j++, o++);
+			while ((s[in->j] == ' ' || s[in->j] == '<') && s[in->j] != '\0')
+				(norm(), in->sf[in->o] = s[in->j], in->j++, in->o++);
+			while (s[in->j] != ' ' && s[in->j] != '|'
+				&& s[in->j] != '>' && s[in->j] != '<' && s[in->j] != '\0')
+				(norm(), in->sf[in->o] = s[in->j], in->j++, in->o++);
 		}
-		if (s[j] == '<' && s[j + 1] == '<')
+		if (s[in->j] == '$' && s[in->j + 1] == '?')
 		{
-			while ((s[j] == ' ' || s[j] == '<') && s[j] != '\0')
-				(norm(), sf[o] = s[j], j++, o++);
-			while (s[j] != ' ' && s[j] != '|'
-				&& s[j] != '>' && s[j] != '<' && s[j] != '\0')
-				(norm(), sf[o] = s[j], j++, o++);
-		}
-		if (s[j] == '$' && s[j + 1] == '?')
-		{
-			sf = realloc(sf, ft_strlen(s) + ft_strlen(res));
-			while (res[k] != '\0')
-				(norm(), sf[o] = res[k], k++, o++);
-			(norm(), k = 0, j += 2);
+			in->sf = realloc(in->sf, ft_strlen(s) + ft_strlen(in->res));
+			while (in->res[in->k] != '\0')
+				(norm(), in->sf[in->o] = in->res[in->k], in->k++, in->o++);
+			(norm(), in->k = 0, in->j += 2);
 		}
 		else
-			(norm(), sf[o] = s[j], j++, o++);
+			(norm(), in->sf[in->o] = s[in->j], in->j++, in->o++);
 	}
-	return (sf[o] = '\0', free (res), sf);
+	return (in->sf[in->o] = '\0', free (in->res), in->sf);
 }
 
 char	***del_brak(char ***s)
