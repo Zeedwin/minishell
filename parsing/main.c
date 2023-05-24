@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/22 18:04:46 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/24 12:10:11 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,8 @@
 
 t_var	g_global;
 
-void	process(t_var *var)
+void	process_ini(t_var *var)
 {
-	t_lex	lex;
-	t_pipe	pip;
-	char	*lineread;
-
 	var->count_wait = 0;
 	var->check_after_redir = 0;
 	var->nopath = 0;
@@ -28,7 +24,6 @@ void	process(t_var *var)
 	var->line = NULL;
 	if (var->path != NULL)
 		var->path = NULL;
-	lineread = NULL;
 	var->last_pipe = 0;
 	if (var->last_pipe != 1)
 		var->fd = 0;
@@ -38,8 +33,16 @@ void	process(t_var *var)
 		g_global.lacontedetagrandmere = 0;
 	}
 	g_global.is_in_heredoc = 0;
-	currpath(var);
-	find_path(g_global.cpyenv, var);
+}
+
+void	process(t_var *var)
+{
+	t_lex	lex;
+	t_pipe	pip;
+	char	*lineread;
+
+	lineread = NULL;
+	(norm(), process_ini(var), currpath(var), find_path(g_global.cpyenv, var));
 	if (var->last_pipe == 1)
 		lineread = readline(">");
 	else
@@ -50,46 +53,15 @@ void	process(t_var *var)
 		exit(0);
 	}
 	var->line = malloc(sizeof(char) * (ft_strlen(lineread) + 1));
-	var->line = ft_strcpy(var->line, lineread);
-	add_history(var->line);
-	var->c = 0;
-	var->pidnum = 0;
+	(norm(), var->line = ft_strcpy(var->line, lineread),
+		add_history(var->line), var->c = 0, var->pidnum = 0);
 	init_tab(&lex, var->line, var->cpyenv, var);
 	tokenizer(&lex);
-	lex.s = separate_tok(var, &lex, lex.s);
-	lex.s = del_brak(lex.s);
-	turbotokenizer(&lex);
+	(norm(), lex.s = separate_tok(var, &lex, lex.s),
+		lex.s = del_brak(lex.s), turbotokenizer(&lex));
 	creat_pid(&lex, var);
 	if (parsing_syntax(&lex) == 1)
 		exe_s(&lex, var, &pip);
-}
-
-void	set_termios(int in_cmd)
-{
-	struct termios	tty;
-
-	tcgetattr(1, &tty);
-	if (in_cmd == 1)
-	{
-		tty.c_lflag |= ECHOCTL;
-		tty.c_cc[VQUIT] = 034;
-	}
-	else
-	{
-		tty.c_lflag &= ~ECHOCTL;
-		tty.c_cc[VQUIT] = 0;
-	}
-	tcsetattr(1, TCSANOW, &tty);
-}
-
-void	init_termios(void)
-{
-	struct termios	tty;
-
-	tcgetattr(1, &tty);
-	tty.c_lflag &= ~ECHOCTL;
-	tty.c_cc[VQUIT] = 0;
-	tcsetattr(1, TCSANOW, &tty);
 }
 
 void	ctrlc(int sig)
@@ -106,7 +78,6 @@ void	ctrlc(int sig)
 	}
 	else if (g_global.is_in_heredoc == 2)
 	{
-		printf("dsdasd\n");
 		g_global.exitcode = 130;
 		exit(130);
 	}
@@ -120,12 +91,6 @@ void	ctrlbs(int sig)
 	g_global.last_err_com += 128;
 	rl_redisplay();
 	printf("Quit 3\n");
-}
-
-void	init_sign(void)
-{
-	signal(SIGINT, ctrlc);
-	signal(SIGQUIT, ctrlbs);
 }
 
 int	main(int ac, char **av, char **envp)

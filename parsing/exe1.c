@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe1.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:47:01 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/16 16:19:37 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/24 12:05:35 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,10 @@ void	executeur_final(char **s, char **env, t_var *var, t_lex *lex)
 	}
 	g_global.exitcode = 0;
 	execve(cmdpath, s, env);
+}
+
+void	init_sign(void)
+{
+	signal(SIGINT, ctrlc);
+	signal(SIGQUIT, ctrlbs);
 }

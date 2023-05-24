@@ -262,6 +262,7 @@ char	*remo_slash(char *s);
 int		check_path(char *s);
 int		lexer1(char *s, t_lex *lex);
 void	free_3(char ***s);
+void	init_sign(void);
 
 //built-ins
 char	*minidoll_ch(char *s, t_init p, char **env);
