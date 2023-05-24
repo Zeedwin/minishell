@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/24 12:50:33 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/24 14:51:51 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,10 @@ void	ctrlbs(int sig)
 
 int	main(int ac, char **av, char **envp)
 {
+	struct termios	tty;
+
+	tcgetattr(1, &tty);
+	tty.c_lflag &= ~ECHOCTL;
 	(void)ac;
 	(void)av;
 	g_global.cpyenv = ft_strcpy_env(g_global.cpyenv, envp);
@@ -112,6 +116,7 @@ int	main(int ac, char **av, char **envp)
 	init_sign();
 	while (1)
 	{
+		tcsetattr(1, TCSANOW, &tty);
 		process(&g_global);
 	}
 }
