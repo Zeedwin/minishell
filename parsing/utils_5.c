@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_5.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:38:19 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/22 18:02:15 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/24 11:55:10 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,7 @@ void	minipipe1(t_var *var, t_pipe *pip, t_lex *lex)
 		dup2(pip->tube[1], STDOUT_FILENO);
 	close(pip->tube[0]);
 	if (lex->supatok[var->z - 1] == TK_WORD)
-	{
 		executeur(lex->s[var->z - 1], g_global.cpyenv, var);
-	}
 	exit (0);
 }
 

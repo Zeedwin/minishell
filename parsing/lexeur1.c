@@ -12,85 +12,72 @@
 
 #include "../includes/shell.h"
 
-char	*lexeur2(char *s, t_lex *lex, int i)
+int	lexer3(t_lex *l, int i, int code)
 {
-	lex->s1[lex->x] = ft_substr(s, 0, i);
-	lex->x++;
-	s += i;
-	return (s);
+	if (code == 0)
+	{
+		i++;
+		while (1)
+		{
+			if (l->ss[i] == '"')
+				break ;
+			i++;
+		}
+		i++;
+		l->ss = lexeur2(l, i);
+		return (i);
+	}
+	if (code == 1)
+	{
+		while (l->ss[i] != '\0' && l->ss[i] != ' ' && l->ss[i] != '"'
+			&& l->ss[i] != '\'' && l->ss[i] != '|' && l->ss[i] != '>'
+			&& l->ss[i] != '<')
+				i++;
+		l->ss = lexeur2(l, i);
+		return (i);
+	}
+	return (i);
 }
 
-int	lexer1(char *s, t_lex *lex)
+char	*lexeur2(t_lex *lex, int i)
+{
+	lex->s1[lex->x] = ft_substr(lex->ss, 0, i);
+	lex->x++;
+	lex->ss += i;
+	return (lex->ss);
+}
+
+int	lexer1(t_lex *l)
 {
 	int	i;
 
 	i = 0;
-	if (lex->x < lex->y)
+	if (l->x < l->y)
 	{
-		while (s[i] == ' ' && s[i] != '\0')
+		while (l->ss[i] == ' ' && l->ss[i] != '\0')
 		{
 			i++;
-			if (s[i] != ' ')
+			if (l->ss[i] != ' ')
 			{	
-				s += i;
-				lexer1(s, lex);
+				l->ss += i;
+				lexer1(l);
 				return (1);
 			}
 		}
-		if (s[i] == '"' )
-		{
-			i++;
-			while (1)
-			{
-				if (s[i] == '"')
-					break ;
-				i++;
-			}
-			i++;
-			s = lexeur2(s, lex, i);
-		}
-		else if (s[i] == '|' || (s[i] == '<' && s[i + 1] != '<')
-			|| (s[i] == '>' && s[i + 1] != '>'))
-		{
-			i++;
-			s = lexeur2(s, lex, i);
-		}
-		else if (s[i] == '\'')
-		{
-			i++;
-			while (1)
-			{
-				if (s[i] == '\'')
-					break ;
-				i++;
-			}
-			i++;
-			s = lexeur2(s, lex, i);
-		}
-		else if ((s[i] == '<' && s[i + 1] == '<')
-			|| (s[i] == '>' && s[i + 1] == '>'))
-		{
-			i = i + 2;
-			s = lexeur2(s, lex, i);
-		}
+		if (l->ss[i] == '"' )
+			i = lexer3(l, i, 0);
 		else
-		{
-			while (s[i] != '\0' && s[i] != ' ' && s[i] != '"'
-				&& s[i] != '\'' && s[i] != '|' && s[i] != '>' && s[i] != '<' )
-				i++;
-			s = lexeur2(s, lex, i);
-		}
-		lexer1(s, lex);
-		lex->s1[lex->x] = NULL;
+			i = lexer5(l, i);
+		lexer1(l);
+		l->s1[l->x] = NULL;
 		return (1);
 	}
-	lex->s1[lex->x] = NULL;
+	l->s1[l->x] = NULL;
 	return (1);
 }
 
-void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
+char	*init_tab2(char *s, char **env, t_var *var)
 {
-	char	*s2;
 	t_ini	ini;
 
 	if (point(s) == 1)
@@ -108,15 +95,24 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	s = del_par_com(s);
 	s = replace_dol_(s, var->last_err_com, &ini);
 	s = dollars_ch(s, env);
+	return (s);
+}
+
+void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
+{
+	char	*s2;
+
+	s = init_tab2(s, env, var);
 	lex->s1 = ft_calloc((count(s, var) + 1), sizeof(char *));
 	lex->stoken = ft_calloc((count(s, var) + 1), sizeof(int));
 	lex->supatok = ft_calloc((count(s, var) + 1), sizeof(int));
 	lex->x = 0;
 	lex->c = 0;
 	lex->y = count(s, var);
-	s2 = malloc(sizeof(char) * (ft_strlen(s) + 1));
-	s2 = ft_strcpy(s2, s);
-	lexer1(s2, lex);
+	lex->ss = malloc(sizeof(char) * (ft_strlen(s) + 1));
+	lex->ss = ft_strcpy(lex->ss, s);
+	s2 = lex->ss;
+	lexer1(lex);
 	lex->s1[count(s, var)] = NULL;
 	lex->stoken[count(s, var)] = TK_FIN;
 	lex->supatok[count(s, var)] = TK_FIN;

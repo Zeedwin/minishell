@@ -131,6 +131,7 @@ typedef struct s_lex
 	int		x;
 	char	**s1;
 	int		ii;
+	char	*ss;
 	char	***s;
 	int		*stoken;
 	int		*supatok;
@@ -154,7 +155,7 @@ typedef struct s_init
 	char	*s2;
 }			t_init;
 
-typedef struct	s_ini
+typedef struct s_ini
 {
 	char	*sf;
 	char	*res;
@@ -223,7 +224,9 @@ int		ft_isdigit(int c);
 int		error_quote(char *s);
 void	cpy3truc1(t_var *v, t_lex *lex);
 char	*suppr_pos(char *s, int pos);
+int		pro(t_lex *lex, t_var *var, t_pipe *pip);
 int		check_vide(char *s);
+void	parent_pro(t_lex *lex, t_var *var, t_pipe *pip);
 char	*change_tab(char *s);
 int		point(char *s);
 char	*space(char *s);
@@ -260,9 +263,13 @@ void	wait_pid(t_var *var, t_pipe *pip);
 void	creat_pid(t_lex *lex, t_var *var);
 char	*remo_slash(char *s);
 int		check_path(char *s);
-int		lexer1(char *s, t_lex *lex);
+int		lexer1(t_lex *lex);
 void	free_3(char ***s);
 void	init_sign(void);
+char	*lexeur2(t_lex *lex, int i);
+int		lexer4(t_lex *l, int i);
+int		lexer3(t_lex *l, int i, int code);
+int		lexer5(t_lex *l, int i);
 
 //built-ins
 char	*minidoll_ch(char *s, t_init p, char **env);

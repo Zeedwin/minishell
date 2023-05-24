@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/24 12:10:11 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/24 12:50:33 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	process(t_var *var)
 	}
 	var->line = malloc(sizeof(char) * (ft_strlen(lineread) + 1));
 	(norm(), var->line = ft_strcpy(var->line, lineread),
-		add_history(var->line), var->c = 0, var->pidnum = 0);
+		add_history(var->line), var->pidnum = 0);
 	init_tab(&lex, var->line, var->cpyenv, var);
 	tokenizer(&lex);
 	(norm(), lex.s = separate_tok(var, &lex, lex.s),

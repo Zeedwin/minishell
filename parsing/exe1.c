@@ -3,14 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   exe1.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:47:01 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/24 12:05:35 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/24 12:37:56 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
+
+void	executeur_final2(char **s, t_var *var)
+{
+	if (g_global.lacontedetagrandmere > 0)
+		g_global.exitcode = 130;
+	if (s[0][1] == '.' && s[0][1] == '.' && s[0][2] == '/')
+		printf("minishell: no such file or directory: %s\n", s[0]);
+	else if (var->fail_dir == 0)
+	{
+		printf("bash : %s: command not found\n", s[0]);
+		g_global.exitcode = 127;
+	}
+	else if (g_global.exitcode == 130 && var->fail_dir == 0)
+	{
+		printf("bash : %d: command not found\n", g_global.last_err_com);
+	}
+	exit(g_global.exitcode);
+}
 
 void	executeur_final(char **s, char **env, t_var *var, t_lex *lex)
 {
@@ -31,20 +49,8 @@ void	executeur_final(char **s, char **env, t_var *var, t_lex *lex)
 		cmdpath = 0;
 	if (cmdpath == 0)
 	{
-		if (g_global.lacontedetagrandmere > 0)
-			g_global.exitcode = 130;
-		if (s[0][1] == '.' && s[0][1] == '.' && s[0][2] == '/')
-			printf("minishell: no such file or directory: %s\n", s[0]);
-		else if (var->fail_dir == 0)
-		{
-			printf("bash : %s: command not found\n", s[0]);
-			g_global.exitcode = 127;
-		}
-		else if (g_global.exitcode == 130 && var->fail_dir == 0)
-		{
-			printf("bash : %d: command not found\n", g_global.last_err_com);
-		}
-		exit(g_global.exitcode);
+		executeur_final2(s, var);
+		return ;
 	}
 	g_global.exitcode = 0;
 	execve(cmdpath, s, env);
