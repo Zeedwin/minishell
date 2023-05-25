@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 11:58:39 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/25 17:34:02 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@ void	parent_pro(t_lex *lex, t_var *var, t_pipe *pip)
 				var->last_err_com += 128);
 		if (var->last_err_com == 10)
 			(norm(), printf("Bus error\n"), var->last_err_com += 128);
-		if (var->last_err_com == 2)
+		if (var->last_err_com == 2 && g_global.bowlingboolean == 0)
 			var->last_err_com += 128;
+		if (var->last_err_com == 243)
+			var->last_err_com -= 241;
 	}
 	free_final(lex, pip, var);
 	var->last_pipe = 0;

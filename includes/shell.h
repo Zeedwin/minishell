@@ -115,6 +115,7 @@ typedef struct s_var {
 	int		j;
 	int		p;
 	int		k;
+	int		bowlingboolean;
 	int		nopath;
 	int		i;
 	int		is_in_heredoc;

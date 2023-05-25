@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe1.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:47:01 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 10:52:03 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/25 16:37:10 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	executeur_final2(char **s, t_var *var)
 {
 	if (g_global.lacontedetagrandmere > 0)
 		g_global.exitcode = 130;
-	if (s[0][1] == '.' && s[0][1] == '.' && s[0][2] == '/')
+	if (s[0][1] == '.' && (s[0][1] == '.' && s[0][2] == '/'))
 		printf("minishell: no such file or directory: %s\n", s[0]);
 	else if (var->fail_dir == 0)
 	{
@@ -24,9 +24,7 @@ void	executeur_final2(char **s, t_var *var)
 		g_global.exitcode = 127;
 	}
 	else if (g_global.exitcode == 130 && var->fail_dir == 0)
-	{
 		printf("bash : %d: command not found\n", g_global.last_err_com);
-	}
 	exit(g_global.exitcode);
 }
 

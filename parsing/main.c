@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/24 14:51:51 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/25 17:21:47 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	process(t_var *var)
 	t_pipe	pip;
 	char	*lineread;
 
-	lineread = NULL;
+	(norm(), lineread = NULL, var->bowlingboolean = 0);
 	(norm(), process_ini(var), currpath(var), find_path(g_global.cpyenv, var));
 	if (var->last_pipe == 1)
 		lineread = readline(">");

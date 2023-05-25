@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_gen2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:51:32 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 16:34:14 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/25 16:57:58 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,20 @@ int	pro(t_lex *lex, t_var *var, t_pipe *pip)
 		if (var->shell[var->pidnum] == 0)
 		{
 			if ((lex->supatok[var->z - 3] == TK_REDIR_S
-				|| lex->supatok[var->z - 3] == TK_REDIR_S2)
+					|| lex->supatok[var->z - 3] == TK_REDIR_S2)
 				&& lex->supatok[var->z - 1] == TK_PIPE)
 			{
 				close(var->fd);
 				var->fd = open("tmp/tmp.txt", O_CREAT | O_TRUNC | O_RDONLY, 0777);
-				dup2(var->fd, STDIN_FILENO);	
+				dup2(var->fd, STDIN_FILENO);
 			}
 			else if (((var->z > 3 && lex->supatok[var->z - 4] == TK_PIPE) || var->z - 3 == 0) && (lex->supatok[var->z - 3] == TK_REDIR_E
-				|| lex->supatok[var->z - 3] == TK_REDIR_E2)
+					|| lex->supatok[var->z - 3] == TK_REDIR_E2)
 				&& lex->supatok[var->z - 1] == TK_PIPE)
 			{
 				close(var->fd);
 				var->fd = open("tmp/tmp.txt", O_CREAT | O_TRUNC | O_RDONLY, 0777);
-				dup2(var->fd, STDIN_FILENO);	
+				dup2(var->fd, STDIN_FILENO);
 			}
 			else if (var->z > 0 && (var->last_pipe == 1
 					|| lex->supatok[var->z - 1] == TK_PIPE))
