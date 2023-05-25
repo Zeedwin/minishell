@@ -6,7 +6,7 @@
 /*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:00:20 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 10:43:48 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/25 10:47:43 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,16 @@ void	miniredir_s6(t_lex *lex, t_var *var, t_pipe *pip)
 
 	s = find_cmd_path(var, lex->s[var->z - 1][0]);
 	if (s != 0 && lex->supatok[var->z + 2] == TK_PIPE)
+	{
+		close(var->fd);
 		var->fd = pip->tube[0];
+	}
 	close(pip->tube[1]);
 	close(pip->tube[0]);
 	if (var->fd_s != -2)
-	{
 		close (var->fd_s);
-	}
 	if (var->fd_e != -2)
-	{
 		close (var->fd_e);
-	}
 	var->z = var->z + 1 + var->i;
 	if (lex->s[var->z - 1] == NULL)
 	{
