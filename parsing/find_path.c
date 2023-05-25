@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:01:30 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/15 16:24:12 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/25 11:40:26 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ char	*remo_slash(char *s)
 			j++;
 		}
 		s1[j] = '\0';
+		return(s1);
 	}
-	free(s);
-	return (s1);
+	free(s1);
+	return (s);
 }
 
 int	c_s(char **tab)

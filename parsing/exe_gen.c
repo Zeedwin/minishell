@@ -6,7 +6,7 @@
 /*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 10:52:12 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/25 11:35:09 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	parent_pro2(t_var *var, t_pipe *pip)
 {
 	if (var->fd != 0 && var->last_pipe != 1)
 		close(var->fd);
+	var->pidnum++;
 	wait_pid(var, pip);
 	g_global.is_in_cat = 0;
 	if (g_global.exitcode == 130)
