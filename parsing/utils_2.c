@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:59 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/22 18:02:33 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/25 09:32:44 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	minipipe(t_pipe	*pip, t_lex *lex, t_var *var)
 			minipipe2(var, pip);
 	}
 	else if (lex->supatok[var->z - 1] == TK_BUILTIN_OUTP)
-		minipipe3(var, lex, fdtmp);
+		minipipe3(var, lex, fdtmp, pip);
 	return (1);
 }
 

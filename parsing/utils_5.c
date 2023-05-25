@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_5.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:38:19 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/24 11:55:10 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/25 09:32:33 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@ void	minipipe2(t_var *var, t_pipe *pip)
 	var->z += 1;
 }
 
-void	minipipe3(t_var *var, t_lex *lex, int fdtmp)
+void	minipipe3(t_var *var, t_lex *lex, int fdtmp, t_pipe *pip)
 {
 	var->fd = open("tmp/tmp.txt", O_CREAT | O_RDWR | O_TRUNC, 0777);
 	dup2(var->fd, STDOUT_FILENO);
 	close(var->fd);
-	exec_builtin_out(lex->s[var->z - 1], var, lex);
+	exec_builtin_out(lex->s[var->z - 1], var, lex, pip);
 	dup2(fdtmp, STDOUT_FILENO);
 	var->z++;
 }

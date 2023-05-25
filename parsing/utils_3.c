@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:37:26 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/19 14:56:04 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/25 09:33:52 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 		else if (miniredir_s4(lex, var) == -1)
 			break ;
 	}
-	if (miniredir_s8(lex, var, fdtmp) == 0)
+	if (miniredir_s8(lex, var, fdtmp, pip) == 0)
 		return (1);
 	miniredir_s7(lex, var, pip);
 	return (1);

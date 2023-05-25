@@ -203,7 +203,7 @@ int		miniredir_s4(t_lex *lex, t_var *var);
 char	*ft_strcpy(char *dest, char *src);
 int		quotecheker(char *s, char c);
 int		miniredir_s7(t_lex *lex, t_var *var, t_pipe *pip);
-int		miniredir_s8(t_lex *lex, t_var *var, int fdtmp);
+int		miniredir_s8(t_lex *lex, t_var *var, int fdtmp, t_pipe *pip);
 char	*ft_strtrim(char const *s1, char const *set);
 size_t	ft_strlcpy(char *restrict dst,
 			const char *restrict src, size_t dstsize);
@@ -243,7 +243,7 @@ size_t	ft_strlcpy(char *restrict dst, const char *restrict src,
 			size_t dstsize);
 char	***separate_tok(t_var *var, t_lex *lex, char ***s);
 void	tokenizer(t_lex *lex);
-void	minipipe3(t_var *var, t_lex *lex, int fdtmp);
+void	minipipe3(t_var *var, t_lex *lex, int fdtmp, t_pipe *pip);
 void	turbotokenizer(t_lex *lex);
 void	executeur(char **s, char **env, t_var *var);
 void	free_final(t_lex *lex, t_pipe *pip, t_var *var);
@@ -276,7 +276,7 @@ char	*minidoll_ch(char *s, t_init p, char **env);
 int		cd(char **s, t_var *var);
 char	**export(char **cpyenv, t_lex *lex, t_var *var, int i);
 char	**unset(char **cpyenvp, char *unsetstr);
-int		exec_builtin_out(char **s, t_var *var, t_lex *lex);
+int		exec_builtin_out(char **s, t_var *var, t_lex *lex, t_pipe *pip);
 int		echo(t_var	*var, t_lex *lex);
 void	pwd(void);
 char	**ft_strcpy_env(char **cpyenv, char **envp);

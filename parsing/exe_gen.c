@@ -6,7 +6,7 @@
 /*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 09:03:08 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/25 09:30:08 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	exe_s2(t_lex *lex, t_var *var, t_pipe *pip)
 	else if (lex->supatok[var->z] == TK_BUILTIN_OUTP
 		&& lex->s[var->z + 1] == NULL)
 	{
-		exec_builtin_out(lex->s[var->z], var, lex);
+		exec_builtin_out(lex->s[var->z], var, lex, pip);
 		var->z++;
 	}
 	else

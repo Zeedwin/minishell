@@ -12,7 +12,7 @@
 
 #include "../includes/shell.h"
 
-int	exec_builtin_out(char **s, t_var *var, t_lex *lex)
+int	exec_builtin_out(char **s, t_var *var, t_lex *lex, t_pipe *pip)
 {
 	if (ft_strcmp(*s, "pwd") == 0 || ft_strcmp(*s, "PWD") == 0)
 		pwd();
@@ -22,6 +22,11 @@ int	exec_builtin_out(char **s, t_var *var, t_lex *lex)
 		echo(var, lex);
 	else if (ft_strcmp(lex->s[var->z][0], "exit") == 0)
 		ft_exit(var, lex);
+	if (lex->s[var->z + 1] == NULL)
+	{
+		close(var->fd);
+		wait_pid(var, pip);
+	}
 	return (1);
 }
 

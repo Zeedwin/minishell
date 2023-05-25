@@ -6,7 +6,7 @@
 /*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:00:20 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 09:20:51 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/25 09:33:29 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	miniredir_s6(t_lex *lex, t_var *var, t_pipe *pip)
 	free(s);
 }
 
-int	miniredir_s8(t_lex *lex, t_var *var, int fdtmp)
+int	miniredir_s8(t_lex *lex, t_var *var, int fdtmp, t_pipe *pip)
 {
 	if (var->z > 0 && var->fail_dir == 0
 		&& lex->supatok[var->z - 1] == TK_BUILTIN_OUTP)
@@ -97,7 +97,7 @@ int	miniredir_s8(t_lex *lex, t_var *var, int fdtmp)
 		if (var->fd_s != -2 && find_cmd_path(var,
 				lex->s[var->z - 1][0]) != 0)
 			dup2(var->fd_s, STDOUT_FILENO);
-		exec_builtin_out(lex->s[var->z - 1], var, lex);
+		exec_builtin_out(lex->s[var->z - 1], var, lex, pip);
 		dup2(fdtmp, STDOUT_FILENO);
 		var->z = var->z + 1 + var->i;
 		return (0);
