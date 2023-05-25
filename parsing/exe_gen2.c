@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:51:32 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 16:57:58 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/25 21:39:41 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,19 @@ int	pro(t_lex *lex, t_var *var, t_pipe *pip)
 				&& lex->supatok[var->z - 1] == TK_PIPE)
 			{
 				close(var->fd);
-				var->fd = open("tmp/tmp.txt", O_CREAT | O_TRUNC | O_RDONLY, 0777);
+				var->fd = open("tmp/tmp.txt", O_CREAT
+						| O_TRUNC | O_RDONLY, 0777);
 				dup2(var->fd, STDIN_FILENO);
 			}
-			else if (((var->z > 3 && lex->supatok[var->z - 4] == TK_PIPE) || var->z - 3 == 0) && (lex->supatok[var->z - 3] == TK_REDIR_E
+			else if (((var->z > 3 && lex->supatok[var->z - 4] == TK_PIPE)
+					|| var->z - 3 == 0)
+				&& (lex->supatok[var->z - 3] == TK_REDIR_E
 					|| lex->supatok[var->z - 3] == TK_REDIR_E2)
 				&& lex->supatok[var->z - 1] == TK_PIPE)
 			{
 				close(var->fd);
-				var->fd = open("tmp/tmp.txt", O_CREAT | O_TRUNC | O_RDONLY, 0777);
+				var->fd = open("tmp/tmp.txt", O_CREAT
+						| O_TRUNC | O_RDONLY, 0777);
 				dup2(var->fd, STDIN_FILENO);
 			}
 			else if (var->z > 0 && (var->last_pipe == 1

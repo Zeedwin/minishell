@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:00:20 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 16:57:12 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/25 21:26:03 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	miniredir_s5(t_lex	*lex, t_var *var, t_pipe *pip)
 		&& lex->supatok[var->z - 3] == TK_WORD)
 		dup2(var->fd, STDIN_FILENO);
 	if (var->z > 2 && lex->supatok[var->z - 2] == TK_PIPE
-		&& lex->supatok[var->z - 3] == TK_BUILTIN_OUTP)
+		&& lex->supatok[var->z - 3] == TK_BOUT)
 	{
 		close(var->fd);
 		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
@@ -101,7 +101,7 @@ void	miniredir_s6(t_lex *lex, t_var *var, t_pipe *pip)
 int	miniredir_s8(t_lex *lex, t_var *var, int fdtmp, t_pipe *pip)
 {
 	if (var->z > 0 && var->fail_dir == 0
-		&& lex->supatok[var->z - 1] == TK_BUILTIN_OUTP)
+		&& lex->supatok[var->z - 1] == TK_BOUT)
 	{
 		if (var->fd_s != -2 && find_cmd_path(var,
 				lex->s[var->z - 1][0]) != 0)
@@ -133,7 +133,7 @@ int	miniredir_s7(t_lex *lex, t_var *var, t_pipe *pip)
 		return (0);
 	}
 	else if (var->fail_dir == 0 && var->z > 1
-		&& lex->supatok[var->z - 2] == TK_BUILTIN_OUTP)
+		&& lex->supatok[var->z - 2] == TK_BOUT)
 	{		
 		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
 		dup2(var->fd, STDIN_FILENO);

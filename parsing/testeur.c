@@ -110,7 +110,7 @@ void	turbotokenizer(t_lex *lex)
 		else if (test_builtin(lex->s[i]) == 1)
 			lex->supatok[i] = TK_BUILTIN;
 		else if (test_builtin(lex->s[i]) == 2)
-			lex->supatok[i] = TK_BUILTIN_OUTP;
+			lex->supatok[i] = TK_BOUT;
 		else
 			lex->supatok[i] = TK_WORD;
 		i++;

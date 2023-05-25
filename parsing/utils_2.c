@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:59 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 09:32:44 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/25 21:26:03 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	minipipe(t_pipe	*pip, t_lex *lex, t_var *var)
 	dup2(STDOUT_FILENO, fdtmp);
 	pipe(pip->tube);
 	if (lex->supatok[var->z - 1] != TK_BUILTIN
-		&& lex->supatok[var->z - 1] != TK_BUILTIN_OUTP)
+		&& lex->supatok[var->z - 1] != TK_BOUT)
 	{
 		g_global.is_in_cat = 1;
 		var->shell[var->pidnum] = fork();
@@ -77,7 +77,7 @@ int	minipipe(t_pipe	*pip, t_lex *lex, t_var *var)
 		else
 			minipipe2(var, pip);
 	}
-	else if (lex->supatok[var->z - 1] == TK_BUILTIN_OUTP)
+	else if (lex->supatok[var->z - 1] == TK_BOUT)
 		minipipe3(var, lex, fdtmp, pip);
 	return (1);
 }

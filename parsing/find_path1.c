@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:55:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 17:01:24 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/25 21:27:44 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 char	*find_cmd_path2(char *cmd, char *cmd_path, char *buf)
 {
 	char	*cmd1;
-
 
 	cmd1 = remo_slash(cmd);
 	cmd_path = ft_strjoin(getcwd(buf, PATH_MAX), "/");

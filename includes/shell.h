@@ -69,7 +69,7 @@ enum {
 	TK_CMD,
 	TK_DOLLAR,
 	TK_BUILTIN,
-	TK_BUILTIN_OUTP,
+	TK_BOUT,
 	TK_FIN,
 };
 
