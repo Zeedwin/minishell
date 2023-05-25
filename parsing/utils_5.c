@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_5.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:38:19 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 10:53:12 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/25 13:10:36 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ void	minipipe1(t_var *var, t_pipe *pip, t_lex *lex)
 	else if (var->z > 1 && lex->supatok[var->z - 2] == TK_PIPE
 		&& lex->supatok[var->z - 3] == TK_BUILTIN_OUTP)
 	{
-		close(var->fd);
-		var->fd = open("tmp/tmp.txt", O_RDONLY, 0777);
+		(norm(), close(var->fd), var->fd = open("tmp/tmp.txt", O_RDONLY, 0777));
 		dup2(var->fd, STDIN_FILENO);
 	}
 	else if (var->z > 1 && (lex->supatok[var->z - 2] == TK_REDIR_S
