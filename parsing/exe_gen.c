@@ -6,7 +6,7 @@
 /*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 09:55:16 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/25 10:52:12 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 		return (0);
 	}
 	var->memo = 0;
-	var->fd = dup(0);
 	while (var->z < ft_malloc(lex) - 1)
 	{
 		if (lex->supatok[var->z] == TK_WORD && lex->s[var->z] != NULL)

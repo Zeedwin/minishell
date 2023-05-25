@@ -1,8 +1,1 @@
-Makefile
-a
-built-ins
-includes
-minishell
-minishell.dSYM
-parsing
-tmp
+/Users/hugodelmann/minishell-6

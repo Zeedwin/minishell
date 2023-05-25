@@ -6,7 +6,7 @@
 /*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:38:19 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 09:32:33 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/25 10:53:12 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	minipipe1(t_var *var, t_pipe *pip, t_lex *lex)
 	else if (var->z > 1 && lex->supatok[var->z - 2] == TK_PIPE
 		&& lex->supatok[var->z - 3] == TK_BUILTIN_OUTP)
 	{
+		close(var->fd);
 		var->fd = open("tmp/tmp.txt", O_RDONLY, 0777);
 		dup2(var->fd, STDIN_FILENO);
 	}
@@ -67,8 +68,7 @@ void	minipipe1(t_var *var, t_pipe *pip, t_lex *lex)
 
 void	minipipe2(t_var *var, t_pipe *pip)
 {
-	if (var->fd != 0 && var->last_pipe != 1)
-		close(var->fd);
+	close(var->fd);
 	var->pidnum++;
 	g_global.is_in_cat = 0;
 	close(pip->tube[1]);
@@ -78,6 +78,7 @@ void	minipipe2(t_var *var, t_pipe *pip)
 
 void	minipipe3(t_var *var, t_lex *lex, int fdtmp, t_pipe *pip)
 {
+	close(var->fd);
 	var->fd = open("tmp/tmp.txt", O_CREAT | O_RDWR | O_TRUNC, 0777);
 	dup2(var->fd, STDOUT_FILENO);
 	close(var->fd);

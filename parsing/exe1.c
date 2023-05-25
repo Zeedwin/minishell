@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe1.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:47:01 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/24 12:37:56 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/25 10:52:03 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	executeur_final(char **s, char **env, t_var *var, t_lex *lex)
 	if (var->z >= 2 && lex->supatok[var->z - 1] == TK_PIPE
 		&& lex->supatok[var->z - 2] == TK_BUILTIN_OUTP)
 	{
+		close(var->fd);
 		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
 		dup2(var->fd, STDIN_FILENO);
 	}
