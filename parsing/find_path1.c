@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:55:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 13:05:59 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/25 17:01:24 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,17 @@ char	*find_cmd_path2(char *cmd, char *cmd_path, char *buf)
 {
 	char	*cmd1;
 
+
 	cmd1 = remo_slash(cmd);
 	cmd_path = ft_strjoin(getcwd(buf, PATH_MAX), "/");
 	cmd_path = ft_strjoin(cmd_path, cmd1);
 	if (access(cmd_path, F_OK | X_OK) == 0)
 		return (cmd_path);
 	free(cmd_path);
-	return (0);
+	cmd_path = malloc(2 * sizeof(char));
+	cmd_path[0] = '1';
+	cmd_path[1] = '\0';
+	return (cmd_path);
 }
 
 char	*free_return(char *cmd_path, char *path)
@@ -71,6 +75,13 @@ char	*find_cmd_path(t_var *var, char *cmd)
 	cmd_path = NULL;
 	if ((cmd[0] == '.' && cmd[1] == '.' && cmd[2] == '/')
 		|| (cmd[0] == 'r' && cmd[1] == '\0'));
+	else if (cmd[0] == '.' && cmd[1] == '/' && cmd[2] == '\0')
+	{
+		cmd_path = malloc(2 * sizeof(char));
+		cmd_path[0] = '2';
+		cmd_path[1] = '\0';
+		return (cmd_path);
+	}
 	else if (access(path, F_OK | X_OK) == 0)
 		return (path);
 	else if (cmd[0] == '.' && cmd[1] == '/')

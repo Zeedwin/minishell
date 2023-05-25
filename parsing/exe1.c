@@ -6,7 +6,7 @@
 /*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:47:01 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 10:52:03 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/25 16:56:49 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,18 @@ void	executeur_final(char **s, char **env, t_var *var, t_lex *lex)
 	{
 		executeur_final2(s, var);
 		return ;
+	}
+	if (cmdpath[0] == '1')
+	{
+		printf("bash: %s: Permission denied\n", s[0]);
+		g_global.exitcode = 126;
+		exit(g_global.exitcode);
+	}
+	if (cmdpath[0] == '2')
+	{
+		printf("bash: %s: is a directory\n", s[0]);
+		g_global.exitcode = 126;
+		exit(g_global.exitcode);
 	}
 	g_global.exitcode = 0;
 	execve(cmdpath, s, env);

@@ -125,6 +125,18 @@ void	executeur(char **s, char **env, t_var *var)
 	{
 		dup2(var->fd, STDIN_FILENO);
 	}
+	if (cmdpath[0] == '1')
+	{
+		printf("bash: %s: Permission denied\n", s[0]);
+		g_global.exitcode = 126;
+		exit(g_global.exitcode);
+	}
+	if (cmdpath[0] == '2')
+	{
+		printf("bash: %s: is a directory\n", s[0]);
+		g_global.exitcode = 126;
+		exit(g_global.exitcode);
+	}
 	if (cmdpath == 0)
 	{
 		if (s[0][1] == '.' && s[0][1] == '.' && s[0][2] == '/')
