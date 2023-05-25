@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:00:20 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 10:52:24 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/25 13:03:00 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,8 @@ int	miniredir_s7(t_lex *lex, t_var *var, t_pipe *pip)
 	}
 	else if (var->fail_dir == 0 && var->z > 1
 		&& lex->supatok[var->z - 2] == TK_BUILTIN_OUTP)
-	{		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
+	{		
+		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
 		dup2(var->fd, STDIN_FILENO);
 		return (0);
 	}

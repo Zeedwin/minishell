@@ -17,6 +17,11 @@
 
 int	file_input_check(char *file)
 {
+	int	fi;
+
+	fi = open(file, O_RDONLY, O_RDWR, O_APPEND, O_EXCL);
+	if (fi == -1)
+		printf("Permission denied\n");
 	if (access(file, F_OK) == 0)
 		return (1);
 	else

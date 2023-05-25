@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_gen.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 11:35:09 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/25 11:58:39 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	parent_pro(t_lex *lex, t_var *var, t_pipe *pip)
 				var->last_err_com += 128);
 		if (var->last_err_com == 10)
 			(norm(), printf("Bus error\n"), var->last_err_com += 128);
-		if (var->last_err_com == 3)
+		if (var->last_err_com == 2)
 			var->last_err_com += 128;
 	}
 	free_final(lex, pip, var);

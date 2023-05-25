@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 09:52:39 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/16 14:50:36 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/25 12:42:51 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	parsing_syntax3(t_lex *lex, int i)
 	if (lex->supatok[0] == TK_PIPE)
 	{
 		printf("bash: syntax error near unexpected token '|'\n");
+		g_global.exitcode += 258;
 		return (0);
 	}
 	return (1);
