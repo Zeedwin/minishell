@@ -6,7 +6,7 @@
 /*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:00:20 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 09:33:29 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/25 10:43:48 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	miniredir_s5(t_lex	*lex, t_var *var, t_pipe *pip)
 		|| lex->supatok[var->z] == TK_REDIR_E2))
 		dup2(pip->tube[1], STDOUT_FILENO);
 	close(pip->tube[0]);
+	close(pip->tube[1]);
 	executeur(lex->s[var->z - 1], g_global.cpyenv, var);
 }
 
@@ -76,14 +77,22 @@ void	miniredir_s6(t_lex *lex, t_var *var, t_pipe *pip)
 	if (s != 0 && lex->supatok[var->z + 2] == TK_PIPE)
 		var->fd = pip->tube[0];
 	close(pip->tube[1]);
+	close(pip->tube[0]);
+	if (var->fd_s != -2)
+	{
+		close (var->fd_s);
+	}
+	if (var->fd_e != -2)
+	{
+		close (var->fd_e);
+	}
 	var->z = var->z + 1 + var->i;
 	if (lex->s[var->z - 1] == NULL)
 	{
 		close(var->fd);
 		wait_pid(var, pip);
 	}
-	else
-		var->pidnum++;
+	var->pidnum++;
 	g_global.is_in_cat = 0;
 	var->last_pipe = 0;
 	free(s);
@@ -100,6 +109,11 @@ int	miniredir_s8(t_lex *lex, t_var *var, int fdtmp, t_pipe *pip)
 		exec_builtin_out(lex->s[var->z - 1], var, lex, pip);
 		dup2(fdtmp, STDOUT_FILENO);
 		var->z = var->z + 1 + var->i;
+		if (lex->s[var->z - 1] == NULL)
+		{
+			close(var->fd);
+			wait_pid(var, pip);
+		}
 		return (0);
 	}
 	return (1);
@@ -120,8 +134,7 @@ int	miniredir_s7(t_lex *lex, t_var *var, t_pipe *pip)
 	}
 	else if (var->fail_dir == 0 && var->z > 1
 		&& lex->supatok[var->z - 2] == TK_BUILTIN_OUTP)
-	{
-		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
+	{		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
 		dup2(var->fd, STDIN_FILENO);
 		return (0);
 	}

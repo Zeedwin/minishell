@@ -1,4 +1,1 @@
-wevv
-wev
-wevw
-evwev
+/Users/hugodelmann/minishell-6
