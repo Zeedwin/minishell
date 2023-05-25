@@ -3,17 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   exe_gen.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/24 12:53:34 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/25 09:03:08 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
-void	parent_pro2(t_var *var)
+void	parent_pro2(t_var *var, t_pipe *pip)
 {
+	if (var->fd != 0 && var->last_pipe != 1)
+		close(var->fd);
+	wait_pid(var, pip);
 	g_global.is_in_cat = 0;
 	if (g_global.exitcode == 130)
 	{
@@ -31,7 +34,7 @@ void	parent_pro(t_lex *lex, t_var *var, t_pipe *pip)
 	if (var->fd != 0 && var->last_pipe != 1)
 		close(var->fd);
 	wait_pid(var, pip);
-	parent_pro2(var);
+	parent_pro2(var, pip);
 	if (g_global.exitcode == 0)
 	{
 		var->last_err_com = WEXITSTATUS(pip->status);

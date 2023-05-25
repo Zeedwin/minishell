@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:00:20 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/19 14:44:08 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/25 09:20:51 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	miniredir_s5(t_lex	*lex, t_var *var, t_pipe *pip)
 		|| lex->supatok[var->z] == TK_REDIR_E2))
 		dup2(pip->tube[1], STDOUT_FILENO);
 	close(pip->tube[0]);
-	close(pip->tube[1]);
 	executeur(lex->s[var->z - 1], g_global.cpyenv, var);
 }
 
@@ -75,11 +74,8 @@ void	miniredir_s6(t_lex *lex, t_var *var, t_pipe *pip)
 
 	s = find_cmd_path(var, lex->s[var->z - 1][0]);
 	if (s != 0 && lex->supatok[var->z + 2] == TK_PIPE)
-	{
 		var->fd = pip->tube[0];
-	}
 	close(pip->tube[1]);
-	close(pip->tube[0]);
 	var->z = var->z + 1 + var->i;
 	if (lex->s[var->z - 1] == NULL)
 	{
@@ -88,7 +84,6 @@ void	miniredir_s6(t_lex *lex, t_var *var, t_pipe *pip)
 	}
 	else
 		var->pidnum++;
-	fflush(stdout);
 	g_global.is_in_cat = 0;
 	var->last_pipe = 0;
 	free(s);
