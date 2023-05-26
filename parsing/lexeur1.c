@@ -18,7 +18,7 @@ int	lexer3(t_lex *l, int i, int code)
 	{
 		while (l->ss[i] != '\0' && l->ss[i] != ' '
 			&& l->ss[i] != '|' && l->ss[i] != '>'
-			&& l->ss[i] != '<')
+			&& l->ss[i] != '<' && l->ss[i] != '=')
 		{
 			if(l->ss[i] == '"')
 			{

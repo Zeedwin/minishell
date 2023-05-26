@@ -6,11 +6,25 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:32:16 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/26 12:51:35 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/26 14:03:33 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
+
+int	check_dol(char *s)
+{
+	int i;
+
+	i = 0;
+	while(s[i] != '\0')
+	{
+		if (s[i] == '$' && s[i + 1] != ' ')
+			return(0);
+		i++;
+	}
+	return(1);
+}
 
 int	check_redir(char *s)
 {
@@ -39,6 +53,7 @@ char *ft_replace_dol_in(char *s, char *res)
 	k = 0;
 	while (s[i] != '\0')
 	{
+		k = 0;
 		if (s[i] == '$' && s[i + 1] == '?')
 		{
 			i += 2;
@@ -83,6 +98,7 @@ char	*dol_replace2(char *s, t_var *var)
 		}
 		i++;
 	}
+	free(res);
 	return (s);
 }
 
@@ -92,14 +108,14 @@ char	*replace_dol_env(char *s, int i)
 	int	j;
 	
 	i++;
-	j = i;
-	while (s[j] != '\0' && s[j] != ' ' && s[j] != '"' && s[j] != '\'')
+	j = i + 1;
+	while (s[j] != '\0' && s[j] != ' ' && s[j] != '"' && s[j] != '\'' && s[j] != '$')
 	{
 		j++;
 	}
 	s1 = malloc(sizeof(char) * (j - i + 1));
 	j = 0;
-	while (s[i] != '\0' && s[i] != ' ' && s[i] != '"' && s[i] != '\'')
+	while (s[i] != '\0' && s[i] != ' ' && s[i] != '"' && s[i] != '\'' && s[i] != '$')
 	{
 		s1[j] = s[i];
 		j++;
@@ -155,9 +171,10 @@ char *replace_dol_fi(char *s, char *s1, char *s2)
 	s3 = malloc(sizeof(char) * (ft_strlen(s) - ft_strlen(s1) + ft_strlen(s2) + 1));
 	while (s[i] != '\0')
 	{
-		if (s[i] == '$' && s[i + 1] == s1[0])
+		if (s[i] == '$' && s[i + 1] == s1[0] && j == 0)
 		{
-			while (s[i] != '\0' && s[i] != ' ' && s[i] != '"' && s[i] != '\'')
+			i++;
+			while (s[i] != '\0' && s[i] != ' ' && s[i] != '"' && s[i] != '\'' && s[i] != '$')
 				i++;
 			while (s2[j] != '\0')
 			{
@@ -198,11 +215,12 @@ char	*dol_replace3(char *s, char **env)
 			s1 = replace_dol_env(s, i);
 			s2 = replace_dol_env2(s1, env);
 			s = replace_dol_fi(s, s1, s2);
+			free(s2);
+			free(s1);
 		}
 		i++;
 	}
 //	free(s1);
-	free(s2);
 	return (s);
 }
 
@@ -218,7 +236,10 @@ char	***dol_replace1(char ***s, t_var *var, char **env)
 		while (s[i][j] != NULL)
 		{
 			if (check_redir(s[i][j]) == 1)
-				j++;
+			{
+				i++;
+				break ;
+			}
 			else
 			{
 				s[i][j] = dol_replace2(s[i][j], var);

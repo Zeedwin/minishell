@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:20:28 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/26 12:30:33 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/26 13:03:49 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	process(t_var *var)
 	char	*lineread;
 
 	lineread = NULL;
-	(n(), process_ini(var), currpath(var), find_path(g_global.cpyenv, var));
+	//(n(), process_ini(var), currpath(var), find_path(g_global.cpyenv, var));
 	(n(), lineread = NULL, var->bowlingboolean = 0);
 	(n(), process_ini(var), currpath(var), find_path(g_global.cpyenv, var));
 	if (var->last_pipe == 1)
