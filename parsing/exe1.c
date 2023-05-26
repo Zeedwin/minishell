@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:47:01 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/26 11:27:00 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/26 14:13:03 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,14 @@ void	executeur_final(char **s, char **env, t_var *var, t_lex *lex)
 	}
 	if (cmdpath[0] == '1')
 	{
+		free(cmdpath);
 		(n(), printf("bash: %s: Permission denied\n", s[0]),
 			g_global.exitcode = 126);
 		exit(g_global.exitcode);
 	}
 	if (cmdpath[0] == '2')
 	{
+		free(cmdpath);
 		(n(), printf("bash: %s: is a directory\n", s[0]),
 			g_global.exitcode = 126);
 		exit(g_global.exitcode);

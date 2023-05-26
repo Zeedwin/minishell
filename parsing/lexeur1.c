@@ -18,21 +18,24 @@ int	lexer3(t_lex *l, int i, int code)
 	{
 		while (l->ss[i] != '\0' && l->ss[i] != ' '
 			&& l->ss[i] != '|' && l->ss[i] != '>'
-			&& l->ss[i] != '<')
+			&& l->ss[i] != '<' && l->ss[i] != '=')
 		{
-			i++;
 			if(l->ss[i] == '"')
 			{
 				i++;
 				while (l->ss[i] != '\0' && l->ss[i] != '\"')
 					i++;
+				i++;
 			}
-			if(l->ss[i] == '\'')
+			else if(l->ss[i] == '\'')
 			{
 				i++;
 				while (l->ss[i] != '\0' && l->ss[i] != '\'')
 					i++;
+				i++;
 			}
+			else
+				i++;
 		}
 		l->ss = lexeur2(l, i);
 		return (i);
@@ -79,8 +82,10 @@ int	lexer1(t_lex *l)
 
 char	*init_tab2(char *s, char **env, t_var *var)
 {
-	t_ini	ini;
+	//t_ini	ini;
 
+	(void)env;
+	(void)var;
 	if (point(s) == 1)
 	{
 		printf("bash : %s: command not found\n", s);
@@ -94,8 +99,8 @@ char	*init_tab2(char *s, char **env, t_var *var)
 	s = space(s);
 	s = change_tab(s);
 	s = del_par_com(s);
-	s = replace_dol_(s, var->last_err_com, &ini);
-	s = dollars_ch(s, env);
+	//s = replace_dol_(s, var->last_err_com, &ini);
+	//s = dollars_ch(s, env);
 	return (s);
 }
 
@@ -117,6 +122,6 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	lex->s1[count(s, var)] = NULL;
 	lex->stoken[count(s, var)] = TK_FIN;
 	lex->supatok[count(s, var)] = TK_FIN;
-	free(s);
+//	free(s);
 	free(s2);
 }

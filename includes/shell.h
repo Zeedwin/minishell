@@ -227,6 +227,7 @@ void	cpy3truc1(t_var *v, t_lex *lex);
 char	*suppr_pos(char *s, int pos);
 int		pro(t_lex *lex, t_var *var, t_pipe *pip);
 int		check_vide(char *s);
+char	***dol_replace1(char ***s, t_var *var, char **env);
 void	parent_pro(t_lex *lex, t_var *var, t_pipe *pip);
 char	*change_tab(char *s);
 int		point(char *s);

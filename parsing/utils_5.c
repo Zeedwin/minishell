@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:18:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/26 10:18:46 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/26 14:04:39 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	delimiteur2(t_lex *lex, char *buffer, t_var *var)
 		num_read = read(STDIN_FILENO, buffer, BUF_SIZE);
 		buffer[num_read] = '\0';
 		s = del_backn(buffer);
-		printf("del = '%s'\n", lex->s[var->z + var->i + 1][0]);
 		if (ft_strcmp(s, lex->s[var->z + var->i + 1][0]) == 0)
 		{
 			close(var->fd_hdoc);

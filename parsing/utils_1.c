@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:11:57 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/26 09:06:19 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/26 13:08:09 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_realloc(char *map, int i)
 	int		x;
 
 	x = 0;
-	map_tp = malloc((i + 1) * sizeof(char *));
+	map_tp = malloc((i + 1) * sizeof(char));
 	while (map[x])
 	{
 		map_tp[x] = map[x];

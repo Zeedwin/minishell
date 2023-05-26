@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:37:26 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/26 10:28:24 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/26 10:30:13 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,12 @@ int	miniredir_s(t_lex *lex, t_var *var, t_pipe *pip)
 	var->fd_e = -2;
 	var->i = 0;
 	fdtmp = dup(0);
-	close(var->fd);
-	if (var->z > 2 && lex->supatok[var->z - 3] == TK_BUILTIN)
+	if (var->z > 2 && lex->supatok[var->z - 3] != TK_BOUT)
+	{
+		close(var->fd);
 		var->fd = open("tmp/tmp.txt", O_CREAT | O_TRUNC | O_RDONLY, 0777);
-		dup2(STDOUT_FILENO, fdtmp);
+	}
+	dup2(STDOUT_FILENO, fdtmp);
 	var->fd_s = -2;
 	while (lex->supatok[var->z + var->i] == TK_REDIR_S
 		|| lex->supatok[var->z + var->i] == TK_REDIR_E
