@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_dollard2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:47:41 by jgirard-          #+#    #+#             */
-/*   Updated: 2023/05/24 11:51:25 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/26 09:05:41 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void	init_dol(t_ini *in, int i, char *s, int code)
 	}
 	if (code == 1)
 	{
-		(norm(), in->sf[in->o] = s[in->j], in->j++, in->o++);
-		while (s[in->j] != '\'')
-			(norm(), in->sf[in->o] = s[in->j], in->j++, in->o++);
-		(norm(), in->sf[in->o] = s[in->j], in->j++, in->o++);
+		(n(), in->sf[in->o] = s[in->j], in->j++, in->o++);
+		while (s[in->j] != '\0' && s[in->j] != '\'')
+			(n(), in->sf[in->o] = s[in->j], in->j++, in->o++);
+		(n(), in->sf[in->o] = s[in->j], in->j++, in->o++);
 	}
 }
 
@@ -41,29 +41,78 @@ char	*replace_dol_(char *s, int i, t_ini *in)
 		if (s[in->j] == '<' && s[in->j + 1] == '<')
 		{
 			while ((s[in->j] == ' ' || s[in->j] == '<') && s[in->j] != '\0')
-				(norm(), in->sf[in->o] = s[in->j], in->j++, in->o++);
+				(n(), in->sf[in->o] = s[in->j], in->j++, in->o++);
 			while (s[in->j] != ' ' && s[in->j] != '|'
 				&& s[in->j] != '>' && s[in->j] != '<' && s[in->j] != '\0')
-				(norm(), in->sf[in->o] = s[in->j], in->j++, in->o++);
+				(n(), in->sf[in->o] = s[in->j], in->j++, in->o++);
 		}
 		if (s[in->j] == '$' && s[in->j + 1] == '?')
 		{
 			in->sf = realloc(in->sf, ft_strlen(s) + ft_strlen(in->res));
 			while (in->res[in->k] != '\0')
-				(norm(), in->sf[in->o] = in->res[in->k], in->k++, in->o++);
-			(norm(), in->k = 0, in->j += 2);
+				(n(), in->sf[in->o] = in->res[in->k], in->k++, in->o++);
+			(n(), in->k = 0, in->j += 2);
 		}
 		else
-			(norm(), in->sf[in->o] = s[in->j], in->j++, in->o++);
+			(n(), in->sf[in->o] = s[in->j], in->j++, in->o++);
 	}
 	return (in->sf[in->o] = '\0', free (in->res), in->sf);
+}
+
+char	*del_brak2(char *s)
+{
+	int i;
+	int j;
+	int k;
+	char *s1;
+
+	k = ft_strlen(s);
+	s1 = malloc(sizeof(char) * (k + 1));
+	i = 0;
+	j = 0;
+	while (s[i] != '\0')
+	{
+		if (s[i] == '\'')
+		{
+			i++;
+			k--;
+			s1 = ft_realloc(s1, (k + 1));
+			while (s[i] != '\0' && s[i] != '\'')
+			{
+				s1[j] = s[i];
+				i++;
+				j++;
+			}
+			i++;
+		}
+		else if (s[i] == '"')
+		{
+			i++;
+			k--;
+			s1 = ft_realloc(s1, (k + 1));
+			while (s[i] != '\0' && s[i] != '"')
+			{
+				s1[j] = s[i];
+				i++;
+				j++;
+			}
+			i++;
+		}
+		else
+		{
+			s1[j] = s[i];
+			j++;
+			i++;
+		}
+	}
+	s1[j] = '\0';
+	return (s1);
 }
 
 char	***del_brak(char ***s)
 {
 	int	i;
 	int	j;
-	int	k;
 
 	i = 0;
 	while (s[i] != NULL)
@@ -71,14 +120,7 @@ char	***del_brak(char ***s)
 		j = 0;
 		while (s[i][j] != NULL)
 		{
-			if (s[i][j][0] == '"' || s[i][j][0] == '\'')
-			{
-				k = 1;
-				s[i][j] = ft_realloc(s[i][j], ft_strlen(s[i][j]) - 2);
-				while (k < ft_strlen(s[i][j]) - 1)
-					(norm(), s[i][j][k - 1] = s[i][j][k], k++);
-				s[i][j][k - 1] = '\0';
-			}
+			s[i][j] = del_brak2(s[i][j]);
 			j++;
 		}
 		i++;
@@ -101,13 +143,13 @@ char	*dollars_ch(char *s, char **env)
 {
 	t_init	p;
 
-	(norm(), p.i = 0, p.k = 0, p.j = 0);
+	(n(), p.i = 0, p.k = 0, p.j = 0);
 	while (p.i <= ft_strlen(s) && s[p.i] != '\0')
 	{
 		if (s[p.i] == '\'' || s[p.i] == '\"')
 		{
 			p.i++;
-			while (s[p.i] != '\'' && s[p.i] != '\"')
+			while (s[p.i] != '\0' && s[p.i] != '\'' && s[p.i] != '\"')
 				p.i++;
 			p.i++;
 		}

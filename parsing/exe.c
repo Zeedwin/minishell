@@ -44,7 +44,7 @@ int	execve_builtin(char **s, t_var *var, t_lex *lex)
 		else
 		{
 			while (lex->s[var->z][i])
-				(norm(), g_global.cpyenv
+				(n(), g_global.cpyenv
 					= export(g_global.cpyenv, lex, var, i), i++);
 		}
 	}
@@ -52,7 +52,7 @@ int	execve_builtin(char **s, t_var *var, t_lex *lex)
 	if (ft_strcmp(*s, "unset") == 0)
 	{
 		while (lex->s[var->z][i])
-			(norm(), g_global.cpyenv
+			(n(), g_global.cpyenv
 				= unset(g_global.cpyenv, lex->s[var->z][i]), i++);
 	}
 	return (0);
@@ -92,20 +92,20 @@ char	*check_replace_prog(char *s, t_var *var)
 	int		i;
 	int		j;
 
-	(norm(), i = ft_strlen(var->line) + ft_strlen(s), j = 0, s1 = NULL);
+	(n(), i = ft_strlen(var->line) + ft_strlen(s), j = 0, s1 = NULL);
 	if (s[0] == '.' && s[1] == '/')
 	{
 		if (check_doc(s) != 0)
 		{
-			(norm(), s = check_doc(s), s1 = malloc(sizeof(char) * i), i = 0);
+			(n(), s = check_doc(s), s1 = malloc(sizeof(char) * i), i = 0);
 			while (var->line[i] != '\0')
 			{
 				s1[i] = var->line[i];
 				i++;
 			}
-			(norm(), s1[i] = '/', i++);
+			(n(), s1[i] = '/', i++);
 			while (s[j] != '\0')
-				(norm(), s1[i] = s[j], i++, j++);
+				(n(), s1[i] = s[j], i++, j++);
 			s1[i] = '\0';
 		}
 		else

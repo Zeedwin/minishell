@@ -1,0 +1,9 @@
+Makefile
+built-ins
+includes
+l"ll
+minishell
+minishell.dSYM
+parsing
+tmp
+w

@@ -176,7 +176,7 @@ char	***cpy3truc(t_var *var, t_lex *lex, char ***sf, int decale);
 void	init_termios(void);
 void	rl_replace_line(const char *text, int clear_undo);
 char	*replace_dol_(char *s, int i, t_ini *ini);
-void	norm(void);
+void	n(void);
 char	*ft_realloc(char *map, int i);
 void	executeur_final(char **s, char **env, t_var *var, t_lex *lex);
 void	process(t_var *var);

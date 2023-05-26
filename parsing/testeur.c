@@ -69,12 +69,12 @@ int	ft_malloc(t_lex *lex)
 
 char	***separate_tok(t_var *v, t_lex *lex, char ***sf)
 {
-	(norm(), v->p = 0, v->k = 0, v->j = 0,
+	(n(), v->p = 0, v->k = 0, v->j = 0,
 		sf = (char ***)malloc(sizeof(char **) * ft_malloc(lex)));
 	while (lex->s1[v->p])
 	{
 		if (lex->stoken[v->p] == TK_PIPE || lex->stoken[v->p] == TK_REDIR_S)
-			(norm(), sf[v->k] = malloc(sizeof(char *) * 2), sf[v->k][0] =
+			(n(), sf[v->k] = malloc(sizeof(char *) * 2), sf[v->k][0] =
 				malloc(sizeof(char) * (ft_strlen(lex->s1[v->p]) + 1)),
 				sf[v->k][0] = ft_strcpy(sf[v->k][0], lex->s1[v->p]),
 				sf[v->k][1] = NULL, v->k++, v->p++);
@@ -83,10 +83,10 @@ char	***separate_tok(t_var *v, t_lex *lex, char ***sf)
 			v->j = v->p;
 			while (lex->stoken[v->p] == TK_WORD && lex->s1[v->p])
 				v->p++;
-			(norm(), sf[v->k] = malloc(sizeof(char *) * (v->p - v->j + 1)),
+			(n(), sf[v->k] = malloc(sizeof(char *) * (v->p - v->j + 1)),
 				v->p = v->j, v->j = 0);
 			while (lex->stoken[v->p] == TK_WORD && lex->s1[v->p])
-				(norm(), sf[v->k][v->j] = malloc(sizeof(char) * (ft_strlen(lex
+				(n(), sf[v->k][v->j] = malloc(sizeof(char) * (ft_strlen(lex
 					->s1[v->p]) + 1)), sf[v->k][v->j] = ft_strcpy(sf[v->k][v->
 					j], lex->s1[v->p]), v->j++, v->p++, sf[v->k][v->j] = NULL);
 			v->k++;

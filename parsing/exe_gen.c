@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_gen.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 11:58:39 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/25 17:09:25 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ void	parent_pro(t_lex *lex, t_var *var, t_pipe *pip)
 		if (WIFSIGNALED(pip->status))
 			var->last_err_com = WTERMSIG(pip->status);
 		if (var->last_err_com == 11)
-			(norm(), printf("Segmentation fault (core dumped)\n"),
+			(n(), printf("Segmentation fault (core dumped)\n"),
 				var->last_err_com += 128);
 		if (var->last_err_com == 10)
-			(norm(), printf("Bus error\n"), var->last_err_com += 128);
+			(n(), printf("Bus error\n"), var->last_err_com += 128);
 		if (var->last_err_com == 2)
 			var->last_err_com += 128;
 	}

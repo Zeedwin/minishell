@@ -14,25 +14,26 @@
 
 int	lexer3(t_lex *l, int i, int code)
 {
-	if (code == 0)
-	{
-		i++;
-		while (1)
-		{
-			if (l->ss[i] == '"')
-				break ;
-			i++;
-		}
-		i++;
-		l->ss = lexeur2(l, i);
-		return (i);
-	}
 	if (code == 1)
 	{
-		while (l->ss[i] != '\0' && l->ss[i] != ' ' && l->ss[i] != '"'
-			&& l->ss[i] != '\'' && l->ss[i] != '|' && l->ss[i] != '>'
+		while (l->ss[i] != '\0' && l->ss[i] != ' '
+			&& l->ss[i] != '|' && l->ss[i] != '>'
 			&& l->ss[i] != '<')
+		{
+			i++;
+			if(l->ss[i] == '"')
+			{
 				i++;
+				while (l->ss[i] != '\0' && l->ss[i] != '\"')
+					i++;
+			}
+			if(l->ss[i] == '\'')
+			{
+				i++;
+				while (l->ss[i] != '\0' && l->ss[i] != '\'')
+					i++;
+			}
+		}
 		l->ss = lexeur2(l, i);
 		return (i);
 	}
@@ -64,10 +65,10 @@ int	lexer1(t_lex *l)
 				return (1);
 			}
 		}
-		if (l->ss[i] == '"' )
-			i = lexer3(l, i, 0);
-		else
-			i = lexer5(l, i);
+		/*if (l->ss[i] == '"' )
+			i = lexer3(l, i, 0);*/
+		//else
+		i = lexer5(l, i);
 		lexer1(l);
 		l->s1[l->x] = NULL;
 		return (1);

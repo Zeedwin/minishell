@@ -6,7 +6,7 @@
 /*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:51:32 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 16:34:14 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/25 17:15:31 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	pro(t_lex *lex, t_var *var, t_pipe *pip)
 		var->shell[var->pidnum] = fork();
 		if (var->shell[var->pidnum] == 0)
 		{
-			if ((lex->supatok[var->z - 3] == TK_REDIR_S
+			if (var->z > 2 && (lex->supatok[var->z - 3] == TK_REDIR_S
 				|| lex->supatok[var->z - 3] == TK_REDIR_S2)
 				&& lex->supatok[var->z - 1] == TK_PIPE)
 			{

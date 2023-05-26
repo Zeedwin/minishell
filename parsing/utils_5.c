@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_5.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:38:19 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 13:10:36 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/25 18:23:51 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	delimiteur2(t_lex *lex, char *buffer, t_var *var)
 		num_read = read(STDIN_FILENO, buffer, BUF_SIZE);
 		buffer[num_read] = '\0';
 		s = del_backn(buffer);
+		printf("del = '%s'\n", lex->s[var->z + var->i + 1][0]);
 		if (ft_strcmp(s, lex->s[var->z + var->i + 1][0]) == 0)
 		{
 			close(var->fd_hdoc);
@@ -44,7 +45,7 @@ void	minipipe1(t_var *var, t_pipe *pip, t_lex *lex)
 	else if (var->z > 1 && lex->supatok[var->z - 2] == TK_PIPE
 		&& lex->supatok[var->z - 3] == TK_BUILTIN_OUTP)
 	{
-		(norm(), close(var->fd), var->fd = open("tmp/tmp.txt", O_RDONLY, 0777));
+		(n(), close(var->fd), var->fd = open("tmp/tmp.txt", O_RDONLY, 0777));
 		dup2(var->fd, STDIN_FILENO);
 	}
 	else if (var->z > 1 && (lex->supatok[var->z - 2] == TK_REDIR_S

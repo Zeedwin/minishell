@@ -6,7 +6,7 @@
 /*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:16:59 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 09:32:44 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/25 17:09:25 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,25 +84,25 @@ int	minipipe(t_pipe	*pip, t_lex *lex, t_var *var)
 
 char	***cpy3truc(t_var *v, t_lex *lex, char ***sf, int decale)
 {
-	(norm(), v->p = 0, v->k = 0, v->j = 0,
+	(n(), v->p = 0, v->k = 0, v->j = 0,
 		sf = (char ***)malloc(sizeof(char **) * (ft_malloc2(lex) +1)));
 	while (lex->s1[v->p])
 	{
 		if (v->k == decale)
-			(norm(), sf[v->k] = NULL, v->k++);
+			(n(), sf[v->k] = NULL, v->k++);
 		if (lex->stoken[v->p] == TK_PIPE || lex->stoken[v->p] == TK_REDIR_S
 			|| lex->stoken[v->p] == TK_REDIR_S2)
-			(norm(), sf[v->k] = malloc(sizeof(char *) * 2), sf[v->k][0] =
+			(n(), sf[v->k] = malloc(sizeof(char *) * 2), sf[v->k][0] =
 				malloc(sizeof(char) * (ft_strlen(lex->s1[v->p]) + 1)),
 				sf[v->k][0] = ft_strcpy(sf[v->k][0], lex->s1[v->p]),
 				sf[v->k][1] = NULL, v->k++, v->p++);
 		else if (lex->stoken[v->p] == TK_WORD)
 		{
 			cpy3truc1(v, lex);
-			(norm(), sf[v->k] = malloc(sizeof(char *) * (v->p - v->j + 1)),
+			(n(), sf[v->k] = malloc(sizeof(char *) * (v->p - v->j + 1)),
 				v->p = v->j, v->j = 0);
 			while (lex->stoken[v->p] == TK_WORD && lex->s1[v->p])
-				(norm(), sf[v->k][v->j] = malloc(sizeof(char) * (ft_strlen(lex
+				(n(), sf[v->k][v->j] = malloc(sizeof(char) * (ft_strlen(lex
 					->s1[v->p]) + 1)), sf[v->k][v->j] = ft_strcpy(sf[v->k][v->
 					j], lex->s1[v->p]), v->j++, v->p++, sf[v->k][v->j] = NULL);
 			v->k++;

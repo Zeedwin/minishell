@@ -28,7 +28,7 @@ int	file_input_check(char *file)
 		return (0);
 }
 
-void	norm(void)
+void	n(void)
 {
 }
 
@@ -37,7 +37,7 @@ int	cd(char **s, t_var *var)
 	int		i;
 	int		k;
 
-	(norm(), i = 0, k = -1);
+	(n(), i = 0, k = -1);
 	if (ft_strcmp(s[i], "cd") && ft_strcmp(s[i + 1], ".."))
 		return (chdir(".."), 1);
 	while (s[k])
