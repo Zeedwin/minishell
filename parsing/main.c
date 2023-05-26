@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:20:28 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/26 10:20:47 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/26 12:30:33 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,10 @@ void	process(t_var *var)
 		add_history(var->line), var->pidnum = 0);
 	init_tab(&lex, var->line, var->cpyenv, var);
 	tokenizer(&lex);
-	(n(), lex.s = separate_tok(var, &lex, lex.s),
-		lex.s = del_brak(lex.s), turbotokenizer(&lex));
+	lex.s = separate_tok(var, &lex, lex.s);
+	lex.s = dol_replace1(lex.s, var, g_global.cpyenv);
+	lex.s = del_brak(lex.s);
+	turbotokenizer(&lex);
 	creat_pid(&lex, var);
 	if (parsing_syntax(&lex) == 1)
 		exe_s(&lex, var, &pip);

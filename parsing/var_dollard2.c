@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_dollard2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:47:41 by jgirard-          #+#    #+#             */
-/*   Updated: 2023/05/26 09:05:41 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/26 12:32:30 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ char	*del_brak2(char *s)
 		}
 	}
 	s1[j] = '\0';
+	free(s);
 	return (s1);
 }
 
