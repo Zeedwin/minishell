@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe1.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:47:01 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/26 10:20:20 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/26 11:27:00 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ void	executeur_final(char **s, char **env, t_var *var, t_lex *lex)
 	if (var->nopath == 0)
 		cmdpath = 0;
 	if (cmdpath == 0)
-	{	
+	{
 		executeur_final2(s, var);
-		return;
+		return ;
 	}
 	if (cmdpath[0] == '1')
 	{
