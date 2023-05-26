@@ -6,7 +6,11 @@
 /*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:38:19 by hdelmann          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/05/25 18:23:51 by hugodelmann      ###   ########.fr       */
+=======
+/*   Updated: 2023/05/25 21:26:03 by jgirard-         ###   ########.fr       */
+>>>>>>> adb677e8a649e3870ce08c2b04fde53be8674476
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +47,7 @@ void	minipipe1(t_var *var, t_pipe *pip, t_lex *lex)
 		== TK_PIPE && lex->supatok[var->z - 3] == TK_WORD)
 		dup2(var->fd, STDIN_FILENO);
 	else if (var->z > 1 && lex->supatok[var->z - 2] == TK_PIPE
-		&& lex->supatok[var->z - 3] == TK_BUILTIN_OUTP)
+		&& lex->supatok[var->z - 3] == TK_BOUT)
 	{
 		(n(), close(var->fd), var->fd = open("tmp/tmp.txt", O_RDONLY, 0777));
 		dup2(var->fd, STDIN_FILENO);

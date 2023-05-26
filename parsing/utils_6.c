@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:00:12 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/22 18:02:49 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/25 21:26:03 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	turbotokenizer2(t_lex *lex)
 		else if (test_builtin(lex->s[i]) == 1)
 			lex->supatok[i] = TK_BUILTIN;
 		else if (test_builtin(lex->s[i]) == 2)
-			lex->supatok[i] = TK_BUILTIN_OUTP;
+			lex->supatok[i] = TK_BOUT;
 		else
 			lex->supatok[i] = TK_WORD;
 		i++;

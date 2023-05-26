@@ -6,7 +6,7 @@
 /*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 17:09:25 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/05/26 09:12:23 by hugodelmann      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	parent_pro(t_lex *lex, t_var *var, t_pipe *pip)
 			(n(), printf("Bus error\n"), var->last_err_com += 128);
 		if (var->last_err_com == 2)
 			var->last_err_com += 128;
+		if (var->last_err_com == 243)
+			var->last_err_com -= 241;
 	}
 	free_final(lex, pip, var);
 	var->last_pipe = 0;
@@ -55,7 +57,7 @@ void	parent_pro(t_lex *lex, t_var *var, t_pipe *pip)
 
 void	exe_s3(t_lex *lex, t_var *var, t_pipe *pip)
 {
-	if (lex->supatok[var->z] == TK_BUILTIN_OUTP)
+	if (lex->supatok[var->z] == TK_BOUT)
 		var->z++;
 	else if (lex->supatok[var->z] == TK_PIPE)
 	{
@@ -91,7 +93,7 @@ void	exe_s2(t_lex *lex, t_var *var, t_pipe *pip)
 		execve_builtin(lex->s[var->z], var, lex);
 		var->z++;
 	}
-	else if (lex->supatok[var->z] == TK_BUILTIN_OUTP
+	else if (lex->supatok[var->z] == TK_BOUT
 		&& lex->s[var->z + 1] == NULL)
 	{
 		exec_builtin_out(lex->s[var->z], var, lex, pip);

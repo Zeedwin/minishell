@@ -69,7 +69,7 @@ enum {
 	TK_CMD,
 	TK_DOLLAR,
 	TK_BUILTIN,
-	TK_BUILTIN_OUTP,
+	TK_BOUT,
 	TK_FIN,
 };
 
@@ -115,6 +115,7 @@ typedef struct s_var {
 	int		j;
 	int		p;
 	int		k;
+	int		bowlingboolean;
 	int		nopath;
 	int		i;
 	int		is_in_heredoc;
