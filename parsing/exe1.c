@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe1.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:47:01 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 21:35:24 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/26 10:20:20 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,26 @@ void	executeur_final(char **s, char **env, t_var *var, t_lex *lex)
 	if (var->z >= 2 && lex->supatok[var->z - 1] == TK_PIPE
 		&& lex->supatok[var->z - 2] == TK_BOUT)
 	{
-		(norm(), close(var->fd), var->fd = open("tmp/tmp.txt", O_RDWR, 0777));
+		(n(), close(var->fd), var->fd = open("tmp/tmp.txt", O_RDWR, 0777));
 		dup2(var->fd, STDIN_FILENO);
 	}
 	cmdpath = find_cmd_path(var, s[0]);
 	if (var->nopath == 0)
 		cmdpath = 0;
 	if (cmdpath == 0)
-		return (executeur_final2(s, var), 0);
+	{	
+		executeur_final2(s, var);
+		return;
+	}
 	if (cmdpath[0] == '1')
 	{
-		(norm(), printf("bash: %s: Permission denied\n", s[0]),
+		(n(), printf("bash: %s: Permission denied\n", s[0]),
 			g_global.exitcode = 126);
 		exit(g_global.exitcode);
 	}
 	if (cmdpath[0] == '2')
 	{
-		(norm(), printf("bash: %s: is a directory\n", s[0]),
+		(n(), printf("bash: %s: is a directory\n", s[0]),
 			g_global.exitcode = 126);
 		exit(g_global.exitcode);
 	}

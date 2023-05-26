@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 10:22:43 by hdelmann          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/05/25 17:09:25 by hugodelmann      ###   ########.fr       */
-=======
-/*   Updated: 2023/05/25 17:21:47 by jgirard-         ###   ########.fr       */
->>>>>>> adb677e8a649e3870ce08c2b04fde53be8674476
+/*   Created: 2023/05/26 10:20:28 by hdelmann          #+#    #+#             */
+/*   Updated: 2023/05/26 10:20:47 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +41,10 @@ void	process(t_var *var)
 	t_pipe	pip;
 	char	*lineread;
 
-<<<<<<< HEAD
 	lineread = NULL;
 	(n(), process_ini(var), currpath(var), find_path(g_global.cpyenv, var));
-=======
-	(norm(), lineread = NULL, var->bowlingboolean = 0);
-	(norm(), process_ini(var), currpath(var), find_path(g_global.cpyenv, var));
->>>>>>> adb677e8a649e3870ce08c2b04fde53be8674476
+	(n(), lineread = NULL, var->bowlingboolean = 0);
+	(n(), process_ini(var), currpath(var), find_path(g_global.cpyenv, var));
 	if (var->last_pipe == 1)
 		lineread = readline(">");
 	else
