@@ -30,6 +30,19 @@ int	exec_builtin_out(char **s, t_var *var, t_lex *lex, t_pipe *pip)
 	return (1);
 }
 
+void	check_eq(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!str[i - 1] && str[i] == '=' && !str[i + 1])
+			printf("bash: export: `=': not a valid identifier\n");
+		i++;
+	}
+}
+
 int	execve_builtin(char **s, t_var *var, t_lex *lex)
 {
 	int	i;
@@ -43,9 +56,12 @@ int	execve_builtin(char **s, t_var *var, t_lex *lex)
 			g_global.cpyenv = export(g_global.cpyenv, lex, var, 0);
 		else
 		{
-			while (lex->s[var->z][i])
+			while (lex->s[var->z][i] && check_vide(lex->s[var->z][i]))
+			{
+				check_eq(lex->s[var->z][i]);
 				(n(), g_global.cpyenv
 					= export(g_global.cpyenv, lex, var, i), i++);
+			}
 		}
 	}
 	i = 1;

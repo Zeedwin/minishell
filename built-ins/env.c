@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:48:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/26 11:26:55 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/26 14:53:46 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,7 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var, int exp)
 	ine.exper = exp;
 	(n(), ine.check = 0, ine.len = 0,
 		ine.i = 0, ine.j = 0, ine.cpycpy = NULL);
-	if (lex->s1[2] && lex->s1[1] && if_in_quotes(lex->s1[2]) == 1)
-		lex->s[var->z][exp] = ft_strjoin(lex->s[var->z][1], lex->s[var->z][2]);
-	else if (!lex->s1[1])
+	if (!lex->s1[1])
 		return (exportprint(cpyenv));
 	(n(), ine.cpycpy = ft_strcpy_env(ine.cpycpy, cpyenv), ine.i = 0);
 	while (ine.cpycpy[ine.i])
@@ -93,6 +91,8 @@ char	**unset(char **cpyenvp, char *unsetstr)
 {
 	t_init	ini;
 
+	if (!unsetstr[0])
+		return (g_global.cpyenv);
 	(n(), ini.k = 0, ini.i = 0, ini.c = ft_strlen(unsetstr),
 		ini.cpycpy = ft_strcpy_env(cpyenvp, cpyenvp));
 	while (ini.cpycpy[ini.i])
