@@ -1,15 +1,1 @@
-Makefile
-a
-built-ins
-e
-includes
-l"ll
-minishell
-minishell.dSYM
-parsing
-q
-r
-tmp
-v
-w
-x
+       1

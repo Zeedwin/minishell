@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:00:20 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 21:26:03 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/27 12:36:32 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	miniredir_s5(t_lex	*lex, t_var *var, t_pipe *pip)
 		|| lex->supatok[var->z] == TK_REDIR_E2))
 		dup2(pip->tube[1], STDOUT_FILENO);
 	close(pip->tube[0]);
-	close(pip->tube[1]);
 	executeur(lex->s[var->z - 1], g_global.cpyenv, var);
 }
 
@@ -81,7 +80,6 @@ void	miniredir_s6(t_lex *lex, t_var *var, t_pipe *pip)
 		var->fd = pip->tube[0];
 	}
 	close(pip->tube[1]);
-	close(pip->tube[0]);
 	if (var->fd_s != -2)
 		close (var->fd_s);
 	if (var->fd_e != -2)

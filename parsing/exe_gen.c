@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 12:18:50 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 12:54:09 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,7 @@ void	exe_s3(t_lex *lex, t_var *var, t_pipe *pip)
 	else if (lex->supatok[var->z] == TK_PIPE)
 	{
 		if (lex->s[var->z + 1] == NULL)
-		{
 			var->last_pipe = 1;
-		}
 		var->fail_dir = 0;
 		minipipe(pip, lex, var);
 	}
@@ -74,6 +72,11 @@ void	exe_s3(t_lex *lex, t_var *var, t_pipe *pip)
 		|| lex->supatok[var->z] == TK_REDIR_E2)
 	{
 		miniredir_s(lex, var, pip);
+		if (var->z > 2 && lex->supatok[var->z - 3] != TK_BOUT)
+		{
+			close(var->fd);
+			var->fd = open("tmp/tmp.txt", O_CREAT | O_TRUNC | O_RDONLY, 0777);
+		}
 		var->i = 0;
 	}
 	else

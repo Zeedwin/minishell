@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:49:37 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/26 15:34:47 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 12:53:38 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,13 @@
 
 char	*space(char *s)
 {
-	char *s1;
-	
+	char	*s1;
+
 	if (!s)
 		return (NULL);
 	if (s[0] == '$')
 	{
 		s1 = ft_strjoin(" ", s);
-		//free(s);
 		return (s1);
 	}
 	return (s);

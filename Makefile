@@ -15,7 +15,8 @@ LDFLAGS :=  -lreadline -L/Users/$(USER)/homebrew/opt/readline/lib -lreadline -lh
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
-SRCS		:=    		  parsing/exe2.c \
+SRCS		:=    		  parsing/main2.c \
+						  parsing/exe2.c \
 						  parsing/var_dollard_1.c \
 						  parsing/exe_gen2.c \
 						  parsing/lexeur2.c \

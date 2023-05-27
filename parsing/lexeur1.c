@@ -20,20 +20,10 @@ int	lexer3(t_lex *l, int i, int code)
 			&& l->ss[i] != '|' && l->ss[i] != '>'
 			&& l->ss[i] != '<')
 		{
-			if(l->ss[i] == '"')
-			{
-				i++;
-				while (l->ss[i] != '\0' && l->ss[i] != '\"')
-					i++;
-				i++;
-			}
-			else if(l->ss[i] == '\'')
-			{
-				i++;
-				while (l->ss[i] != '\0' && l->ss[i] != '\'')
-					i++;
-				i++;
-			}
+			if (l->ss[i] == '"')
+				i = lexer6(l, i, 0);
+			else if (l->ss[i] == '\'')
+				i = lexer6(l, i, 1);
 			else
 				i++;
 		}
@@ -68,9 +58,6 @@ int	lexer1(t_lex *l)
 				return (1);
 			}
 		}
-		/*if (l->ss[i] == '"' )
-			i = lexer3(l, i, 0);*/
-		//else
 		i = lexer5(l, i);
 		lexer1(l);
 		l->s1[l->x] = NULL;
@@ -82,8 +69,6 @@ int	lexer1(t_lex *l)
 
 char	*init_tab2(char *s, char **env, t_var *var)
 {
-	//t_ini	ini;
-
 	(void)env;
 	(void)var;
 	if (point(s) == 1)
@@ -99,7 +84,6 @@ char	*init_tab2(char *s, char **env, t_var *var)
 	s = space(s);
 	s = change_tab(s);
 	s = del_par_com(s);
-//	free(s);
 	return (s);
 }
 
@@ -121,6 +105,5 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	lex->s1[count(s, var)] = NULL;
 	lex->stoken[count(s, var)] = TK_FIN;
 	lex->supatok[count(s, var)] = TK_FIN;
-//	free(s);
 	free(s2);
 }
