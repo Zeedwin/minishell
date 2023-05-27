@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:20:28 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 17:47:59 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 17:50:07 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	process(t_var *var)
 	var->line = malloc(sizeof(char) * (ft_strlen(lineread) + 1));
 	(n(), var->line = ft_strcpy(var->line, lineread));
 	if (check_empty(var->line) == 1)
-		add_history(var->line), var->pidnum = 0;
+		add_history(var->line);
+	var->pidnum = 0;
 	process_init(&lex, var);
 	if (parsing_syntax(&lex) == 1)
 		exe_s(&lex, var, &pip);
