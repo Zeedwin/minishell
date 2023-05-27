@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_dollard2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:47:41 by jgirard-          #+#    #+#             */
-/*   Updated: 2023/05/27 12:10:32 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 13:17:24 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,57 +61,31 @@ char	*replace_dol_(char *s, int i, t_ini *in)
 
 char	*del_brak2(char *s)
 {
-	int i;
-	int j;
-	int k;
-	char *s1;
+	char	*s1;
+	t_ini	p;
 
-	k = ft_strlen(s);
-	s1 = malloc(sizeof(char) * (k + 1));
-	s1[0] = '\0';
-	i = 0;
-	j = 0;
-	while (s[i] != '\0')
+	(n(), p.k = ft_strlen(s),
+		s1 = malloc(sizeof(char) * (p.k + 1)), s1[0] = '\0', p.i = 0, p.j = 0);
+	while (s[p.i] != '\0')
 	{
-		if (s[i] == '\'')
+		if (s[p.i] == '\'')
 		{
-			i++;
-			k--;
-			s1 = ft_realloc(s1, (k + 1));
-			while (s[i] != '\0' && s[i] != '\'')
-			{
-				s1[j] = s[i];
-				i++;
-				j++;
-			}
-			s1[j] = '\0';
-			i++;
+			(n(), p.i++, p.k--, s1 = ft_realloc(s1, (p.k + 1)));
+			while (s[p.i] != '\0' && s[p.i] != '\'')
+				(n(), s1[p.j] = s[p.i], p.i++, p.j++);
+			(n(), s1[p.j] = '\0', p.i++);
 		}
-		else if (s[i] == '"')
+		else if (s[p.i] == '"')
 		{
-			i++;
-			k--;
-			s1 = ft_realloc(s1, (k + 1));
-			while (s[i] != '\0' && s[i] != '"')
-			{
-				s1[j] = s[i];
-				i++;
-				j++;
-			}
-			s1[j] = '\0';
-			i++;
+			(n(), p.i++, p.k--, s1 = ft_realloc(s1, (p.k + 1)));
+			while (s[p.i] != '\0' && s[p.i] != '"')
+				(n(), s1[p.j] = s[p.i], p.i++, p.j++);
+			(n(), s1[p.j] = '\0', p.i++);
 		}
 		else
-		{
-			s1[j] = s[i];
-			j++;
-			i++;
-			s1[j] = '\0';
-		}
+			(n(), s1[p.j] = s[p.i], p.j++, p.i++, s1[p.j] = '\0');
 	}
-	s1[j] = '\0';
-	free(s);
-	return (s1);
+	return (s1[p.j] = '\0', free(s), s1);
 }
 
 char	***del_brak(char ***s)
@@ -142,27 +116,4 @@ int	ft_minishellstolemywife(char *s, t_init p)
 		&& s[p.i] != '>' && s[p.i] != '<' && s[p.i] != '\0')
 		p.i++;
 	return (p.i);
-}
-
-char	*dollars_ch(char *s, char **env)
-{
-	t_init	p;
-
-	(n(), p.i = 0, p.k = 0, p.j = 0);
-	while (p.i <= ft_strlen(s) && s[p.i] != '\0')
-	{
-		if (s[p.i] == '\'' || s[p.i] == '\"')
-		{
-			p.i++;
-			while (s[p.i] != '\0' && s[p.i] != '\'' && s[p.i] != '\"')
-				p.i++;
-			p.i++;
-		}
-		if (s[p.i] == '<' && s[p.i + 1] == '<')
-			p.i = ft_minishellstolemywife(s, p);
-		if (s[p.i] == '$')
-			s = minidoll_ch(s, p, env);
-		p.i++;
-	}
-	return (s);
 }

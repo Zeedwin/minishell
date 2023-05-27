@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:48:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/26 14:53:46 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/27 13:33:30 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,6 @@ char	**unset(char **cpyenvp, char *unsetstr)
 	if (ini.k < 0)
 		return (free(ini.cpycpy), NULL);
 	ini.new_envp = (char **)malloc(sizeof(char *) * (ini.k + 2));
-	if (!ini.new_envp)
-		return (NULL);
 	(n(), ini.i = 0, ini.j = 0);
 	while (ini.cpycpy[ini.i])
 	{
@@ -114,6 +112,5 @@ char	**unset(char **cpyenvp, char *unsetstr)
 		else
 			(n(), ini.new_envp[ini.j] = ini.cpycpy[ini.i], ini.i++, ini.j++);
 	}
-	ini.new_envp[ini.j] = NULL;
-	return (free(ini.cpycpy), ini.new_envp);
+	return (ini.new_envp[ini.j] = NULL, free(ini.cpycpy), ini.new_envp);
 }

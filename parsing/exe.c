@@ -43,7 +43,7 @@ void	check_eq(char *str)
 	}
 }
 
-int	execve_builtin(char **s, t_var *var, t_lex *lex)
+void	execve_builtin(char **s, t_var *var, t_lex *lex)
 {
 	int	i;
 
@@ -58,8 +58,7 @@ int	execve_builtin(char **s, t_var *var, t_lex *lex)
 		{
 			while (lex->s[var->z][i] && check_vide(lex->s[var->z][i]))
 			{
-				check_eq(lex->s[var->z][i]);
-				(n(), g_global.cpyenv
+				(n(), check_eq(lex->s[var->z][i]), g_global.cpyenv
 					= export(g_global.cpyenv, lex, var, i), i++);
 			}
 		}
@@ -67,11 +66,10 @@ int	execve_builtin(char **s, t_var *var, t_lex *lex)
 	i = 1;
 	if (ft_strcmp(*s, "unset") == 0)
 	{
-		while (lex->s[var->z][i])
+		while (lex->s[var->z][i] && lex->s[var->z][i] != NULL)
 			(n(), g_global.cpyenv
 				= unset(g_global.cpyenv, lex->s[var->z][i]), i++);
 	}
-	return (0);
 }
 
 char	*check_doc(char *s)
