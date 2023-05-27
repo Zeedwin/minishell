@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 12:54:09 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 16:22:28 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 	var->memo = 0;
 	while (var->z < ft_malloc(lex) - 1)
 	{
+		if (lex->s[var->z] == NULL || check_vide(lex->s[var->z][0]) == 0)
+			var->z++;
 		if (lex->supatok[var->z] == TK_WORD && lex->s[var->z] != NULL)
 		{
 			if (pro(lex, var, pip) == 0)

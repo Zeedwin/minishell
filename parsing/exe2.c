@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 12:22:17 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 14:08:12 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 15:00:39 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 void	executeur_final22(char *cmdpath, char **s, char **env)
 {
-	if (cmdpath[0] == '1')
+	if (cmdpath != NULL && cmdpath[0] == '1')
 	{
 		free(cmdpath);
 		(n(), printf("bash: %s: Permission denied\n", s[0]),
 			g_global.exitcode = 126);
 		exit(g_global.exitcode);
 	}
-	if (cmdpath[0] == '2')
+	if (cmdpath != NULL && cmdpath[0] == '2')
 	{
 		free(cmdpath);
 		(n(), printf("bash: %s: is a directory\n", s[0]),
@@ -34,21 +34,19 @@ void	executeur_final22(char *cmdpath, char **s, char **env)
 
 void	executeur22(char **s, char **env, char *cmdpath)
 {
-	if (cmdpath[0] == '1')
+	if (cmdpath != NULL && cmdpath[0] == '1')
 	{
 		printf("bash: %s: Permission denied\n", s[0]);
 		g_global.exitcode = 126;
 		exit(g_global.exitcode);
 	}
-	if (cmdpath[0] == '2')
+	if (cmdpath != NULL && cmdpath[0] == '2')
 	{
 		printf("bash: %s: is a directory\n", s[0]);
 		g_global.exitcode = 126;
 		exit(g_global.exitcode);
 	}
-	printf("cmdpath = %s\n", cmdpath);
-	fflush(stdout);
-	if (cmdpath == 0)
+	if (cmdpath == NULL)
 	{
 		if (s[0][1] == '.' && s[0][1] == '.' && s[0][2] == '/')
 			printf("minishell: no such file or directory: %s\n", s[0]);

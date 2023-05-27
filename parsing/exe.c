@@ -56,7 +56,7 @@ void	execve_builtin(char **s, t_var *var, t_lex *lex)
 			g_global.cpyenv = export(g_global.cpyenv, lex, var, 0);
 		else
 		{
-			while (lex->s[var->z][i] && check_vide(lex->s[var->z][i]))
+			while (lex->s[var->z] && lex->s[var->z][i] && check_vide(lex->s[var->z][i]))
 			{
 				(n(), check_eq(lex->s[var->z][i]), g_global.cpyenv
 					= export(g_global.cpyenv, lex, var, i), i++);

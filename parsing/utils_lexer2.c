@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:49:37 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 13:46:36 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 15:23:05 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	point(char *s)
 		return (2);
 	if (ft_strlen(s) == 2 && s[0] == '.' && s[1] == '.')
 		return (1);
-	if (ft_strlen(s) == 1 && (s[0] == '.' || s[0] == '$'))
+	if (ft_strlen(s) == 1 && s[0] == '.')
 		return (1);
 	if (ft_strlen(s) == 1 && s[0] == 'a')
 		return (1);

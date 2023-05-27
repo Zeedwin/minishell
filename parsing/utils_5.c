@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:18:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 14:13:06 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 14:50:57 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ void	delimiteur2(t_lex *lex, char *buffer, t_var *var)
 
 void	minipipe1(t_var *var, t_pipe *pip, t_lex *lex)
 {
-	printf("out = %s", find_cmd_path(var, lex->s[var->z - 1][0]));
-	fflush(stdout);
 	if (var->z > 1 && lex->supatok[var->z - 2]
 		== TK_PIPE && lex->supatok[var->z - 3] == TK_WORD)
 		dup2(var->fd, STDIN_FILENO);

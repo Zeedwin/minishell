@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:43:50 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 13:45:43 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 16:20:00 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ char	*replace_dol_env2(char *s, char **env)
 		}
 		i++;
 	}
-	return (s2 = malloc(sizeof(char)), s2[0] = '\0', free(s1), s2);
+	s2 = malloc(sizeof(char));
+	s2[0] = '\0';
+	free(s1);
+	return (s2);
 }
 
 char	*replace_dol_fi(char *s, char *s1, char *s2)
@@ -80,9 +83,10 @@ char	*replace_dol_fi(char *s, char *s1, char *s2)
 	(n(), i = 0, k = 0, j = 0,
 		s3 = malloc(sizeof(char) * (ft_strlen(s)
 				- ft_strlen(s1) + ft_strlen(s2) + 1)));
+	printf("s2 = '%d'\n", ft_strlen(s2));
 	while (s[i] != '\0')
 	{
-		if (s[i] == '$' && s[i + 1] == s1[0] && j == 0)
+		if (s[i] == '$' && s[i + 1] == s1[0] && j == 0 && ft_strlen(s2) != 0)
 		{
 			i++;
 			while (s[i] != '\0' && s[i] != ' ' && s[i] != '"'
@@ -114,10 +118,16 @@ char	*dol_replace3(char *s, char **env)
 			i++;
 		}
 		else if (s[i] == '$' && s[i + 1] != ' ' && s[i + 1] != '\0'
-			&& s[i + 1] != '"' && s[i + 1] != '\'')
+			&& s[i + 1] != '"' && s[i + 1] != '\'' && s[i + 1] != '$')
 		{
-			(n(), s1 = replace_dol_env(s, i), s2 = replace_dol_env2(s1, env),
-				s = replace_dol_fi(s, s1, s2), free(s2), free(s1));
+			s1 = replace_dol_env(s, i);
+			s2 = replace_dol_env2(s1, env);
+			if (ft_strlen(s2) != 0)
+				s = replace_dol_fi(s, s1, s2);
+			else
+				s = replace_no_dol(s, s1);
+			free(s2);
+			free(s1);
 		}
 		else
 			i++;

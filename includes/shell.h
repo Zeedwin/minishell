@@ -89,6 +89,7 @@ typedef struct s_var {
 	char	**path;
 	char	**cpyenv;
 	char	*cmd;
+	int		fd_base;
 	char	**cmd1;
 	int		counti;
 	int		countj;
@@ -215,6 +216,7 @@ char	*ft_strtrim(char const *s1, char const *set);
 size_t	ft_strlcpy(char *restrict dst,
 			const char *restrict src, size_t dstsize);
 char	***cpytrichar(char ***s, int decale);
+char	*replace_no_dol(char *s, char *s1);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_strstrlen(char **s);
 char	*ft_strchr(const char *s, int c);
