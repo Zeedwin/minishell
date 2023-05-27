@@ -1,0 +1,22 @@
+total 216
+drwxr-xr-x  21 hdelmann  2022_nice    714 May 26 15:19 .
+drwxr-xr-x  18 hdelmann  2022_nice    612 May 19 13:43 ..
+-rw-r--r--   1 hdelmann  2022_nice   6148 May 17 16:19 .DS_Store
+drwxr-xr-x  15 hdelmann  2022_nice    510 May 26 15:16 .git
+-rw-r--r--   1 hdelmann  2022_nice      3 May 17 16:19 .gitignore
+drwxr-xr-x   3 hdelmann  2022_nice    102 May 19 15:02 .vscode
+-rw-r--r--   1 hdelmann  2022_nice   3780 May 26 12:28 Makefile
+-rwxr-xr-x   1 hdelmann  2022_nice     22 May 26 15:19 a
+drwxr-xr-x  16 hdelmann  2022_nice    544 May 26 15:16 built-ins
+-rwxr-xr-x   1 hdelmann  2022_nice      0 May 26 15:19 e
+drwxr-xr-x   4 hdelmann  2022_nice    136 May 26 10:18 includes
+-rwxr-xr-x   1 hdelmann  2022_nice      5 May 26 10:18 l"ll
+-rwxr-xr-x   1 hdelmann  2022_nice  84708 May 26 15:16 minishell
+drwxr-xr-x   3 hdelmann  2022_nice    102 May 26 10:48 minishell.dSYM
+drwxr-xr-x  93 hdelmann  2022_nice   3162 May 26 15:16 parsing
+-rwxr-xr-x   1 hdelmann  2022_nice      0 May 26 15:19 q
+-rwxr-xr-x   1 hdelmann  2022_nice      0 May 26 15:19 r
+drwxr-xr-x   3 hdelmann  2022_nice    102 May 26 10:18 tmp
+-rwxr-xr-x   1 hdelmann  2022_nice      0 May 26 15:19 v
+-rwxr-xr-x   1 hdelmann  2022_nice      0 May 26 15:19 w
+-rwxr-xr-x   1 hdelmann  2022_nice      0 May 26 15:19 x

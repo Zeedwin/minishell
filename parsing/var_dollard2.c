@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:47:41 by jgirard-          #+#    #+#             */
-/*   Updated: 2023/05/26 12:32:30 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 12:10:32 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ char	*del_brak2(char *s)
 
 	k = ft_strlen(s);
 	s1 = malloc(sizeof(char) * (k + 1));
+	s1[0] = '\0';
 	i = 0;
 	j = 0;
 	while (s[i] != '\0')
@@ -83,6 +84,7 @@ char	*del_brak2(char *s)
 				i++;
 				j++;
 			}
+			s1[j] = '\0';
 			i++;
 		}
 		else if (s[i] == '"')
@@ -96,6 +98,7 @@ char	*del_brak2(char *s)
 				i++;
 				j++;
 			}
+			s1[j] = '\0';
 			i++;
 		}
 		else
@@ -103,6 +106,7 @@ char	*del_brak2(char *s)
 			s1[j] = s[i];
 			j++;
 			i++;
+			s1[j] = '\0';
 		}
 	}
 	s1[j] = '\0';

@@ -99,8 +99,7 @@ char	*init_tab2(char *s, char **env, t_var *var)
 	s = space(s);
 	s = change_tab(s);
 	s = del_par_com(s);
-	//s = replace_dol_(s, var->last_err_com, &ini);
-	//s = dollars_ch(s, env);
+//	free(s);
 	return (s);
 }
 

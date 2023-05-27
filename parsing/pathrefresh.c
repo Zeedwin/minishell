@@ -31,7 +31,7 @@ void	currpath(t_var *var)
 		exit(EXIT_FAILURE);
 	}
 
-	var->promt = malloc((ft_strlen(promt1) + sizeof("\033[1;36m➜ >\033[1;32m")) * sizeof(char));
+	var->promt = malloc((ft_strlen(promt1) + sizeof("\033[1;36m➜ \033[1;32m") + sizeof(">\033[0m ")) * sizeof(char));
 	ft_strcpy(var->promt, "\033[1;36m➜ \033[1;32m");
 	ft_strcpy(var->promt+strlen(var->promt), promt1);
 	ft_strcpy(var->promt+strlen(var->promt), ">\033[0m ");

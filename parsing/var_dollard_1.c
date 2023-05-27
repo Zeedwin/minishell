@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:32:16 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/26 14:03:33 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 12:07:54 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,23 @@ char	*dol_replace2(char *s, t_var *var)
 	i = 0;
 	while (s[i] != '\0')
 	{
+		printf("s = '%c'\n", s[i]);
 		if (s[i] == '\'')
 		{
 			i++;
 			while (s[i] != '\0' && s[i] != '\'')
+			{
+				printf("s = '%c'\n", s[i]);
 				i++;
+			}
 			i++;
 		}
-		if (s[i] == '$' && s[i + 1] == '?')
+		else if (s[i] == '$' && s[i + 1] == '?')
 		{
 			s = ft_replace_dol_in(s, res);
 		}
-		i++;
+		else
+			i++;
 	}
 	free(res);
 	return (s);
@@ -149,12 +154,14 @@ char	*replace_dol_env2(char *s, char **env)
 				j++;
 			}
 			s2[k] = '\0';
+			free(s1);
 			return (s2);
 		}
 		i++;
 	}
 	s2 = malloc(sizeof(char));
 	s2[0] = '\0';
+	free(s1);
 	return(s2);
 }
 
@@ -190,6 +197,7 @@ char *replace_dol_fi(char *s, char *s1, char *s2)
 			i++;
 		}
 	}
+	free(s);
 	s3[k] = '\0';
 	return (s3);
 }
@@ -210,7 +218,7 @@ char	*dol_replace3(char *s, char **env)
 				i++;
 			i++;
 		}
-		if (s[i] == '$' && s[i + 1] != ' ')
+		else if (s[i] == '$' && s[i + 1] != ' ')
 		{
 			s1 = replace_dol_env(s, i);
 			s2 = replace_dol_env2(s1, env);
@@ -218,7 +226,8 @@ char	*dol_replace3(char *s, char **env)
 			free(s2);
 			free(s1);
 		}
-		i++;
+		else
+			i++;
 	}
 //	free(s1);
 	return (s);
