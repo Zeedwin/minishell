@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 12:22:17 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 12:30:48 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 14:08:12 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	executeur22(char **s, char **env, char *cmdpath)
 		g_global.exitcode = 126;
 		exit(g_global.exitcode);
 	}
+	printf("cmdpath = %s\n", cmdpath);
+	fflush(stdout);
 	if (cmdpath == 0)
 	{
 		if (s[0][1] == '.' && s[0][1] == '.' && s[0][2] == '/')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_lexer2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:49:37 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 13:26:52 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/27 13:46:36 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ char	*space(char *s)
 	if (s[0] == '$')
 	{
 		s1 = ft_strjoin(" ", s);
+		free(s);
 		return (s1);
 	}
 	return (s);
@@ -32,7 +33,7 @@ int	point(char *s)
 		return (2);
 	if (ft_strlen(s) == 2 && s[0] == '.' && s[1] == '.')
 		return (1);
-	if (ft_strlen(s) == 1 && s[0] == '.')
+	if (ft_strlen(s) == 1 && (s[0] == '.' || s[0] == '$'))
 		return (1);
 	if (ft_strlen(s) == 1 && s[0] == 'a')
 		return (1);

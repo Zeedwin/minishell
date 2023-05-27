@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_dollard_1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:32:16 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 13:25:12 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/27 13:41:55 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,11 @@ char	*dol_replace2(char *s, t_var *var)
 	(n(), res = ft_itoa(var->last_err_com), i = 0);
 	while (s[i] != '\0')
 	{
-		printf("s = '%c'\n", s[i]);
 		if (s[i] == '\'')
 		{
 			i++;
 			while (s[i] != '\0' && s[i] != '\'')
 			{
-				printf("s = '%c'\n", s[i]);
 				i++;
 			}
 			i++;

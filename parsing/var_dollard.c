@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_dollard.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:43:50 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 13:25:20 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/27 13:45:43 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,7 @@ char	*replace_dol_fi(char *s, char *s1, char *s2)
 				(n(), s3[k] = s2[j], k++, j++);
 		}
 		else
-		{
 			(n(), s3[k] = s[i], k++, i++);
-		}
 	}
 	return (free(s), s3[k] = '\0', s3);
 }
@@ -115,7 +113,8 @@ char	*dol_replace3(char *s, char **env)
 				i++;
 			i++;
 		}
-		else if (s[i] == '$' && s[i + 1] != ' ')
+		else if (s[i] == '$' && s[i + 1] != ' ' && s[i + 1] != '\0'
+			&& s[i + 1] != '"' && s[i + 1] != '\'')
 		{
 			(n(), s1 = replace_dol_env(s, i), s2 = replace_dol_env2(s1, env),
 				s = replace_dol_fi(s, s1, s2), free(s2), free(s1));

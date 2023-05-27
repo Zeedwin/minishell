@@ -81,7 +81,6 @@ char	*init_tab2(char *s, char **env, t_var *var)
 		printf("quote open : error\n");
 		s = ft_strdup("");
 	}
-	s = space(s);
 	s = change_tab(s);
 	s = del_par_com(s);
 	return (s);
