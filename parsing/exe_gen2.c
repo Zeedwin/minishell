@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:51:32 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 12:20:49 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 17:01:02 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	child_pro(t_lex *lex, t_var *var)
 	else if (var->z > 0 && (var->last_pipe == 1
 			|| lex->supatok[var->z - 1] == TK_PIPE))
 		dup2(var->fd, STDIN_FILENO);
-	executeur_final(lex->s[var->z], g_global.cpyenv, var, lex);
+	execute_final(lex->s[var->z], g_global.cpyenv, var, lex);
 }
 
 int	pro(t_lex *lex, t_var *var, t_pipe *pip)

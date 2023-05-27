@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:49:37 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 15:23:05 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 17:05:15 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	point(char *s)
 	return (2);
 }
 
-int	check_vide(char *s)
+int	check_empty(char *s)
 {
 	int	i;
 
@@ -62,7 +62,7 @@ int	check_vide(char *s)
 	return (0);
 }
 
-char	*suppr_pos(char *s, int pos)
+char	*del_pos(char *s, int pos)
 {
 	char	*s1;
 	int		i;

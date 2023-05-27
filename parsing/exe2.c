@@ -6,13 +6,13 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 12:22:17 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 15:00:39 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 17:01:02 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
-void	executeur_final22(char *cmdpath, char **s, char **env)
+void	execute_final22(char *cmdpath, char **s, char **env)
 {
 	if (cmdpath != NULL && cmdpath[0] == '1')
 	{
@@ -32,7 +32,7 @@ void	executeur_final22(char *cmdpath, char **s, char **env)
 	execve(cmdpath, s, env);
 }
 
-void	executeur22(char **s, char **env, char *cmdpath)
+void	execute22(char **s, char **env, char *cmdpath)
 {
 	if (cmdpath != NULL && cmdpath[0] == '1')
 	{
@@ -60,7 +60,7 @@ void	executeur22(char **s, char **env, char *cmdpath)
 	execve(cmdpath, s, env);
 }
 
-void	executeur(char **s, char **env, t_var *var)
+void	execute(char **s, char **env, t_var *var)
 {
 	char	*cmdpath;
 
@@ -71,5 +71,5 @@ void	executeur(char **s, char **env, t_var *var)
 	{
 		dup2(var->fd, STDIN_FILENO);
 	}
-	executeur22(s, env, cmdpath);
+	execute22(s, env, cmdpath);
 }

@@ -6,13 +6,13 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:47:01 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 13:56:39 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 17:01:02 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
-void	executeur_final2(char **s, t_var *var)
+void	execute_final2(char **s, t_var *var)
 {
 	if (g_global.lacontedetagrandmere > 0)
 		g_global.exitcode = 130;
@@ -29,7 +29,7 @@ void	executeur_final2(char **s, t_var *var)
 	exit(g_global.exitcode);
 }
 
-void	executeur_final(char **s, char **env, t_var *var, t_lex *lex)
+void	execute_final(char **s, char **env, t_var *var, t_lex *lex)
 {
 	char	*cmdpath;
 
@@ -48,11 +48,11 @@ void	executeur_final(char **s, char **env, t_var *var, t_lex *lex)
 		cmdpath = 0;
 	if (cmdpath == 0)
 	{
-		executeur_final2(s, var);
+		execute_final2(s, var);
 		return ;
 	}
 	else
-		executeur_final22(cmdpath, s, env);
+		execute_final22(cmdpath, s, env);
 }
 
 void	init_sign(void)

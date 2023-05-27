@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils_6.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:00:12 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 21:26:03 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/27 17:04:23 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
-void	cpy3truc1(t_var *v, t_lex *lex)
+void	cpy3thing1(t_var *v, t_lex *lex)
 {
 	v->j = v->p;
 	while (lex->stoken[v->p] == TK_WORD && lex->s1[v->p])

@@ -2,12 +2,12 @@ NAME        := minishell
 CC        := gcc
 FLAGS    := -Wall -Wextra -Werror -g -I/Users/$(USER)/homebrew/opt/readline/include
 LDFLAGS :=  -lreadline -L/Users/$(USER)/homebrew/opt/readline/lib -lreadline -lhistory  -g #-fsanitize=address 
-SRCS		:=    		  parsing/var_dollard_3.c \
+SRCS		:=    		  parsing/var_dollar_3.c \
 						  parsing/main2.c \
 						  parsing/exe2.c \
-						  parsing/var_dollard_1.c \
+						  parsing/var_dollar_1.c \
 						  parsing/exe_gen2.c \
-						  parsing/lexeur2.c \
+						  parsing/lexer3.c \
 						  parsing/cpytrichar.c \
 						  parsing/exe_gen.c \
 						  parsing/utils_6.c \
@@ -25,12 +25,12 @@ SRCS		:=    		  parsing/var_dollard_3.c \
 						  parsing/pid.c	\
 						  parsing/error.c \
 						  parsing/ft_itoa.c \
-						  parsing/var_dollard.c \
-						  parsing/var_dollard2.c \
+						  parsing/var_dollar.c \
+						  parsing/var_dollar2.c \
 						  parsing/ft_strstr.c \
 						  parsing/ft_strcmp.c \
 						  parsing/tokenizer.c \
-						  parsing/lexeur1.c \
+						  parsing/lexer1.c \
 						  parsing/find_path.c \
                           parsing/ft_putstr.c \
                           parsing/ft_split.c \

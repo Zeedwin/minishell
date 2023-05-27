@@ -31,7 +31,7 @@ void	tokenizer(t_lex *lex)
 	}
 }
 
-int	check_vide2(char *s, int i)
+int	check_empty2(char *s, int i)
 {
 	while (s[i] != '\0')
 	{

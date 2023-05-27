@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:18:56 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 14:10:41 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 17:04:23 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	count_pipe(int *supatok, t_lex *lex)
 	return (j);
 }
 
-int	delimiteur(t_lex *lex, t_var *var)
+int	break_p(t_lex *lex, t_var *var)
 {
 	char	buffer[BUF_SIZE];
 	int		status;
@@ -53,7 +53,7 @@ int	delimiteur(t_lex *lex, t_var *var)
 	var->is_in_heredoc = 1;
 	balls = fork();
 	if (balls == 0)
-		delimiteur2(lex, buffer, var);
+		break_p2(lex, buffer, var);
 	else
 		waitpid(balls, &status, 0);
 	var->is_in_heredoc = 0;
@@ -82,7 +82,7 @@ int	minipipe(t_pipe	*pip, t_lex *lex, t_var *var)
 	return (1);
 }
 
-char	***cpy3truc(t_var *v, t_lex *lex, char ***sf, int decale)
+char	***cpy3thing(t_var *v, t_lex *lex, char ***sf, int decale)
 {
 	(n(), v->p = 0, v->k = 0, v->j = 0,
 		sf = (char ***)malloc(sizeof(char **) * (ft_malloc2(lex) +1)));
@@ -98,7 +98,7 @@ char	***cpy3truc(t_var *v, t_lex *lex, char ***sf, int decale)
 				sf[v->k][1] = NULL, v->k++, v->p++);
 		else if (lex->stoken[v->p] == TK_WORD)
 		{
-			cpy3truc1(v, lex);
+			cpy3thing1(v, lex);
 			(n(), sf[v->k] = malloc(sizeof(char *) * (v->p - v->j + 1)),
 				v->p = v->j, v->j = 0);
 			while (lex->stoken[v->p] == TK_WORD && lex->s1[v->p])

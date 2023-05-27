@@ -6,13 +6,13 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:18:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 14:50:57 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 17:03:57 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
-void	delimiteur2(t_lex *lex, char *buffer, t_var *var)
+void	break_p2(t_lex *lex, char *buffer, t_var *var)
 {
 	ssize_t	num_read;
 	char	*s;
@@ -61,7 +61,7 @@ void	minipipe1(t_var *var, t_pipe *pip, t_lex *lex)
 		dup2(pip->tube[1], STDOUT_FILENO);
 	close(pip->tube[0]);
 	if (lex->supatok[var->z - 1] == TK_WORD)
-		executeur(lex->s[var->z - 1], g_global.cpyenv, var);
+		execute(lex->s[var->z - 1], g_global.cpyenv, var);
 	exit (0);
 }
 

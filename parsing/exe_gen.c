@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_gen.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 16:53:52 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/27 17:03:14 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	exe_s(t_lex *lex, t_var *var, t_pipe *pip)
 	var->memo = 0;
 	while (var->z < ft_malloc(lex) - 1)
 	{
-		if (lex->s[var->z] == NULL || check_vide(lex->s[var->z][0]) == 0)
+		if (lex->s[var->z] == NULL || check_empty(lex->s[var->z][0]) == 0)
 			var->z++;
 		if (lex->supatok[var->z] == TK_WORD && lex->s[var->z] != NULL)
 		{

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   var_dollard.c                                      :+:      :+:    :+:   */
+/*   var_dollar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:43:50 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 16:54:42 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/27 17:31:04 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ char	*replace_dol_fi(char *s, char *s1, char *s2)
 	(n(), i = 0, k = 0, j = 0,
 		s3 = malloc(sizeof(char) * (ft_strlen(s)
 				- ft_strlen(s1) + ft_strlen(s2) + 1)));
-	printf("s2 = '%d'\n", ft_strlen(s2));
 	while (s[i] != '\0')
 	{
 		if (s[i] == '$' && s[i + 1] == s1[0] && j == 0 && ft_strlen(s2) != 0)
