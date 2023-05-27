@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_dollard.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:43:50 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 16:20:00 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 16:54:42 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,7 @@ char	*replace_dol_env2(char *s, char **env)
 		}
 		i++;
 	}
-	s2 = malloc(sizeof(char));
-	s2[0] = '\0';
-	free(s1);
-	return (s2);
+	return (s2 = malloc(sizeof(char)), s2[0] = '\0', free(s1), s2);
 }
 
 char	*replace_dol_fi(char *s, char *s1, char *s2)
@@ -101,6 +98,15 @@ char	*replace_dol_fi(char *s, char *s1, char *s2)
 	return (free(s), s3[k] = '\0', s3);
 }
 
+int	ini_i(char *s, int i)
+{
+	i++;
+	while (s[i] != '\0' && s[i] != '\'')
+			i++;
+	i++;
+	return (i);
+}
+
 char	*dol_replace3(char *s, char **env)
 {
 	char	*s1;
@@ -111,54 +117,19 @@ char	*dol_replace3(char *s, char **env)
 	while (s[i] != '\0')
 	{
 		if (s[i] == '\'')
-		{
-			i++;
-			while (s[i] != '\0' && s[i] != '\'')
-				i++;
-			i++;
-		}
+				i = ini_i(s, i);
 		else if (s[i] == '$' && s[i + 1] != ' ' && s[i + 1] != '\0'
 			&& s[i + 1] != '"' && s[i + 1] != '\'' && s[i + 1] != '$')
 		{
-			s1 = replace_dol_env(s, i);
-			s2 = replace_dol_env2(s1, env);
+			(n(), s1 = replace_dol_env(s, i), s2 = replace_dol_env2(s1, env));
 			if (ft_strlen(s2) != 0)
 				s = replace_dol_fi(s, s1, s2);
 			else
 				s = replace_no_dol(s, s1);
-			free(s2);
-			free(s1);
+			(n(), free(s2), free(s1));
 		}
 		else
 			i++;
-	}
-	return (s);
-}
-
-char	***dol_replace1(char ***s, t_var *var, char **env)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (s[i] != NULL)
-	{
-		j = 0;
-		while (s[i][j] != NULL)
-		{
-			if (check_redir(s[i][j]) == 1)
-			{
-				i++;
-				break ;
-			}
-			else
-			{
-				s[i][j] = dol_replace2(s[i][j], var);
-				s[i][j] = dol_replace3(s[i][j], env);
-			}
-			j++;
-		}
-		i++;
 	}
 	return (s);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_gen.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 16:22:28 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/27 16:53:52 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	exe_s2(t_lex *lex, t_var *var, t_pipe *pip)
 		var->z++;
 	else if (lex->supatok[var->z] == TK_BUILTIN && var->z == 0)
 	{
-		execve_builtin(lex->s[var->z], var, lex);
+		execve_builtin(lex->s[var->z], var, lex, 1);
 		var->z++;
 	}
 	else if (lex->supatok[var->z] == TK_BOUT
