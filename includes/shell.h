@@ -28,6 +28,7 @@
 # include <stdio.h>
 # include <sys/types.h>
 # include <signal.h>
+# include <ctype.h>
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -177,6 +178,7 @@ void	ctrlc(int sig);
 void	ctrld(int sig);
 void	init_sign(void);
 void	ctrlbs(int sig);
+int		check_eq2(char *str);
 int		incr_i(t_lex *lex, t_var *var);
 int		break_p(t_lex *lex, t_var *var);
 int		minipipe(t_pipe	*pip, t_lex *lex, t_var *var);

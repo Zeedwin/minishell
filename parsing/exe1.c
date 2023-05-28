@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe1.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:47:01 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 17:01:02 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/28 21:09:19 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,23 @@ void	execute_final(char **s, char **env, t_var *var, t_lex *lex)
 	}
 	else
 		execute_final22(cmdpath, s, env);
+}
+
+int	check_eq2(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!str[i - 1] && isalpha(str[i]) == 0 && !str[i + 1])
+		{
+			printf("bash: export: `%c': not a valid identifier\n", str[i]);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }
 
 void	init_sign(void)

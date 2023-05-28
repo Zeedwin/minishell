@@ -34,6 +34,6 @@ void	currpath(t_var *var)
 				+ sizeof("\033[1;36m➜ \033[1;32m")
 				+ sizeof(">\033[0m ")) * sizeof(char));
 	ft_strcpy(var->promt, "\033[1;36m➜ \033[1;32m");
-	ft_strcpy(var->promt + strlen(var->promt), promt1);
-	ft_strcpy(var->promt + strlen(var->promt), ">\033[0m ");
+	ft_strcpy(var->promt + ft_strlen(var->promt), promt1);
+	ft_strcpy(var->promt + ft_strlen(var->promt), ">\033[0m ");
 }

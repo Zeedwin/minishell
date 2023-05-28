@@ -24,7 +24,7 @@ void	ft_exit(t_var *var, t_lex *lex)
 		(n(), printf("exit\n"), g_global.bowlingboolean = 1);
 		printf("bash : exit: %s: numeric argument required\n",
 			lex->s[var->z][1]);
-		exit(243);
+		exit(255);
 	}
 	if (exitcd != 0 && exitcd <= 255)
 	{

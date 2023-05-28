@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:20:28 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 17:50:07 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/28 20:29:33 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,13 @@ void	ctrlc(int sig)
 void	ctrlbs(int sig)
 {	
 	(void)sig;
-	g_global.last_err_com += 128;
-	rl_redisplay();
-	printf("Quit 3\n");
+	if (g_global.is_in_cat != 0)
+	{
+		printf("^\\Quit 3\n");
+		rl_redisplay();
+	}
+	rl_on_new_line();
+	rl_replace_line("", 0);
 }
 
 int	main(int ac, char **av, char **envp)

@@ -15,7 +15,10 @@
 int	exec_builtin_out(char **s, t_var *var, t_lex *lex, t_pipe *pip)
 {
 	if (ft_strcmp(*s, "pwd") == 0 || ft_strcmp(*s, "PWD") == 0)
+	{
 		pwd();
+		var->last_err_com = 0;
+	}
 	else if (ft_strcmp(*s, "env") == 0 || ft_strcmp(*s, "ENV") == 0)
 		env(g_global.cpyenv);
 	else if (ft_strcmp(*s, "echo") == 0)
@@ -57,8 +60,9 @@ void	execve_builtin(char **s, t_var *var, t_lex *lex, int i)
 			while (lex->s[var->z] && lex->s[var->z][i]
 				&& check_empty(lex->s[var->z][i]))
 			{
-				(n(), check_eq(lex->s[var->z][i]), g_global.cpyenv
-					= export(g_global.cpyenv, lex, var, i), i++);
+				if (check_eq2(lex->s[var->z][i]) == 0)
+					g_global.cpyenv = export(g_global.cpyenv, lex, var, i);
+				i++;
 			}
 		}
 	}
