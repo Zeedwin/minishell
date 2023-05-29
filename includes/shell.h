@@ -169,6 +169,7 @@ typedef struct s_ini
 	int		p;
 	int		l;
 	int		m;
+	void	*a;
 }	t_ini;
 
 char	*replace_dol_env(char *s, int i);
@@ -236,8 +237,9 @@ char	*dollars_ch(char *s1, char **env);
 int		ft_malloc2(t_lex *lex);
 char	*ft_itoa(int nb);
 char	***del_brak(char ***s);
-void	execve_builtin(char **s, t_var *var, t_lex *lex, int i);
+void	execve_builtin(char **s, t_var *var, t_lex *lex);
 int		ft_isdigit(int c);
+void	execve_un(t_var *var, t_lex *lex);
 int		error_quote(char *s, t_ini *i);
 void	cpy3thing1(t_var *v, t_lex *lex);
 char	*del_pos(char *s, int pos);

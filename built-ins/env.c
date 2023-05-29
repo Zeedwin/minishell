@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:48:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/28 21:10:31 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/29 23:13:55 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,11 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var, int exp)
 {
 	t_init	ine;
 
+	if (!lex->s[var->z][1])
+		return (exportprint(cpyenv));
 	ine.exper = exp;
 	(n(), ine.check = 0, ine.len = 0,
 		ine.i = 0, ine.j = 0, ine.cpycpy = NULL);
-	if (!lex->s1[1])
-		return (exportprint(cpyenv));
 	(n(), ine.cpycpy = ft_strcpy_env(ine.cpycpy, cpyenv), ine.i = 0);
 	while (ine.cpycpy[ine.i])
 	{

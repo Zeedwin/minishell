@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 12:22:17 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 17:01:02 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/30 00:04:26 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,15 @@ void	execute(char **s, char **env, t_var *var)
 		dup2(var->fd, STDIN_FILENO);
 	}
 	execute22(s, env, cmdpath);
+}
+
+void	execve_un(t_var *var, t_lex *lex)
+{
+	int		i;
+	void	*a;
+
+	i = 0;
+	while (lex->s[var->z][i] && lex->s[var->z][i] != NULL)
+		(n(), a = g_global.cpyenv, g_global.cpyenv
+			= unset(g_global.cpyenv, lex->s[var->z][i]), i++, free(a));
 }

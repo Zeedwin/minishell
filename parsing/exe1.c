@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:47:01 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/29 15:48:49 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/29 23:55:01 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,11 @@ int	check_eq2(char *str)
 	int	i;
 
 	i = 0;
+	if (str[0] == '$')
+		return (exportprint(g_global.cpyenv), 1);
 	while (str[i])
 	{
-		if (str[0] == '$')
-			return (exportprint(g_global.cpyenv), 1);
-		if (!str[i - 1] && isalpha(str[i]) == 0 && !str[i + 1])
+		if (isalpha(str[i]) == 0 && !str[i + 1])
 		{
 			printf("bash: export: `%c': not a valid identifier\n", str[i]);
 			g_global.last_err_com = 1;

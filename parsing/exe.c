@@ -49,33 +49,32 @@ void	check_eq(char *str)
 	}
 }
 
-void	execve_builtin(char **s, t_var *var, t_lex *lex, int i)
+void	execve_builtin(char **s, t_var *var, t_lex *lex)
 {
+	t_ini	p;
+	void	*a;
+
 	if (ft_strcmp(*s, "cd") == 0 || ft_strcmp(*s, "CD") == 0)
 		cd(s, var);
-	i = 1;
+	p.i = 1;
 	if (ft_strcmp(*s, "export") == 0)
 	{
-		if (lex->s[var->z][1] == NULL)
-			g_global.cpyenv = export(g_global.cpyenv, lex, var, 0);
-		else
+		if (!lex->s[var->z][1])
+			exportprint(g_global.cpyenv);
+		while (lex->s[var->z] && lex->s[var->z][p.i]
+			&& check_empty(lex->s[var->z][p.i]))
 		{
-			while (lex->s[var->z] && lex->s[var->z][i]
-				&& check_empty(lex->s[var->z][i]))
+			if (check_eq2(lex->s[var->z][p.i]) == 0)
 			{
-				if (check_eq2(lex->s[var->z][i]) == 0)
-					g_global.cpyenv = export(g_global.cpyenv, lex, var, i);
-				i++;
+				(n(), a = g_global.cpyenv, g_global.cpyenv
+					= export(g_global.cpyenv, lex, var, p.i), free(a));
 			}
+			p.i++;
 		}
 	}
-	i = 1;
+	p.i = 1;
 	if (ft_strcmp(*s, "unset") == 0)
-	{
-		while (lex->s[var->z][i] && lex->s[var->z][i] != NULL)
-			(n(), g_global.cpyenv
-				= unset(g_global.cpyenv, lex->s[var->z][i]), i++);
-	}
+		execve_un(var, lex);
 }
 
 char	*check_doc(char *s)

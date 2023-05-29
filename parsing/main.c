@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:20:28 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/29 16:24:24 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/29 23:26:05 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ void	process(t_var *var)
 	(n(), var->line = ft_strcpy(var->line, lineread));
 	if (check_empty(var->line) == 1)
 		add_history(var->line);
-	var->pidnum = 0;
-	process_init(&lex, var);
+	(n(), var->pidnum = 0, process_init(&lex, var));
 	if (parsing_syntax(&lex) == 1)
 		exe_s(&lex, var, &pip);
 	else
@@ -107,7 +106,7 @@ int	main(int ac, char **av, char **envp)
 	tty.c_lflag &= ~ECHOCTL;
 	(void)ac;
 	(void)av;
-	g_global.cpyenv = envp;
+	g_global.cpyenv = ft_strcpy_env(g_global.cpyenv, envp);
 	if (g_global.cpyenv[0] == NULL)
 	{
 		printf("\033[1;91mError: No environment detected\n");
