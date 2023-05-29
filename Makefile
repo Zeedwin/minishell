@@ -1,7 +1,7 @@
 NAME        := minishell
 CC        := gcc
 FLAGS    := -Wall -Wextra -Werror -g -I/Users/$(USER)/homebrew/opt/readline/include
-LDFLAGS :=  -lreadline -L/Users/$(USER)/.brew/opt/readline/lib -lreadline -lhistory  -g #-fsanitize=address 
+LDFLAGS :=  -lreadline -L/Users/$(USER)/homebrew/opt/readline/lib -lreadline -lhistory  -g #-fsanitize=address 
 SRCS		:=    		  parsing/var_dollar_3.c \
 						  parsing/main2.c \
 						  parsing/exe2.c \

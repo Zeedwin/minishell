@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_gen.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/28 20:33:36 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/29 11:14:20 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ void	exe_s3(t_lex *lex, t_var *var, t_pipe *pip)
 		|| lex->supatok[var->z] == TK_REDIR_E2)
 	{
 		miniredir_s(lex, var, pip);
-		if (var->z > 2 && lex->supatok[var->z - 3] != TK_BOUT)
+		if (var->z > 2 && lex->supatok[var->z - 3] != TK_BOUT
+			&& (lex->supatok[var->z - 3] != TK_REDIR_E2 && lex->supatok[var->z - 3] != TK_REDIR_E))
 		{
 			close(var->fd);
 			var->fd = open("tmp/tmp.txt", O_CREAT | O_TRUNC | O_RDONLY, 0777);
