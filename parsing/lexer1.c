@@ -69,6 +69,8 @@ int	lexer1(t_lex *l)
 
 char	*init_tab2(char *s, char **env, t_var *var)
 {
+	t_ini	ini;
+
 	(void)env;
 	(void)var;
 	if (point(s) == 1)
@@ -76,7 +78,7 @@ char	*init_tab2(char *s, char **env, t_var *var)
 		printf("bash : %s: command not found\n", s);
 		s = ft_strdup("");
 	}
-	if (error_quote(s) == 0)
+	if (error_quote(s, &ini) == 0)
 	{
 		printf("quote open : error\n");
 		s = ft_strdup("");
