@@ -166,6 +166,9 @@ typedef struct s_ini
 	int		o;
 	int		k;
 	int		i;
+	int		p;
+	int		l;
+	int		m;
 }	t_ini;
 
 char	*replace_dol_env(char *s, int i);
@@ -233,7 +236,7 @@ char	*ft_itoa(int nb);
 char	***del_brak(char ***s);
 void	execve_builtin(char **s, t_var *var, t_lex *lex, int i);
 int		ft_isdigit(int c);
-int		error_quote(char *s);
+int		error_quote(char *s, t_ini *i);
 void	cpy3thing1(t_var *v, t_lex *lex);
 char	*del_pos(char *s, int pos);
 int		pro(t_lex *lex, t_var *var, t_pipe *pip);
@@ -243,6 +246,7 @@ char	***dol_replace1(char ***s, t_var *var, char **env);
 void	parent_pro(t_lex *lex, t_var *var, t_pipe *pip);
 char	*change_tab(char *s);
 void	process_init(t_lex *lex, t_var *var);
+int		error_quote2(char *s, int i, int code);
 int		point(char *s);
 char	*space(char *s);
 int		ft_num(char *str);
@@ -259,6 +263,10 @@ size_t	ft_strlcpy(char *restrict dst, const char *restrict src,
 char	***separate_tok(t_var *var, t_lex *lex, char ***s);
 void	tokenizer(t_lex *lex);
 void	minipipe3(t_var *var, t_lex *lex, int fdtmp, t_pipe *pip);
+void	minilife(t_var	*var);
+void	minilife2(t_var	*var, t_lex	*lex);
+void	minilife3(t_var	*var);
+void	microredir(t_var *var);
 void	turbotokenizer(t_lex *lex);
 void	execute(char **s, char **env, t_var *var);
 void	free_final(t_lex *lex, t_pipe *pip, t_var *var);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_5.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:18:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/29 11:24:14 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/29 11:47:44 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,14 @@ void	minipipe1(t_var *var, t_pipe *pip, t_lex *lex)
 		dup2(var->fd, STDIN_FILENO);
 	else if (var->z > 1 && lex->supatok[var->z - 2] == TK_PIPE
 		&& lex->supatok[var->z - 3] == TK_BOUT)
-	{
-		(n(), close(var->fd), var->fd = open("tmp/tmp.txt", O_RDONLY, 0777));
-		dup2(var->fd, STDIN_FILENO);
-	}
-	if (var->z > 4 && (lex->supatok[var->z - 4] == TK_REDIR_E || lex->supatok[var->z - 4] == TK_REDIR_E2) && lex->supatok[var->z - 5] == TK_BOUT)
-	{
-		close(var->fd);
-		var->fd = open("tmp/tmp.txt", O_RDONLY, 0777);
-		dup2(var->fd, STDIN_FILENO);
-	}
+		minilife3(var);
+	if (var->z > 4 && (lex->supatok[var->z - 4] == TK_REDIR_E
+			|| lex->supatok[var->z - 4] == TK_REDIR_E2)
+		&& lex->supatok[var->z - 5] == TK_BOUT)
+		minilife(var);
 	else if (var->z > 1 && (lex->supatok[var->z - 2] == TK_REDIR_S
 			|| lex->supatok[var->z - 2] == TK_REDIR_S2))
-	{
-		var->fd_s = open(lex->s[var->memo][0], O_RDWR, 0777);
-		dup2(var->fd_s, STDIN_FILENO);
-	}
+		minilife2(var, lex);
 	else if (var->z > 1 && (lex->supatok[var->z - 2] == TK_REDIR_E
 			|| lex->supatok[var->z - 2] == TK_REDIR_E2))
 		dup2(var->fd_s, STDIN_FILENO);

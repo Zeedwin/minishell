@@ -3,46 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   exe_gen2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:51:32 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/29 11:25:07 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/29 11:57:10 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
+
+void	child_pdf(t_var	*var)
+{
+	close(var->fd);
+	var->fd = open("tmp/tmp.txt", O_CREAT
+			| O_TRUNC | O_RDONLY, 0777);
+	dup2(var->fd, STDIN_FILENO);
+}
+
+void	oldman(t_var	*var)
+{
+	close(var->fd);
+	var->fd = open("tmp/tmp.txt", O_RDONLY, 0777);
+}
 
 void	child_pro(t_lex *lex, t_var *var)
 {
 	if (var->z > 2 && (lex->supatok[var->z - 3] == TK_REDIR_S
 			|| lex->supatok[var->z - 3] == TK_REDIR_S2)
 		&& lex->supatok[var->z - 1] == TK_PIPE)
-	{
-		close(var->fd);
-		var->fd = open("tmp/tmp.txt", O_CREAT
-				| O_TRUNC | O_RDONLY, 0777);
-		dup2(var->fd, STDIN_FILENO);
-	}
+		child_pdf(var);
 	else if (((var->z > 3 && lex->supatok[var->z - 4] == TK_PIPE)
 			|| var->z - 3 == 0)
 		&& (lex->supatok[var->z - 3] == TK_REDIR_E
 			|| lex->supatok[var->z - 3] == TK_REDIR_E2)
 		&& lex->supatok[var->z - 1] == TK_PIPE
 		&& lex->supatok[var->z - 4] != TK_BOUT)
-	{
-		close(var->fd);
-		var->fd = open("tmp/tmp.txt", O_CREAT
-				| O_TRUNC | O_RDONLY, 0777);
-		dup2(var->fd, STDIN_FILENO);
-	}
+		child_pdf(var);
 	else if (var->z > 0 && (var->last_pipe == 1
 			|| lex->supatok[var->z - 1] == TK_PIPE))
 	{
-		if (var->z > 3 && (lex->supatok[var->z - 3] == TK_REDIR_E || lex->supatok[var->z - 3] == TK_REDIR_E2) && lex->supatok[var->z - 4] == TK_BOUT)
-		{
-			close(var->fd);
-			var->fd = open("tmp/tmp.txt", O_RDONLY, 0777);
-		}
+		if (var->z > 3 && (lex->supatok[var->z - 3] == TK_REDIR_E
+				|| lex->supatok[var->z - 3] == TK_REDIR_E2)
+			&& lex->supatok[var->z - 4] == TK_BOUT)
+			oldman(var);
 		dup2(var->fd, STDIN_FILENO);
 	}
 	execute_final(lex->s[var->z], g_global.cpyenv, var, lex);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:00:20 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/29 11:24:36 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/29 12:00:38 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,24 +48,16 @@ void	miniredir_s5(t_lex	*lex, t_var *var, t_pipe *pip)
 		dup2(var->fd, STDIN_FILENO);
 	if (var->z > 2 && lex->supatok[var->z - 2] == TK_PIPE
 		&& lex->supatok[var->z - 3] == TK_BOUT)
-	{
-		close(var->fd);
-		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
-		dup2(var->fd, STDIN_FILENO);
-	}
-	if (var->z > 4 && (lex->supatok[var->z - 4] == TK_REDIR_E || lex->supatok[var->z - 4] == TK_REDIR_E2) && lex->supatok[var->z - 5] == TK_BOUT)
-	{
-		close(var->fd);
-		var->fd = open("tmp/tmp.txt", O_RDONLY, 0777);	
-		dup2(var->fd, STDIN_FILENO);
-	}
+		microredir(var);
+	if (var->z > 4 && (lex->supatok[var->z - 4] == TK_REDIR_E
+			|| lex->supatok[var->z - 4] == TK_REDIR_E2)
+		&& lex->supatok[var->z - 5] == TK_BOUT)
+		microredir(var);
 	if (var->fd_e != -2)
 		dup2(var->fd_e, STDIN_FILENO);
 	if (var->fd_s != -2 && find_cmd_path(var,
 			lex->s[var->z - 1][0]) != 0)
-	{
 		dup2(var->fd_s, STDOUT_FILENO);
-	}
 	if (find_cmd_path(var, lex->s[var->z - 1][0]) != 0
 		&& lex->supatok[var->z + 2] == TK_PIPE
 		&& (lex->supatok[var->z] == TK_REDIR_E
@@ -107,22 +99,20 @@ int	miniredir_s8(t_lex *lex, t_var *var, int fdtmp, t_pipe *pip)
 	if (var->z > 0 && var->fail_dir == 0
 		&& lex->supatok[var->z - 1] == TK_BOUT)
 	{
-		if (var->fd_s != -2 && find_cmd_path(var,
-				lex->s[var->z - 1][0]) != 0)
-			dup2(var->fd_s, STDOUT_FILENO);
-		if (lex->supatok[var->z + 2]  == TK_PIPE)
+		if (lex->supatok[var->z + 2] == TK_PIPE)
 		{
 			close(var->fd);
 			var->fd = open("tmp/tmp.txt", O_CREAT | O_TRUNC | O_RDWR, 0777);
 			dup2(var->fd, STDOUT_FILENO);
 		}
+		if (var->fd_s != -2 && find_cmd_path(var,
+				lex->s[var->z - 1][0]) != 0)
+			dup2(var->fd_s, STDOUT_FILENO);
 		exec_builtin_out(lex->s[var->z - 1], var, lex, pip);
 		dup2(fdtmp, STDOUT_FILENO);
 		var->z = var->z + 1 + var->i;
 		if (lex->s[var->z - 1] == NULL)
 		{
-			printf("je suis");
-			fflush(stdout);
 			close(var->fd);
 			wait_pid(var, pip);
 		}

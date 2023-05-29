@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe_gen.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:42:04 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/29 11:14:20 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/29 11:36:19 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ void	exe_s3(t_lex *lex, t_var *var, t_pipe *pip)
 	{
 		if (lex->s[var->z + 1] == NULL)
 			var->last_pipe = 1;
-		var->fail_dir = 0;
-		minipipe(pip, lex, var);
+		(n(), var->fail_dir = 0, minipipe(pip, lex, var));
 	}
 	else if (lex->supatok[var->z] == TK_REDIR_S
 		|| lex->supatok[var->z] == TK_REDIR_E
@@ -72,7 +71,8 @@ void	exe_s3(t_lex *lex, t_var *var, t_pipe *pip)
 	{
 		miniredir_s(lex, var, pip);
 		if (var->z > 2 && lex->supatok[var->z - 3] != TK_BOUT
-			&& (lex->supatok[var->z - 3] != TK_REDIR_E2 && lex->supatok[var->z - 3] != TK_REDIR_E))
+			&& (lex->supatok[var->z - 3] != TK_REDIR_E2
+				&& lex->supatok[var->z - 3] != TK_REDIR_E))
 		{
 			close(var->fd);
 			var->fd = open("tmp/tmp.txt", O_CREAT | O_TRUNC | O_RDONLY, 0777);
