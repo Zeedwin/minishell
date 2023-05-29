@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   var_dollard_3.c                                    :+:      :+:    :+:   */
+/*   var_dollar_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:35:19 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 16:55:23 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/29 15:15:17 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,29 @@ char	*replace_no_dol(char *s, char *s1)
 
 char	***dol_replace1(char ***s, t_var *var, char **env)
 {
-	int	i;
-	int	j;
+	t_ini	i;
 
-	i = 0;
-	while (s[i] != NULL)
+	i.i = 0;
+	while (s != NULL && s[i.i] != NULL)
 	{
-		j = 0;
-		while (s[i][j] != NULL)
+		i.j = 0;
+		while (s[i.i][i.j] != NULL)
 		{
-			if (check_redir(s[i][j]) == 1)
+			if (check_redir(s[i.i][i.j]) == 1 || check_export(s[i.i][i.j]))
 			{
-				i++;
+				i.i++;
 				break ;
 			}
 			else
 			{
-				s[i][j] = dol_replace2(s[i][j], var);
-				s[i][j] = dol_replace3(s[i][j], env);
+				s[i.i][i.j] = dol_replace2(s[i.i][i.j], var);
+				s[i.i][i.j] = dol_replace3(s[i.i][i.j], env);
 			}
-			j++;
+			i.j++;
 		}
-		i++;
+		if (s[i.i] == NULL)
+			break ;
+		i.i++;
 	}
 	return (s);
 }

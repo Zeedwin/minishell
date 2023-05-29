@@ -176,6 +176,8 @@ char	**ft_realloc2(char **map, int i);
 char	*dol_replace2(char *s, t_var *var);
 char	*dol_replace3(char *s, char **env);
 char	*ft_replace_dol_in(char *s, char *res);
+int		check_export(char *s);
+char	**exportprint(char	**cpyenv);
 int		check_redir(char *s);
 void	ctrlc(int sig);
 void	ctrld(int sig);
@@ -304,6 +306,6 @@ int		echo(t_var	*var, t_lex *lex);
 void	pwd(void);
 char	**ft_strcpy_env(char **cpyenv, char **envp);
 void	env(char **cpyenv);
-void	ft_exit(t_var *var, t_lex *lex);
+void	ft_exit(t_var *var, t_lex *lex, t_pipe *pip);
 
 #endif

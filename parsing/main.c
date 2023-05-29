@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:20:28 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/28 20:29:33 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/29 16:24:24 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	process(t_var *var)
 	t_pipe	pip;
 	char	*lineread;
 
-	lineread = NULL;
 	(n(), lineread = NULL, var->bowlingboolean = 0);
 	(n(), process_ini(var), currpath(var), find_path(g_global.cpyenv, var));
 	if (var->last_pipe == 1)
@@ -61,6 +60,8 @@ void	process(t_var *var)
 	process_init(&lex, var);
 	if (parsing_syntax(&lex) == 1)
 		exe_s(&lex, var, &pip);
+	else
+		free_final(&lex, &pip, var);
 }
 
 void	ctrlc(int sig)
@@ -90,10 +91,12 @@ void	ctrlbs(int sig)
 	if (g_global.is_in_cat != 0)
 	{
 		printf("^\\Quit 3\n");
+	}
+	else
+	{
+		rl_on_new_line();
 		rl_redisplay();
 	}
-	rl_on_new_line();
-	rl_replace_line("", 0);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -104,7 +107,7 @@ int	main(int ac, char **av, char **envp)
 	tty.c_lflag &= ~ECHOCTL;
 	(void)ac;
 	(void)av;
-	g_global.cpyenv = ft_strcpy_env(g_global.cpyenv, envp);
+	g_global.cpyenv = envp;
 	if (g_global.cpyenv[0] == NULL)
 	{
 		printf("\033[1;91mError: No environment detected\n");

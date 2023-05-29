@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:00:20 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/29 12:00:38 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/05/29 16:16:35 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,8 @@ int	miniredir_s8(t_lex *lex, t_var *var, int fdtmp, t_pipe *pip)
 
 int	miniredir_s7(t_lex *lex, t_var *var, t_pipe *pip)
 {
-	if (var->fail_dir == 0 && var->z > 0 && var->did_fail == 0)
+	if (var->fail_dir == 0 && var->z > 0 && var->did_fail == 0
+		&& lex->supatok[var->z - 1] != TK_PIPE)
 	{	
 		g_global.is_in_cat = 1;
 		pipe(pip->tube);

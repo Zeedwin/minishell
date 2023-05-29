@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:37:26 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 12:37:58 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/29 15:56:56 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ char	**add_if_after(char **s1)
 
 	i = 0;
 	j = 1;
-	printf("s1 = %p\n", s1);
-	fflush(stdout);
 	s2 = malloc(sizeof(char *) * (ft_strstrlen(s1) + 1));
 	while (s1[j] != NULL)
 	{

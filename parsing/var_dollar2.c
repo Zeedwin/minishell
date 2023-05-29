@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_dollar2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:47:41 by jgirard-          #+#    #+#             */
-/*   Updated: 2023/05/27 17:11:08 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/05/29 15:11:41 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,15 @@ char	***del_brak(char ***s)
 		i++;
 	}
 	return (s);
+}
+
+int	check_export(char *s)
+{
+	while (ft_strlen(s) > 5)
+	{
+		if (ft_strncmp(s, "EXPORT", 6) == 0 || ft_strncmp(s, "export", 6) == 0)
+			return (1);
+		s++;
+	}
+	return (0);
 }

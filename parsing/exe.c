@@ -24,7 +24,7 @@ int	exec_builtin_out(char **s, t_var *var, t_lex *lex, t_pipe *pip)
 	else if (ft_strcmp(*s, "echo") == 0)
 		echo(var, lex);
 	else if (ft_strcmp(lex->s[var->z][0], "exit") == 0)
-		ft_exit(var, lex);
+		ft_exit(var, lex, pip);
 	if (lex->s[var->z + 1] == NULL)
 	{
 		close(var->fd);
