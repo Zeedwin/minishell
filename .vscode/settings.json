@@ -1,3 +1,6 @@
 {
-    "breadcrumbs.symbolSortOrder": "position"
+	"breadcrumbs.symbolSortOrder": "position",
+	"files.associations": {
+		"shell.h": "c"
+	}
 }

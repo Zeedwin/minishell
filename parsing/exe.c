@@ -41,7 +41,10 @@ void	check_eq(char *str)
 	while (str[i])
 	{
 		if (!str[i - 1] && str[i] == '=' && !str[i + 1])
+		{
 			printf("bash: export: `=': not a valid identifier\n");
+			g_global.last_err_com = 1;
+		}
 		i++;
 	}
 }
