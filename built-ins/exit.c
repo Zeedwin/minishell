@@ -21,29 +21,30 @@ void	exit1(t_var *var, t_lex *lex, t_pipe *pip)
 	exit(255);
 }
 
-void	ft_exit(t_var *var, t_lex *lex, t_pipe *pip)
+void	ft_exit(t_var *var, t_lex *lex, t_pipe *pip, int exitcd)
 {
-	int	exitcd;
-
 	exitcd = 0;
+	if (lex->s[var->z][2])
+	{
+		printf("exit\nbash: exit: too many arguments\n");
+		g_global.last_err_com = 1;
+		return ;
+	}
 	if (lex->s[var->z][1] && ft_num(lex->s[var->z][1]) == 1)
 		exitcd = atoi(lex->s[var->z][1]);
 	else if (lex->s[var->z][1] && ft_num(lex->s[var->z][1]) == 0)
 		exit1(var, lex, pip);
 	if (exitcd != 0 && exitcd <= 255)
 	{
-		printf("exit\n");
-		free_final(lex, pip, var);
+		(n(), printf("exit\n"), free_final(lex, pip, var));
 		exit(exitcd);
 	}
 	else if (exitcd > 255)
 	{
 		g_global.exitcode = exitcd % 255;
-		printf("exit\n");
-		free_final(lex, pip, var);
+		(n(), printf("exit\n"), free_final(lex, pip, var));
 		exit(exitcd);
 	}
-	printf("exit\n");
-	free_final(lex, pip, var);
+	(n(), printf("exit\n"), free_final(lex, pip, var));
 	exit(0);
 }

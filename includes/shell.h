@@ -308,6 +308,6 @@ int		echo(t_var	*var, t_lex *lex);
 void	pwd(void);
 char	**ft_strcpy_env(char **cpyenv, char **envp);
 void	env(char **cpyenv);
-void	ft_exit(t_var *var, t_lex *lex, t_pipe *pip);
+void	ft_exit(t_var *var, t_lex *lex, t_pipe *pip, int exitcd);
 
 #endif
