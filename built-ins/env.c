@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:48:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/29 23:13:55 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/06/01 02:25:23 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	**elp(t_lex *lex, t_var *var, t_init *ine)
 		if ((ft_strncmp(g_global.cpyenv[ine->i], lex->s[var->z][ine->exper],
 				equalfinder(g_global.cpyenv[ine->i])) == 0))
 			(n(), ine->check = 1,
-				ine->exp_env[ine->j] = ft_strdup(lex->s[var->z][ine->exper]),
+				ine->exp_env[ine->j] = lex->s[var->z][ine->exper],
 					ine->j++);
 		else
 			(n(), ine->exp_env[ine->j] = ine->cpycpy[ine->i], ine->j++);
@@ -57,7 +57,7 @@ char	**elp(t_lex *lex, t_var *var, t_init *ine)
 	}
 	if (ine->check == 1)
 		return (ine->exp_env[ine->j] = NULL, free(ine->cpycpy), ine->exp_env);
-	return (ine->exp_env[ine->j] = ft_strdup(lex->s[var->z][ine->exper]),
+	return (ine->exp_env[ine->j] = lex->s[var->z][ine->exper],
 			ine->exp_env[ine->j + 1] = NULL, free(ine->cpycpy), ine->exp_env);
 }
 
