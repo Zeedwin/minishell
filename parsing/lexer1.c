@@ -73,14 +73,16 @@ char	*init_tab2(char *s, char **env, t_var *var)
 
 	(void)env;
 	(void)var;
-	if (point(s) == 1)
-	{
-		printf("bash : %s: command not found\n", s);
-		s = ft_strdup("");
-	}
+	s = space_change(s);
 	if (error_quote(s, &ini) == 0)
 	{
 		printf("quote open : error\n");
+		s = ft_strdup("");
+	}
+	else if (point(s) == 1 || point2(s) == 0)
+	{
+		s = del_brak2(s);
+		printf("bash : %s: command not found\n", s);
 		s = ft_strdup("");
 	}
 	s = change_tab(s);

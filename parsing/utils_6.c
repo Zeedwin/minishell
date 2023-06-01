@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 15:00:12 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 17:04:23 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/01 12:19:38 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ void	turbotokenizer2(t_lex *lex)
 	lex->supatok = ft_calloc((lex->y + 3), sizeof(int));
 	while (lex->s[i])
 	{
-		if (lex->s[i][0][0] == '|')
+		if (lex->s[i][0] == NULL)
+			lex->supatok[i] = TK_NULL;
+		else if (lex->s[i][0][0] == '|')
 			lex->supatok[i] = TK_PIPE;
 		else if (lex->s[i][0][0] == '<' || lex->s[i][0][0] == '>')
 			turbotokenizer1(lex, i);
@@ -78,4 +80,21 @@ int	incr_i(t_lex *lex, t_var *var)
 		return (0);
 	}
 	return (-1);
+}
+
+int	check_for_add(t_lex *lex, t_var *var)
+{
+	int	i;
+
+	i = 0;
+	while (lex->supatok[var->z + i] == TK_REDIR_S
+		|| lex->supatok[var->z + i] == TK_REDIR_E
+		|| lex->supatok[var->z + i] == TK_REDIR_S2
+		|| lex->supatok[var->z + i] == TK_REDIR_E2)
+	{
+		if (lex->s[var->z + i + 1][1] != NULL)
+			return (1);
+		i += 2;
+	}
+	return (0);
 }

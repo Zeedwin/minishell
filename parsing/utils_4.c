@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:00:20 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/29 16:16:35 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/01 14:35:18 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ int	miniredir_s4(t_lex *lex, t_var *var)
 	if (var->z > 0 && var->check_after_redir == 0)
 		lex->s[var->z - 1] = add_after_redir(
 				lex->s[var->z - 1],
-				lex->s[var->z + var->i + 1]);
+				lex->s[var->z + var->i + 1], var->c);
 	if (var->z > 0 && var->check_after_redir == 1 && var->i > 0)
 		lex->s[var->z - 1] = add_after_redir(
 				lex->s[var->z - 1],
-				lex->s[var->z + var->i + 1]);
-	var->i += 2;
+				lex->s[var->z + var->i + 1], var->o);
+	(n(), var->i += 2, var->o = 0);
 	return (0);
 }
 
@@ -124,8 +124,9 @@ int	miniredir_s8(t_lex *lex, t_var *var, int fdtmp, t_pipe *pip)
 int	miniredir_s7(t_lex *lex, t_var *var, t_pipe *pip)
 {
 	if (var->fail_dir == 0 && var->z > 0 && var->did_fail == 0
-		&& lex->supatok[var->z - 1] != TK_PIPE)
-	{	
+		&& lex->supatok[var->z - 1] != TK_PIPE
+		&& check_empty(lex->s[var->z - 1][0]) != 0)
+	{
 		g_global.is_in_cat = 1;
 		pipe(pip->tube);
 		var->shell[var->pidnum] = fork();
@@ -136,7 +137,8 @@ int	miniredir_s7(t_lex *lex, t_var *var, t_pipe *pip)
 		return (0);
 	}
 	else if (var->fail_dir == 0 && var->z > 1
-		&& lex->supatok[var->z - 2] == TK_BOUT)
+		&& lex->supatok[var->z - 2] == TK_BOUT
+		&& lex->supatok[var->z - 1] != TK_NULL)
 	{		
 		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
 		dup2(var->fd, STDIN_FILENO);

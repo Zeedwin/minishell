@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cpytrichar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hugodelmann <hugodelmann@student.42.fr>    +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 12:28:05 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 17:09:25 by hugodelmann      ###   ########.fr       */
+/*   Updated: 2023/06/01 12:20:07 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ char	***cpytrichar(char ***s, int decale)
 	while (s[k] != NULL)
 	{
 		if (k == decale)
-			(n(), sf[i] = malloc(sizeof(char *) * 2), sf[i][1] = NULL, i++);
+			(n(), sf[i] = malloc(sizeof(char *) * 2),
+				sf[i][0] = NULL, sf[i][1] = NULL, i++);
 		j = 0;
 		sf[i] = malloc(sizeof(char *) * (lendoubchar(s[k]) + 1));
 		while (s[k][j] != NULL)

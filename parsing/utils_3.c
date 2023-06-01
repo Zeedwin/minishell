@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:37:26 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/29 15:56:56 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/06/01 14:36:04 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
-char	**add_after_redir(char **s1, char **s2)
+char	**add_after_redir(char **s1, char **s2, int c)
 {
 	int		i;
 	int		j;
@@ -29,13 +29,15 @@ char	**add_after_redir(char **s1, char **s2)
 	}
 	while (s2[j] != NULL)
 	{
+		if (c == -54 && ft_strcmp(s1[0], s2[j]) == 0)
+			j++;
+		if (s2[j] == NULL)
+			break ;
 		s3[i] = malloc(sizeof(char) * (ft_strlen(s2[j]) + 1));
 		s3[i] = ft_strcpy(s3[i], s2[j]);
-		i++;
-		j++;
+		(n(), i++, j++);
 	}
-	free_2(s1);
-	s3[i] = NULL;
+	(n(), free_2(s1), s3[i] = NULL);
 	return (s3);
 }
 
@@ -66,10 +68,10 @@ int	miniredir_s1(t_lex *lex, t_var *var)
 			|| lex->supatok[var->z + var->i] == TK_REDIR_E
 			|| lex->supatok[var->z + var->i] == TK_REDIR_E2)
 		&& (var->z == 0 || lex->supatok[var->z - 1] == TK_PIPE)
-		&& lex->s[var->z + 1][1] != NULL)
+		&& check_for_add(lex, var) == 1)
 	{
 		lex->s = cpytrichar(lex->s, var->z);
-		lex->s[var->z][0] = ft_strdup(lex->s[var->z + 2][1]);
+		mini_redir_s1(lex, var);
 		var->check_after_redir = 1;
 		turbotokenizer2(lex);
 		return (1);
@@ -79,6 +81,8 @@ int	miniredir_s1(t_lex *lex, t_var *var)
 
 int	miniredir_s3(t_lex *lex, t_var *var)
 {
+	if (var->z + var->i + 1 == var->c)
+		var->o = -54;
 	if (lex->supatok[var->z + var->i] == TK_REDIR_S)
 	{
 		if (var->fd_s != -2)

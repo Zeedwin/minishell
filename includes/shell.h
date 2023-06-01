@@ -72,6 +72,7 @@ enum {
 	TK_BUILTIN,
 	TK_BOUT,
 	TK_FIN,
+	TK_NULL,
 };
 
 enum {
@@ -114,6 +115,7 @@ typedef struct s_var {
 	int		pidnum;
 	int		c;
 	int		z;
+	int		o;
 	int		j;
 	int		p;
 	int		k;
@@ -181,9 +183,17 @@ int		check_export(char *s);
 char	**exportprint(char	**cpyenv);
 int		check_redir(char *s);
 void	ctrlc(int sig);
+char	*space_change(char *s);
 void	ctrld(int sig);
 void	init_sign(void);
 void	ctrlbs(int sig);
+void	mini_redir_s1(t_lex *lex, t_var *var);
+int		check_for_add(t_lex *lex, t_var *var);
+int		point2(char *s);
+void	exe_gen_test(t_lex *lex, t_var *var);
+char	*del_brak2(char *s);
+int		check_slash(char *s);
+int		check_slash2(char *s);
 int		check_eq2(char *str);
 int		incr_i(t_lex *lex, t_var *var);
 int		break_p(t_lex *lex, t_var *var);
@@ -212,7 +222,7 @@ void	ft_putstr(char *s);
 int		ft_strlen(const char *a);
 int		lexer6(t_lex *l, int i, int code);
 char	**add_if_after(char **s1);
-char	**add_after_redir(char **s1, char **s2);
+char	**add_after_redir(char **s1, char **s2, int c);
 void	miniredir_s5(t_lex	*lex, t_var *var, t_pipe *pip);
 int		ft_strlen2(const char *a);
 void	find_path(char **env, t_var *var);

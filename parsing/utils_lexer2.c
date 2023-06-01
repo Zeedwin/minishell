@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_lexer2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 15:49:37 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/29 12:18:33 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/06/01 13:34:59 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@ int	point(char *s)
 		return (0);
 	if (ft_strlen(s) >= 1 && ((s[0] == 'q' && s[1] == '\0')
 			|| (s[0] == '"' && s[1] == '\0')))
+		return (1);
+	if (ft_strlen(s) == 2 && s[0] == '/' && s[1] == '.')
+		return (1);
+	if (ft_strcmp(s, "/..") == 0 || ft_strcmp(s, "/../") == 0)
 		return (1);
 	return (2);
 }
