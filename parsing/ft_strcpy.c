@@ -45,7 +45,7 @@ int	equalfinder(char *path)
 	return (i);
 }
 
-char	**ft_strcpy_env(char **cpyenv, char **envp)
+char	**ft_strcpy_env(char **cpyenv, char **envp, int deep_copy)
 {
 	int	i;
 	int	len;
@@ -63,7 +63,10 @@ char	**ft_strcpy_env(char **cpyenv, char **envp)
 		return (NULL);
 	while (envp[i])
 	{
-		cpyenv[i] = envp[i];
+		if (!deep_copy)
+			cpyenv[i] = envp[i];
+		else
+			cpyenv[i] = ft_strdup(envp[i]);
 		i++;
 	}
 	cpyenv[i] = NULL;

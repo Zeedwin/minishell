@@ -9,7 +9,6 @@
 /*   Updated: 2023/04/27 10:15:23 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../includes/shell.h"
 
 int	lexer3(t_lex *l, int i, int code)
@@ -70,6 +69,7 @@ int	lexer1(t_lex *l)
 char	*init_tab2(char *s, char **env, t_var *var)
 {
 	t_ini	ini;
+	char	*t;
 
 	(void)env;
 	(void)var;
@@ -77,12 +77,16 @@ char	*init_tab2(char *s, char **env, t_var *var)
 	if (error_quote(s, &ini) == 0)
 	{
 		printf("quote open : error\n");
+		free(s);
 		s = ft_strdup("");
 	}
 	else if (point(s) == 1 || point2(s) == 0)
 	{
+		t = s;
 		s = del_brak2(s);
+		//free(t);
 		printf("bash : %s: command not found\n", s);
+		free(s);
 		s = ft_strdup("");
 	}
 	s = change_tab(s);
@@ -109,4 +113,5 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	lex->stoken[count(s, var)] = TK_FIN;
 	lex->supatok[count(s, var)] = TK_FIN;
 	free(s2);
+	free(s);
 }

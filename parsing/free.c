@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:03:37 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/29 15:33:42 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/06/01 19:56:44 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,5 @@ void	free_final(t_lex *lex, t_pipe *pip, t_var *var)
 		free_3(lex->s);
 	if (var && var->shell)
 		free(var->shell);
+	//free_2(g_global.cpyenv);
 }

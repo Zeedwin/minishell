@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:20:28 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/01 14:52:26 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/06/01 20:12:25 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	process(t_var *var)
 	if (!lineread)
 	{
 		printf("exit\n");
+		//free_2(g_global.cpyenv);
 		exit(0);
 	}
 	var->line = malloc(sizeof(char) * (ft_strlen(lineread) + 1));
@@ -106,7 +107,7 @@ int	main(int ac, char **av, char **envp)
 	tty.c_lflag &= ~ECHOCTL;
 	(void)ac;
 	(void)av;
-	g_global.cpyenv = ft_strcpy_env(g_global.cpyenv, envp);
+	g_global.cpyenv = ft_strcpy_env(g_global.cpyenv, envp, 1);
 	if (g_global.cpyenv[0] == NULL)
 	{
 		printf("\033[1;91mError: No environment detected\n");

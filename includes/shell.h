@@ -127,6 +127,7 @@ typedef struct s_var {
 	int		fd;
 	int		last_err_com;
 	int		exitcode;
+	char	**lrn;
 }	t_var;
 
 extern t_var	g_global;
@@ -316,7 +317,7 @@ char	**unset(char **cpyenvp, char *unsetstr);
 int		exec_builtin_out(char **s, t_var *var, t_lex *lex, t_pipe *pip);
 int		echo(t_var	*var, t_lex *lex);
 void	pwd(void);
-char	**ft_strcpy_env(char **cpyenv, char **envp);
+char	**ft_strcpy_env(char **cpyenv, char **envp, int deepcpy);
 void	env(char **cpyenv);
 void	ft_exit(t_var *var, t_lex *lex, t_pipe *pip, int exitcd);
 

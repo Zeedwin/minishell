@@ -52,7 +52,7 @@ void	check_eq(char *str)
 void	execve_builtin(char **s, t_var *var, t_lex *lex)
 {
 	t_ini	p;
-	void	*a;
+	//void	*a;
 
 	if (ft_strcmp(*s, "cd") == 0 || ft_strcmp(*s, "CD") == 0)
 		cd(s, var);
@@ -66,8 +66,8 @@ void	execve_builtin(char **s, t_var *var, t_lex *lex)
 		{
 			if (check_eq2(lex->s[var->z][p.i]) == 0)
 			{
-				(n(), a = g_global.cpyenv, g_global.cpyenv
-					= export(g_global.cpyenv, lex, var, p.i), free(a));
+				(n(), g_global.cpyenv
+					= export(g_global.cpyenv, lex, var, p.i));
 			}
 			p.i++;
 		}
