@@ -4,13 +4,10 @@ a
 b
 built-ins
 d
-e
 includes
-m
 minishell
 minishell.dSYM
 parsing
-q
 s
 tmp
 w

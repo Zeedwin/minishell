@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 12:50:29 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/01 13:54:39 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/01 16:15:20 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ int	point2(char *s)
 		return (0);
 	if (ft_strcmp(s, "/") == 0)
 		return (0);
-	if (check_slash(s) == 1)
-		return (0);
 	return (1);
 }
 
@@ -40,15 +38,18 @@ char	*space_change(char *s)
 	int		j;
 
 	i = 0;
-	while (s[i] != '\0' && s[i] == ' ')
+	while (s[i] != '\0' && (s[i] == ' ' || s[i] == '\t'))
 	{
 		i++;
 	}
-	s1 = malloc(sizeof(char) * (ft_strlen(s) + 1 - i));
+	s1 = malloc(sizeof(char) * (ft_strlen(s) + 2 - i));
 	j = 0;
 	while (s[i] != '\0')
 	{
-		s1[j] = s[i];
+		if (s[i] == '\t')
+			s1[j] = ' ';
+		else
+			s1[j] = s[i];
 		i++;
 		j++;
 	}
@@ -77,7 +78,7 @@ int	check_slash2(char *s)
 	i = 0;
 	while (s[i] != '\0')
 	{
-		if (s[i] != ' ' && s[i] != '/' && s[i] != '.')
+		if (s[i] != '/' && s[i] != '.')
 			return (1);
 		i++;
 	}

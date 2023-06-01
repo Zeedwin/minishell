@@ -70,43 +70,53 @@ int	lexer1(t_lex *l)
 char	*init_tab2(char *s, char **env, t_var *var)
 {
 	t_ini	ini;
+	char	*s2;
+	char	*s3;
 
 	(void)env;
 	(void)var;
-	s = space_change(s);
-	if (error_quote(s, &ini) == 0)
+	s2 = space_change(s);
+	if (error_quote(s2, &ini) == 0)
 	{
 		printf("quote open : error\n");
-		s = ft_strdup("");
+		s3 = ft_strdup("");
+		free(s2);
+		return (s3);
 	}
-	else if (point(s) == 1 || point2(s) == 0)
+	else if (point(s2) == 1 || point2(s2) == 0)
 	{
-		s = del_brak2(s);
+		s3 = del_brak2(s2);
 		printf("bash : %s: command not found\n", s);
-		s = ft_strdup("");
+		s3 = ft_strdup("");
+		free(s2);
+		return (s3);
 	}
-	s = change_tab(s);
-	s = del_par_com(s);
-	return (s);
+	s2 = change_tab(s2);
+	s2 = del_par_com(s2);
+	return (s2);
 }
 
 void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 {
 	char	*s2;
+	char	*s3;
 
-	s = init_tab2(s, env, var);
-	lex->s1 = ft_calloc((count(s, var) + 1), sizeof(char *));
-	lex->stoken = ft_calloc((count(s, var) + 1), sizeof(int));
-	lex->supatok = ft_calloc((count(s, var) + 1), sizeof(int));
+	s3 = init_tab2(s, env, var);
+	free(s);
+	s = ft_strdup(s3);
+	lex->s1 = ft_calloc((count(s3, var) + 1), sizeof(char *));
+	lex->stoken = ft_calloc((count(s3, var) + 1), sizeof(int));
+	lex->supatok = ft_calloc((count(s3, var) + 1), sizeof(int));
 	lex->x = 0;
 	lex->c = 0;
-	lex->y = count(s, var);
-	lex->ss = malloc(sizeof(char) * (ft_strlen(s) + 1));
-	lex->ss = ft_strcpy(lex->ss, s);
+	lex->y = count(s3, var);
+	lex->ss = malloc(sizeof(char) * (ft_strlen(s3) + 1));
+	lex->ss = ft_strcpy(lex->ss, s3);
 	s2 = lex->ss;
 	lexer1(lex);
-	lex->s1[count(s, var)] = NULL;
-	lex->stoken[count(s, var)] = TK_FIN;
-	lex->supatok[count(s, var)] = TK_FIN;
+	lex->s1[count(s3, var)] = NULL;
+	lex->stoken[count(s3, var)] = TK_FIN;
+	lex->supatok[count(s3, var)] = TK_FIN;
 	free(s2);
+	free(s3);
 }

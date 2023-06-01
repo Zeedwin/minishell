@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:48:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/01 02:41:00 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/06/01 16:15:51 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	**elp(t_lex *lex, t_var *var, t_init *ine)
 	{
 		if ((ft_strncmp(g_global.cpyenv[ine->i], lex->s[var->z][ine->exper],
 				equalfinder(g_global.cpyenv[ine->i])) == 0))
-			(n(), ine->check = 1,
+			(n(), ine->check = 1, free(ine->exp_env[ine->j]),
 				ine->exp_env[ine->j] = ft_strdup(lex->s[var->z][ine->exper]),
 					ine->j++);
 		else

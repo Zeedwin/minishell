@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:51:32 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/01 13:55:30 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/01 16:15:16 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,6 @@ void	exe_gen_test(t_lex *lex, t_var *var)
 {
 	if (lex->s[var->z] == NULL)
 		var->z++;
-	else if (check_empty(lex->s[var->z][0]) == 0)
-		(n(), printf("bash: : command not found\n"), var->z++);
 	else if (check_slash2(lex->s[var->z][0]) == 0)
 		(n(), printf("bash: %s : command not found\n",
 				lex->s[var->z][0]), var->z++);
