@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:42:56 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/25 21:26:03 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/06/01 14:50:18 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int	test_builtin(char **s)
 	{
 		if (s[1] != NULL && s[1][0] == '-' && s[1][1] == 'n' && s[0][2] == '\0')
 			return (2);
-		else
-			return (0);
+		return (2);
 	}
 	else if (ft_strcmp(s[0], "pwd") == 0)
 		return (2);
