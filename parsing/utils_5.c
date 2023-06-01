@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:18:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/29 11:47:44 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/06/01 02:09:59 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	break_p2(t_lex *lex, char *buffer, t_var *var)
 			close(var->fd_hdoc);
 			exit(0);
 		}
+		free(s);
 		write(var->fd_hdoc, buffer, num_read);
 	}
 }
