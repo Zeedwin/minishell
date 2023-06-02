@@ -47,7 +47,7 @@ int	equalfinder(char *path)
 
 char	**ft_strcpy_env(char **envp)
 {
-	int	i;
+	int		i;
 	int		len;
 	char	**cpyenv;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:20:28 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 15:02:36 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 16:11:33 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	process(t_var *var)
 	t_pipe	pip;
 	char	*lineread;
 
-	
 	(n(), lineread = NULL, var->bowlingboolean = 0);
 	(n(), process_ini(var), currpath(var), find_path(g_global.cpyenv, var));
 	if (var->last_pipe == 1)
@@ -50,8 +49,7 @@ void	process(t_var *var)
 		lineread = readline(var->promt);
 	if (!lineread)
 	{
-		free_final_d(&pip, var);
-		printf("exit\n");
+		(n(), printf("exit\n"), free_final_d(&pip, var));
 		exit(0);
 	}
 	var->line = malloc(sizeof(char) * (ft_strlen(lineread) + 1));
@@ -124,7 +122,6 @@ int	main(int ac, char **av, char **envp)
 	init_sign();
 	while (1)
 	{
-		//system("leaks minishell");
 		tcsetattr(1, TCSANOW, &tty);
 		process(&g_global);
 	}

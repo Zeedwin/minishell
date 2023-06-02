@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:48:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 15:22:11 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 16:17:13 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	if_in_quotes(char *s)
 char	**exportprint(char	**cpyenv, t_var *var)
 {
 	int	i;
-	(void)var;
 
+	(void)var;
 	i = -1;
 	while (g_global.cpyenv[++i])
 		printf("declare -x %s\n", g_global.cpyenv[i]);
@@ -87,10 +87,9 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var, int exp)
 	return (elp(lex, var, &ine, cpyenv));
 }
 
-char	**unset(char **cpyenvp, char *unsetstr, t_var *var)
+char	**unset(char **cpyenvp, char *unsetstr)
 {
 	t_init	ini;
-	(void)var;
 
 	if (!unsetstr[0])
 		return (g_global.cpyenv);
@@ -111,7 +110,8 @@ char	**unset(char **cpyenvp, char *unsetstr, t_var *var)
 		if (ft_strncmp(ini.cpycpy[ini.i], unsetstr, ini.c) == 0)
 			ini.i++;
 		else
-			(n(), ini.new_envp[ini.j] = ft_strdup_f(ini.cpycpy[ini.i]), ini.i++, ini.j++);
+			(n(), ini.new_envp[ini.j] = ft_strdup_f(ini.cpycpy[ini.i]),
+				ini.i++, ini.j++);
 	}
 	return (ini.new_envp[ini.j] = NULL, free_2(ini.cpycpy), ini.new_envp);
 }

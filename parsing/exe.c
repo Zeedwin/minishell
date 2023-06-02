@@ -33,51 +33,41 @@ int	exec_builtin_out(char **s, t_var *var, t_lex *lex, t_pipe *pip)
 	return (1);
 }
 
-void	check_eq(char *str)
+void	minexport(t_var *var, t_lex *lex)
 {
-	int	i;
+	t_ini	p;
+	char	**envtmp;
 
-	i = 0;
-	while (str[i])
+	p.i = 1;
+	if (!lex->s[var->z][1])
+		exportprint(g_global.cpyenv, var);
+	else
 	{
-		if (!str[i - 1] && str[i] == '=' && !str[i + 1])
+		while (lex->s[var->z] && lex->s[var->z][p.i]
+			&& check_empty(lex->s[var->z][p.i]))
 		{
-			printf("bash: export: `=': not a valid identifier\n");
-			g_global.last_err_com = 1;
+			if (check_eq2(lex->s[var->z][p.i], var) == 0)
+			{
+				(n(), envtmp = export2(g_global.cpyenv, lex, var, p.i),
+					free_2(g_global.cpyenv),
+					g_global.cpyenv = ft_strcpy_env(envtmp), free_2(envtmp));
+			}
+			p.i++;
 		}
-		i++;
 	}
 }
 
 void	execve_builtin(char **s, t_var *var, t_lex *lex)
 {
 	t_ini	p;
-	char	**envtmp;
 
 	if (ft_strcmp(*s, "cd") == 0 || ft_strcmp(*s, "CD") == 0)
 		cd(s, var);
 	p.i = 1;
 	if (ft_strcmp(*s, "export") == 0)
 	{
-		if (!lex->s[var->z][1])
-			exportprint(g_global.cpyenv, var);
-		else
-		{
-			while (lex->s[var->z] && lex->s[var->z][p.i]
-				&& check_empty(lex->s[var->z][p.i]))
-			{
-				if (check_eq2(lex->s[var->z][p.i], var) == 0)
-				{
-					envtmp = export2(g_global.cpyenv, lex, var, p.i);
-					free_2(g_global.cpyenv);
-					g_global.cpyenv = ft_strcpy_env(envtmp);
-					free_2(envtmp);
-				}
-				p.i++;
-			}
-		}
+		minexport(var, lex);
 	}
-	p.i = 1;
 	if (ft_strcmp(*s, "unset") == 0)
 		execve_un(var, lex);
 }

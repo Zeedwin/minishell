@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe2.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 12:22:17 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 14:59:32 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 16:17:57 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	execve_un(t_var *var, t_lex *lex)
 	i = 0;
 	while (lex->s[var->z][i] && lex->s[var->z][i] != NULL)
 	{
-		envtmp = unset(g_global.cpyenv, lex->s[var->z][i], var);
+		envtmp = unset(g_global.cpyenv, lex->s[var->z][i]);
 		free_2(g_global.cpyenv);
 		g_global.cpyenv = ft_strcpy_env(envtmp);
 		free_2(envtmp);

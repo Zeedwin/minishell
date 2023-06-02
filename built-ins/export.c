@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 11:17:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 12:54:20 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 16:33:20 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
+
 char	*ft_strdup_f(char *src)
 {
 	int		i;
@@ -31,8 +32,8 @@ char	*ft_strdup_f(char *src)
 
 char	*cpy_unset(char *s)
 {
-	int i;
-	char *s1;
+	int		i;
+	char	*s1;
 
 	i = 0;
 	while (s[i] != '\0' && s[i] != '=')
@@ -50,14 +51,14 @@ char	*cpy_unset(char *s)
 
 char	**export2(char **cenve, t_lex *lex, t_var *var, int i)
 {
-	char **retour;
-	int j;
-	char *char_unset;
-	char **cenv;
-	
+	char	**retour;
+	int		j;
+	char	*char_unset;
+	char	**cenv;
+
 	char_unset = cpy_unset(lex->s[var->z][i]);
 	j = 0;
-	cenv = unset(cenve, char_unset, var);
+	cenv = unset(cenve, char_unset);
 	retour = (char **)malloc(sizeof(char *) * (ft_strstrlen(cenv) + 2));
 	while (cenv[j] != NULL)
 	{

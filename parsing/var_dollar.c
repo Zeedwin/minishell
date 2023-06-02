@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_dollar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:43:50 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 14:09:41 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 16:12:35 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,8 @@ char	*change_value(char *s, char **env, t_var *var)
 	int		j;
 	int		o;
 	char	*s2;
-	(void)var;
 
-	o = ft_strlen(s);
-	i = 0;
-	s2 = NULL;
+	(n(), (void)var, o = ft_strlen(s), i = 0, s2 = NULL);
 	while (env[i])
 	{
 		j = 0;

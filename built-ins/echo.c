@@ -34,19 +34,13 @@ int	echo(t_var	*var, t_lex *lex)
 
 	i = 1;
 	if (lex->s[var->z][1] == NULL && ft_strcmp(lex->s[var->z][0], "echo") == 0)
-	{
-		printf("\n");
-		return (3);
-	}
+		return (printf("\n"), 3);
 	else if (lex->s[var->z][i] != NULL && check_n(lex->s[var->z][i]) == 1)
 	{
 		while (lex->s[var->z][i] != NULL && check_n(lex->s[var->z][i]) == 1)
 			i++;
 		while (lex->s[var->z][i] != NULL)
-		{
-			printf("%s ", lex->s[var->z][i]);
-			i++;
-		}
+			(n(), printf("%s ", lex->s[var->z][i]), i++);
 		return (0);
 	}
 	else if (lex->s[var->z][i] != NULL && check_n(lex->s[var->z][i]) == 0)
@@ -56,8 +50,7 @@ int	echo(t_var	*var, t_lex *lex)
 			printf("%s ", lex->s[var->z][i]);
 			i++;
 		}
-		printf("\n");
-		return (0);
+		return (printf("\n"), 0);
 	}
 	return (0);
 }
