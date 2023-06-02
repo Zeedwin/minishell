@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:48:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/01 16:15:51 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 13:01:19 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,27 +32,27 @@ int	if_in_quotes(char *s)
 	return (0);
 }
 
-char	**exportprint(char	**cpyenv)
+char	**exportprint(char	**cpyenv, t_var *var)
 {
 	int	i;
 
 	i = -1;
-	while (g_global.cpyenv[++i])
-		printf("declare -x %s\n", g_global.cpyenv[i]);
+	while (var->cpyenv[++i])
+		printf("declare -x %s\n", var->cpyenv[i]);
 	return (cpyenv);
 }
 
-char	**elp(t_lex *lex, t_var *var, t_init *ine)
+char	**elp(t_lex *lex, t_var *var, t_init *ine, char	**cpyenv)
 {
-	while (g_global.cpyenv[ine->i])
+	while (var->cpyenv[ine->i])
 	{
-		if ((ft_strncmp(g_global.cpyenv[ine->i], lex->s[var->z][ine->exper],
-				equalfinder(g_global.cpyenv[ine->i])) == 0))
+		if ((ft_strncmp(var->cpyenv[ine->i], lex->s[var->z][ine->exper],
+				equalfinder(var->cpyenv[ine->i])) == 0))
 			(n(), ine->check = 1, free(ine->exp_env[ine->j]),
 				ine->exp_env[ine->j] = ft_strdup(lex->s[var->z][ine->exper]),
 					ine->j++);
 		else
-			(n(), ine->exp_env[ine->j] = ine->cpycpy[ine->i], ine->j++);
+			(n(), ine->exp_env[ine->j] = cpyenv[ine->i], ine->j++);
 		ine->i++;
 	}
 	if (ine->check == 1)
@@ -65,34 +65,34 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var, int exp)
 {
 	t_init	ine;
 
+	printf("sdasds\n");
 	if (!lex->s[var->z][1])
-		return (exportprint(cpyenv));
+		return (exportprint(cpyenv, var));
 	ine.exper = exp;
 	(n(), ine.check = 0, ine.len = 0,
-		ine.i = 0, ine.j = 0, ine.cpycpy = NULL);
-	(n(), ine.cpycpy = ft_strcpy_env(ine.cpycpy, cpyenv), ine.i = 0);
-	while (ine.cpycpy[ine.i])
+		ine.i = 0, ine.j = 0);
+	while (cpyenv[ine.i])
 	{
-		if ((ft_strncmp(ine.cpycpy[ine.i], lex->s[var->z][exp],
-				equalfinder(ine.cpycpy[ine.i])) == 0))
+		if ((ft_strncmp(cpyenv[ine.i], lex->s[var->z][exp],
+				equalfinder(cpyenv[ine.i])) == 0))
 			ine.len--;
 		(n(), ine.i++, ine.len++);
 	}
 	if (ine.len < 0)
-		return (free(ine.cpycpy), NULL);
+		return (free_2(cpyenv), NULL);
 	ine.exp_env = malloc(sizeof(char *) * (ine.len + 2));
 	if (!ine.exp_env)
 		return (NULL);
 	ine.i = 0;
-	return (elp(lex, var, &ine));
+	return (elp(lex, var, &ine, cpyenv));
 }
 
-char	**unset(char **cpyenvp, char *unsetstr)
+char	**unset(char **cpyenvp, char *unsetstr, t_var *var)
 {
 	t_init	ini;
 
 	if (!unsetstr[0])
-		return (g_global.cpyenv);
+		return (var->cpyenv);
 	(n(), ini.k = 0, ini.i = 0, ini.c = ft_strlen(unsetstr),
 		ini.cpycpy = ft_strcpy_env(cpyenvp, cpyenvp));
 	while (ini.cpycpy[ini.i])
@@ -110,7 +110,7 @@ char	**unset(char **cpyenvp, char *unsetstr)
 		if (ft_strncmp(ini.cpycpy[ini.i], unsetstr, ini.c) == 0)
 			ini.i++;
 		else
-			(n(), ini.new_envp[ini.j] = ini.cpycpy[ini.i], ini.i++, ini.j++);
+			(n(), ini.new_envp[ini.j] = ft_strdup(ini.cpycpy[ini.i]), ini.i++, ini.j++);
 	}
-	return (ini.new_envp[ini.j] = NULL, free(ini.cpycpy), ini.new_envp);
+	return (ini.new_envp[ini.j] = NULL, free_2(ini.cpycpy), ini.new_envp);
 }

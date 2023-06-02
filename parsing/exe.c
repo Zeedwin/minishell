@@ -20,7 +20,7 @@ int	exec_builtin_out(char **s, t_var *var, t_lex *lex, t_pipe *pip)
 		var->last_err_com = 0;
 	}
 	else if (ft_strcmp(*s, "env") == 0 || ft_strcmp(*s, "ENV") == 0)
-		env(g_global.cpyenv);
+		env(var->cpyenv);
 	else if (ft_strcmp(*s, "echo") == 0)
 		echo(var, lex);
 	else if (ft_strcmp(lex->s[var->z][0], "exit") == 0)
@@ -52,7 +52,7 @@ void	check_eq(char *str)
 void	execve_builtin(char **s, t_var *var, t_lex *lex)
 {
 	t_ini	p;
-	void	*a;
+	char	**envtmp;
 
 	if (ft_strcmp(*s, "cd") == 0 || ft_strcmp(*s, "CD") == 0)
 		cd(s, var);
@@ -60,16 +60,21 @@ void	execve_builtin(char **s, t_var *var, t_lex *lex)
 	if (ft_strcmp(*s, "export") == 0)
 	{
 		if (!lex->s[var->z][1])
-			exportprint(g_global.cpyenv);
-		while (lex->s[var->z] && lex->s[var->z][p.i]
-			&& check_empty(lex->s[var->z][p.i]))
+			exportprint(var->cpyenv, var);
+		else
 		{
-			if (check_eq2(lex->s[var->z][p.i]) == 0)
+			while (lex->s[var->z] && lex->s[var->z][p.i]
+				&& check_empty(lex->s[var->z][p.i]))
 			{
-				(n(), a = g_global.cpyenv, g_global.cpyenv
-					= export(g_global.cpyenv, lex, var, p.i), free(a));
+				if (check_eq2(lex->s[var->z][p.i], var) == 0)
+				{
+					envtmp = export2(var->cpyenv, lex, var, p.i);
+					free_2(var->cpyenv);
+					var->cpyenv = ft_strcpy_env(var->cpyenv, envtmp);
+					free_2(envtmp);
+				}
+				p.i++;
 			}
-			p.i++;
 		}
 	}
 	p.i = 1;

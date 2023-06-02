@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:20:28 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/29 23:26:05 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/06/02 13:07:44 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,16 @@ void	process(t_var *var)
 	t_pipe	pip;
 	char	*lineread;
 
+	
 	(n(), lineread = NULL, var->bowlingboolean = 0);
-	(n(), process_ini(var), currpath(var), find_path(g_global.cpyenv, var));
+	(n(), process_ini(var), currpath(var), find_path(var->cpyenv, var));
 	if (var->last_pipe == 1)
 		lineread = readline(">");
 	else
 		lineread = readline(var->promt);
 	if (!lineread)
 	{
+		free_final_d(&pip, var);
 		printf("exit\n");
 		exit(0);
 	}
@@ -110,7 +112,7 @@ int	main(int ac, char **av, char **envp)
 	if (g_global.cpyenv[0] == NULL)
 	{
 		printf("\033[1;91mError: No environment detected\n");
-		return (1);
+		return (0);
 	}
 	g_global.exitcode = 0;
 	g_global.last_err_com = 0;

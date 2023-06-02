@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:47:01 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/01 16:10:34 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 13:10:23 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,20 +48,20 @@ void	execute_final(char **s, char **env, t_var *var, t_lex *lex)
 		cmdpath = 0;
 	if (cmdpath == 0)
 	{
-		execute_final2(s, var);
+		execute_final2(s, var, lex, pip);
 		return ;
 	}
 	else
 		execute_final22(cmdpath, s, env);
 }
 
-int	check_eq2(char *str)
+int	check_eq2(char *str, t_var *var)
 {
 	int	i;
 
 	i = 0;
 	if (str[0] == '$')
-		return (exportprint(g_global.cpyenv), 1);
+		return (exportprint(var->cpyenv, var), 1);
 	while (str[i])
 	{
 		if (isalpha(str[i]) == 0 && !str[i + 1])

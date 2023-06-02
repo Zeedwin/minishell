@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:03:37 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/01 16:15:38 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 13:04:22 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,3 +78,19 @@ void	free_final(t_lex *lex, t_pipe *pip, t_var *var)
 	if (var && var->shell)
 		free(var->shell);
 }
+
+void	free_final_d(t_pipe *pip, t_var *var)
+{
+	(void)pip;
+
+	if (var && var->promt)
+		free(var->promt);
+	if (var && var->path)
+		free_2(var->path);
+	if (var && var->cpyenv)
+	{
+		free_2(var->cpyenv);
+	}
+}
+
+

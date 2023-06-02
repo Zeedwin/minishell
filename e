@@ -1,6 +1,5 @@
 Makefile
 R
-a
 b
 built-ins
 d
@@ -13,4 +12,3 @@ parsing
 q
 s
 tmp
-w

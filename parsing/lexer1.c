@@ -9,7 +9,6 @@
 /*   Updated: 2023/04/27 10:15:23 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../includes/shell.h"
 
 int	lexer3(t_lex *l, int i, int code)
@@ -102,7 +101,6 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	char	*s3;
 
 	s3 = init_tab2(s, env, var);
-	free(s);
 	s = ft_strdup(s3);
 	lex->s1 = ft_calloc((count(s3, var) + 1), sizeof(char *));
 	lex->stoken = ft_calloc((count(s3, var) + 1), sizeof(int));
@@ -119,4 +117,5 @@ void	init_tab(t_lex *lex, char *s, char **env, t_var *var)
 	lex->supatok[count(s3, var)] = TK_FIN;
 	free(s2);
 	free(s3);
+	free(s);
 }

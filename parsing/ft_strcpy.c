@@ -63,7 +63,7 @@ char	**ft_strcpy_env(char **cpyenv, char **envp)
 		return (NULL);
 	while (envp[i])
 	{
-		cpyenv[i] = envp[i];
+		cpyenv[i] = ft_strdup_f(envp[i]);
 		i++;
 	}
 	cpyenv[i] = NULL;

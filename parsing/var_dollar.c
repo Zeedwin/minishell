@@ -6,13 +6,13 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:43:50 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 17:31:04 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 11:54:07 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
-char	*change_value(char *s, char **env)
+char	*change_value(char *s, char **env, t_var *var)
 {
 	int		i;
 	int		j;
@@ -28,7 +28,7 @@ char	*change_value(char *s, char **env)
 		if (ft_strncmp(env[i], s, ft_strlen(s)) == 0)
 		{
 			s2 = malloc(sizeof(char) * (ft_strlen(env[i]) - ft_strlen(s) + 1));
-			while (g_global.cpyenv[i][o] != '\0')
+			while (var->cpyenv[i][o] != '\0')
 			{
 				s2[j] = env[i][o];
 				j++;
