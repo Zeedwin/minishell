@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe1.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:47:01 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 19:02:46 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/06/02 19:08:13 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	execute_final(char **s, t_var *var, t_lex *lex, t_pipe *pip)
 	if (var->z >= 2 && lex->supatok[var->z - 1] == TK_PIPE
 		&& lex->supatok[var->z - 2] == TK_BOUT)
 	{
-		(n(), close(var->fd), var->fd = open("tmp/tmp.txt", O_RDWR, 0777));
+		(n(), close(var->fd), var->fd = open("/tmp/tmp.txt", O_RDWR, 0777));
 		dup2(var->fd, STDIN_FILENO);
 	}
 	cmdpath = find_cmd_path(var, s[0]);

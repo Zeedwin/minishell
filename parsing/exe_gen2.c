@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:51:32 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 16:36:34 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 19:05:55 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	fd_redir(t_var	*var)
 {
 	close(var->fd);
-	var->fd = open("tmp/tmp.txt", O_CREAT
+	var->fd = open("/tmp/tmp.txt", O_CREAT
 			| O_TRUNC | O_RDONLY, 0777);
 	dup2(var->fd, STDIN_FILENO);
 }
@@ -23,7 +23,7 @@ void	fd_redir(t_var	*var)
 void	fd_reinit(t_var	*var)
 {
 	close(var->fd);
-	var->fd = open("tmp/tmp.txt", O_RDONLY, 0777);
+	var->fd = open("/tmp/tmp.txt", O_RDONLY, 0777);
 	printf("spopop\n");
 }
 

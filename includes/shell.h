@@ -177,8 +177,8 @@ typedef struct s_ini
 
 char	*replace_dol_env(char *s, int i);
 char	**ft_realloc2(char **map, int i);
-char	*dol_replace2(char *s, t_var *var);
-char	*dol_replace3(char *s, char **env);
+char	*dol_replace2(char *s, t_var *var, int p);
+char	*dol_replace3(char *s, char **env, int p);
 char	*ft_replace_dol_in(char *s, char *res);
 int		check_export(char *s);
 char	**exportprint(char	**cpyenv, t_var *var);
@@ -208,6 +208,7 @@ char	*ft_realloc(char *map, int i);
 void	execute_final(char **s, t_var *var, t_lex *lex, t_pipe *pip);
 void	process(t_var *var);
 int		ft_malloc(t_lex *lex);
+char	*dol_replace2(char *s, t_var *var, int p);
 void	free_final_d(t_pipe *pip, t_var *var);
 char	*ft_strdup_f(char *src);
 void	turbotokenizer2(t_lex *lex);

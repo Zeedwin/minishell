@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:37:26 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/01 14:36:04 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 18:02:06 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,15 @@ int	miniredir_s3(t_lex *lex, t_var *var)
 			close(var->fd_s);
 		var->fd_s = open(lex->s[var->z + var->i + 1][0],
 				O_CREAT | O_WRONLY | O_TRUNC, 0777);
+		if (var->fd_s == -1 && errno == EACCES)
+		{
+			if (var->fail_dir == 0)
+				printf("bash: permission denied: %s\n",
+					lex->s[var->z + var->i + 1][0]);
+			var->fail_dir = 1;
+			g_global.last_err_com = 1;
+			return (1);
+		}
 		var->memo = var->z + var->i + 1;
 	}
 	else if (lex->supatok[var->z + var->i] == TK_REDIR_E)

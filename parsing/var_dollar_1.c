@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   var_dollard_1.c                                    :+:      :+:    :+:   */
+/*   var_dollar_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:32:16 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/27 16:55:08 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/06/02 19:25:17 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,15 @@ char	*ft_replace_dol_in(char *s, char *res)
 	return (s2[j] = '\0', free(s), s2);
 }
 
-char	*dol_replace2(char *s, t_var *var)
+char	*dol_replace2(char *s, t_var *var, int p)
 {
 	int		i;
 	char	*res;
 
 	(n(), res = ft_itoa(var->last_err_com), i = 0);
+	if (p == 1)
+		while (s[i] != '\0' && s[i] != '=')
+			i++;
 	while (s[i] != '\0')
 	{
 		if (s[i] == '\'')

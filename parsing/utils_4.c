@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:00:20 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 14:09:41 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 19:05:55 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@ int	miniredir_s4(t_lex *lex, t_var *var)
 			close (var->fd_s);
 		var->fd_s = open(lex->s[var->z + var->i + 1][0],
 				O_CREAT | O_APPEND | O_WRONLY, 0777);
+		if (var->fd_s == -1 && errno == EACCES)
+		{
+			if (var->fail_dir == 0)
+				printf("bash: permission denied: %s\n",
+					lex->s[var->z + var->i + 1][0]);
+			var->fail_dir = 1;
+			return (0);
+		}
 		var->memo = var->z + var->i + 1;
 	}
 	else if (lex->supatok[var->z + var->i] == TK_REDIR_E2)
@@ -27,7 +35,7 @@ int	miniredir_s4(t_lex *lex, t_var *var)
 		var->did_fail |= break_p(lex, var);
 		if (var->fd_e != -2)
 			close (var->fd_e);
-		var->fd_e = open("tmp/tmp.txt", O_RDWR, 0777);
+		var->fd_e = open("/tmp/tmp.txt", O_RDWR, 0777);
 	}
 	if (var->z > 0 && var->check_after_redir == 0)
 		lex->s[var->z - 1] = add_after_redir(
@@ -102,7 +110,7 @@ int	miniredir_s8(t_lex *lex, t_var *var, int fdtmp, t_pipe *pip)
 		if (lex->supatok[var->z + 2] == TK_PIPE)
 		{
 			close(var->fd);
-			var->fd = open("tmp/tmp.txt", O_CREAT | O_TRUNC | O_RDWR, 0777);
+			var->fd = open("/tmp/tmp.txt", O_CREAT | O_TRUNC | O_RDWR, 0777);
 			dup2(var->fd, STDOUT_FILENO);
 		}
 		if (var->fd_s != -2 && find_cmd_path(var,
@@ -140,7 +148,7 @@ int	miniredir_s7(t_lex *lex, t_var *var, t_pipe *pip)
 		&& lex->supatok[var->z - 2] == TK_BOUT
 		&& lex->supatok[var->z - 1] != TK_NULL)
 	{		
-		var->fd = open("tmp/tmp.txt", O_RDWR, 0777);
+		var->fd = open("/tmp/tmp.txt", O_RDWR, 0777);
 		dup2(var->fd, STDIN_FILENO);
 		return (0);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_dollar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:43:50 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 16:12:35 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/06/02 19:36:18 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,13 +104,16 @@ int	ini_i(char *s, int i)
 	return (i);
 }
 
-char	*dol_replace3(char *s, char **env)
+char	*dol_replace3(char *s, char **env, int p)
 {
 	char	*s1;
 	char	*s2;
 	int		i;
 
 	i = 0;
+	if (p == 1)
+		while (s[i] != '\0' && s[i] != '=')
+			i++;
 	while (s[i] != '\0')
 	{
 		if (s[i] == '\'')
@@ -124,6 +127,7 @@ char	*dol_replace3(char *s, char **env)
 			else
 				s = replace_no_dol(s, s1);
 			(n(), free(s2), free(s1));
+			i += ft_strlen(s2);
 		}
 		else
 			i++;

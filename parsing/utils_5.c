@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:18:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 17:29:57 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 19:05:55 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	break_p2(t_lex *lex, char *buffer, t_var *var)
 	num_read = 0;
 	var->is_in_heredoc = 2;
 	g_global.lacontedetagrandmere += 1;
-	var->fd_hdoc = open("tmp/tmp.txt", O_CREAT | O_RDWR | O_TRUNC, 0777);
+	var->fd_hdoc = open("/tmp/tmp.txt", O_CREAT | O_RDWR | O_TRUNC, 0777);
 	while (1)
 	{
 		num_read = read(STDIN_FILENO, buffer, BUF_SIZE);
@@ -77,7 +77,7 @@ void	minipipe2(t_var *var, t_pipe *pip)
 void	minipipe3(t_var *var, t_lex *lex, int fdtmp, t_pipe *pip)
 {
 	close(var->fd);
-	var->fd = open("tmp/tmp.txt", O_CREAT | O_RDWR | O_TRUNC, 0777);
+	var->fd = open("/tmp/tmp.txt", O_CREAT | O_RDWR | O_TRUNC, 0777);
 	dup2(var->fd, STDOUT_FILENO);
 	close(var->fd);
 	exec_builtin_out(lex->s[var->z - 1], var, lex, pip);

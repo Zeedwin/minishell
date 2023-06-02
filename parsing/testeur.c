@@ -103,7 +103,9 @@ void	turbotokenizer(t_lex *lex)
 	i = 0;
 	while (lex->s[i])
 	{
-		if (lex->s[i][0][0] == '|')
+		if (lex->s[i][0] == NULL)
+			lex->supatok[i] = TK_NULL;
+		else if (lex->s[i][0][0] == '|')
 			lex->supatok[i] = TK_PIPE;
 		else if (lex->s[i][0][0] == '<' || lex->s[i][0][0] == '>')
 			turbotokenizer1(lex, i);

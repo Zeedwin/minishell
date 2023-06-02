@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_dollar_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:35:19 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/05/29 15:15:17 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/06/02 19:26:47 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,22 +42,26 @@ char	*replace_no_dol(char *s, char *s1)
 char	***dol_replace1(char ***s, t_var *var, char **env)
 {
 	t_ini	i;
+	int		p;
 
 	i.i = 0;
+	p = 0;
 	while (s != NULL && s[i.i] != NULL)
 	{
 		i.j = 0;
 		while (s[i.i][i.j] != NULL)
 		{
-			if (check_redir(s[i.i][i.j]) == 1 || check_export(s[i.i][i.j]))
+			if (check_redir(s[i.i][i.j]) == 1)
 			{
 				i.i++;
 				break ;
 			}
 			else
 			{
-				s[i.i][i.j] = dol_replace2(s[i.i][i.j], var);
-				s[i.i][i.j] = dol_replace3(s[i.i][i.j], env);
+				if (check_export(s[i.i][i.j]))
+					p = 1;
+				s[i.i][i.j] = dol_replace2(s[i.i][i.j], var, p);
+				s[i.i][i.j] = dol_replace3(s[i.i][i.j], env, p);
 			}
 			i.j++;
 		}
