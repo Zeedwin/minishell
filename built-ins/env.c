@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:48:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 14:56:25 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 15:22:11 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var, int exp)
 {
 	t_init	ine;
 
-	printf("sdasds\n");
 	if (!lex->s[var->z][1])
 		return (exportprint(cpyenv, var));
 	ine.exper = exp;
