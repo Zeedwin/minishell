@@ -205,7 +205,7 @@ void	rl_replace_line(const char *text, int clear_undo);
 char	*replace_dol_(char *s, int i, t_ini *ini);
 void	n(void);
 char	*ft_realloc(char *map, int i);
-void	execute_final(char **s, char **env, t_var *var, t_lex *lex);
+void	execute_final(char **s, t_var *var, t_lex *lex, t_pipe *pip);
 void	process(t_var *var);
 int		ft_malloc(t_lex *lex);
 void	free_final_d(t_pipe *pip, t_var *var);

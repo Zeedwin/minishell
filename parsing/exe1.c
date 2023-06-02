@@ -6,13 +6,13 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:47:01 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 13:10:23 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 13:22:20 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
 
-void	execute_final2(char **s, t_var *var)
+void	execute_final2(char **s, t_var *var, t_lex *lex, t_pipe *pip)
 {
 	if (g_global.lacontedetagrandmere > 0)
 		g_global.exitcode = 130;
@@ -26,10 +26,11 @@ void	execute_final2(char **s, t_var *var)
 	else if (g_global.exitcode == 130 && var->fail_dir == 0)
 		printf("bash : %d: command not found\n", g_global.last_err_com);
 	close(var->fd);
+	free_final(lex, pip, var);
 	exit(g_global.exitcode);
 }
 
-void	execute_final(char **s, char **env, t_var *var, t_lex *lex)
+void	execute_final(char **s, t_var *var, t_lex *lex, t_pipe *pip)
 {
 	char	*cmdpath;
 
@@ -52,7 +53,7 @@ void	execute_final(char **s, char **env, t_var *var, t_lex *lex)
 		return ;
 	}
 	else
-		execute_final22(cmdpath, s, env);
+		execute_final22(cmdpath, s, var->cpyenv);
 }
 
 int	check_eq2(char *str, t_var *var)

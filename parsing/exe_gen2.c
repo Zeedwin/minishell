@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:51:32 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 11:52:47 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 13:15:44 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	fd_reinit(t_var	*var)
 	var->fd = open("tmp/tmp.txt", O_RDONLY, 0777);
 }
 
-void	child_pro(t_lex *lex, t_var *var)
+void	child_pro(t_lex *lex, t_var *var, t_pipe *pip)
 {
 	if (var->z > 2 && (lex->supatok[var->z - 3] == TK_REDIR_S
 			|| lex->supatok[var->z - 3] == TK_REDIR_S2)
@@ -48,7 +48,7 @@ void	child_pro(t_lex *lex, t_var *var)
 			fd_reinit(var);
 		dup2(var->fd, STDIN_FILENO);
 	}
-	execute_final(lex->s[var->z], var->cpyenv, var, lex);
+	execute_final(lex->s[var->z], var, lex, pip);
 }
 
 int	pro(t_lex *lex, t_var *var, t_pipe *pip)
@@ -59,7 +59,7 @@ int	pro(t_lex *lex, t_var *var, t_pipe *pip)
 		var->shell[var->pidnum] = fork();
 		if (var->shell[var->pidnum] == 0)
 		{
-			child_pro(lex, var);
+			child_pro(lex, var, pip);
 		}
 		else
 		{
