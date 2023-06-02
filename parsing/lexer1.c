@@ -84,7 +84,7 @@ char	*init_tab2(char *s, char **env, t_var *var)
 	{
 		t = s;
 		s = del_brak2(s);
-		//free(t);
+		free(t);
 		printf("bash : %s: command not found\n", s);
 		free(s);
 		s = ft_strdup("");

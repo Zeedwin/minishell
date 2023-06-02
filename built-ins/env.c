@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:48:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/01 23:29:40 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/06/02 03:47:37 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var, int exp)
 {
 	t_init	ine;
 
+	printf("sdasds\n");
 	if (!lex->s[var->z][1])
 		return (exportprint(cpyenv));
 	ine.exper = exp;
@@ -86,46 +87,95 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var, int exp)
 	return (elp(lex, var, &ine, cpyenv));
 }
 
-int	expsize(char **cpyenv, char	*var, char *lex)
-{
-	while ( condition )
-	{
-		code 
-	}
-	
-}
-
-char	**export_la_renaissance(char **cpyenv, t_var *var, t_lex *lex)
+/*
+char	**exportv2(char **cpyenv, t_var *var, t_lex *lex)
 {
 	int	i;
 	int k;
+	int j;
 	int size;
+	int counter;
+	int	*tab;
 
 	i = 0;
+	j = 0;
+	counter = 0;
 	k = 1;
 	size = 0;
-	
+
 	while (cpyenv[i])
 		i++;
 	while (lex->s[var->z][k])
 		k++;
+	tab = malloc(sizeof(int *) * k + 1);
 	size = k + i;
 	k = 1;
 	while (lex->s[var->z][k])
 	{
 		if (check_eq2(lex->s[var->z][k]) != 0)
 			size--;
+		size++;
 		k++;
 	}
+	i = 0;
+	k = 1;
 	while (cpyenv[i])
 	{
-		if (ft_strcmp(cpyenv, ))
+		if (ft_strncmp(cpyenv[i], lex->s[var->z][k], equalfinder(cpyenv[i])) == 0)
+		{
+			printf("yeyo\n");
+			size--;
+		}
+		size++;
 		i++;
 	}
-	
+	counter = 0;
 	var->lrn = malloc(sizeof(char *) * (size + 1));
-	
-}
+	k = 1;
+	while (lex->s[var->z][k])
+	{	
+		i = 0;
+		while(cpyenv[i])
+		{
+			if (ft_strncmp(cpyenv[i], lex->s[var->z][k], equalfinder(cpyenv[i])) == 0)
+			{
+				var->lrn[j] = ft_strdup(lex->s[var->z][k]);
+				tab[counter] = 1;
+				counter++;
+			}
+			else
+				var->lrn[j] = ft_strdup(cpyenv[i]);
+			i++;
+			j++;
+		}
+		k++;
+	}
+	i = 0;
+	tab[i] = 0;
+	while (tab[i])
+	{
+		tab[i] = 0;
+		i++;
+	}
+	i = 0;
+	while (tab[i])
+	{
+		if(tab[i] == 1)
+			i++;
+		var->lrn[j] = ft_strdup(lex->s[var->z][i + 1]);
+		i++;
+		j++;
+	}
+	var->lrn[j + 1] = 0;
+	j = 0;
+	while (var->lrn[j])
+	{
+		printf("var[%d] = %s\n", j,  var->lrn[j]);
+		j++;
+	}
+	printf("alooo %d\n", size);
+	return(var->lrn);
+}*/
 
 char	**unset(char **cpyenvp, char *unsetstr)
 {
