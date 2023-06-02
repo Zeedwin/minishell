@@ -1,7 +1,7 @@
 NAME        := minishell
 CC        := gcc
 FLAGS    := -Wall -Wextra -Werror -g -I/Users/$(USER)/homebrew/opt/readline/include
-LDFLAGS :=  -lreadline -L/Users/$(USER)/.brew/opt/readline/lib -lreadline -lhistory  -g
+LDFLAGS :=  -lreadline -L/Users/$(USER)/homebrew/opt/readline/lib -lreadline -lhistory  -g
 SRCS		:=    		  built-ins/export.c \
 						  parsing/utils_7.c \
 						  parsing/utils_lexer3.c \

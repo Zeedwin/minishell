@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_7.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/01 13:57:24 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 20:32:32 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/06/02 20:44:23 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ char	*dol_replace3(char *s, char **env, int p)
 			&& s[i + 1] != '"' && s[i + 1] != '\'' && s[i + 1] != '$')
 		{
 			(n(), s1 = replace_dol_env(s, i), s2 = replace_dol_env2(s1, env));
-			s = dolr_n(s1, s2, s);
+			(n(), s = dolr_n(s1, s2, s), free(s1), free(s2));
 		}
 		else
 			i++;
