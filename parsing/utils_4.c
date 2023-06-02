@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:00:20 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 13:22:20 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 14:09:41 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	miniredir_s5(t_lex	*lex, t_var *var, t_pipe *pip)
 		|| lex->supatok[var->z] == TK_REDIR_E2))
 		dup2(pip->tube[1], STDOUT_FILENO);
 	close(pip->tube[0]);
-	execute(lex->s[var->z - 1], var->cpyenv, var);
+	execute(lex->s[var->z - 1], g_global.cpyenv, var);
 }
 
 void	miniredir_s6(t_lex *lex, t_var *var, t_pipe *pip)

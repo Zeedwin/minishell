@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 12:22:17 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 13:22:20 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 14:59:32 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,15 @@ void	execute(char **s, char **env, t_var *var)
 void	execve_un(t_var *var, t_lex *lex)
 {
 	int		i;
-	void	*a;
+	char	**envtmp;
 
 	i = 0;
 	while (lex->s[var->z][i] && lex->s[var->z][i] != NULL)
-		(n(), a = var->cpyenv, var->cpyenv
-			= unset(var->cpyenv, lex->s[var->z][i], var), i++, free(a));
+	{
+		envtmp = unset(g_global.cpyenv, lex->s[var->z][i], var);
+		free_2(g_global.cpyenv);
+		g_global.cpyenv = ft_strcpy_env(envtmp);
+		free_2(envtmp);
+		i++;
+	}
 }

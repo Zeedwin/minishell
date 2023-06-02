@@ -320,7 +320,7 @@ char	**unset(char **cpyenvp, char *unsetstr, t_var *var);
 int		exec_builtin_out(char **s, t_var *var, t_lex *lex, t_pipe *pip);
 int		echo(t_var	*var, t_lex *lex);
 void	pwd(void);
-char	**ft_strcpy_env(char **cpyenv, char **envp);
+char	**ft_strcpy_env(char **envp);
 void	env(char **cpyenv);
 void	ft_exit(t_var *var, t_lex *lex, t_pipe *pip, int exitcd);
 

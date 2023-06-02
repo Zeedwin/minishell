@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:03:37 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 13:44:13 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 14:09:41 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ void	free_final_d(t_pipe *pip, t_var *var)
 		free(var->promt);
 	if (var && var->path)
 		free_2(var->path);
-	if (var && var->cpyenv)
+	if (var && g_global.cpyenv)
 	{
-		free_2(var->cpyenv);
+		free_2(g_global.cpyenv);
 	}
 }
 

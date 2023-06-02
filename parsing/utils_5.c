@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:18:43 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 13:22:20 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 14:09:41 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	minipipe1(t_var *var, t_pipe *pip, t_lex *lex)
 		dup2(pip->tube[1], STDOUT_FILENO);
 	close(pip->tube[0]);
 	if (lex->supatok[var->z - 1] == TK_WORD)
-		execute(lex->s[var->z - 1], var->cpyenv, var);
+		execute(lex->s[var->z - 1], g_global.cpyenv, var);
 	exit (0);
 }
 

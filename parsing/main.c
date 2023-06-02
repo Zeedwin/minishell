@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:20:28 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 13:41:24 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 15:02:36 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	process(t_var *var)
 
 	
 	(n(), lineread = NULL, var->bowlingboolean = 0);
-	(n(), process_ini(var), currpath(var), find_path(var->cpyenv, var));
+	(n(), process_ini(var), currpath(var), find_path(g_global.cpyenv, var));
 	if (var->last_pipe == 1)
 		lineread = readline(">");
 	else
@@ -56,6 +56,7 @@ void	process(t_var *var)
 	}
 	var->line = malloc(sizeof(char) * (ft_strlen(lineread) + 1));
 	(n(), var->line = ft_strcpy(var->line, lineread));
+	free(lineread);
 	if (check_empty(var->line) == 1)
 		add_history(var->line);
 	(n(), var->pidnum = 0, process_init(&lex, var));
@@ -108,7 +109,7 @@ int	main(int ac, char **av, char **envp)
 	tty.c_lflag &= ~ECHOCTL;
 	(void)ac;
 	(void)av;
-	g_global.cpyenv = ft_strcpy_env(g_global.cpyenv, envp);
+	g_global.cpyenv = ft_strcpy_env(envp);
 	if (g_global.cpyenv[0] == NULL)
 	{
 		printf("\033[1;91mError: No environment detected\n");
@@ -123,6 +124,7 @@ int	main(int ac, char **av, char **envp)
 	init_sign();
 	while (1)
 	{
+		//system("leaks minishell");
 		tcsetattr(1, TCSANOW, &tty);
 		process(&g_global);
 	}

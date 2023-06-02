@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:48:09 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 13:22:20 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 14:56:25 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,20 @@ int	if_in_quotes(char *s)
 char	**exportprint(char	**cpyenv, t_var *var)
 {
 	int	i;
+	(void)var;
 
 	i = -1;
-	while (var->cpyenv[++i])
-		printf("declare -x %s\n", var->cpyenv[i]);
+	while (g_global.cpyenv[++i])
+		printf("declare -x %s\n", g_global.cpyenv[i]);
 	return (cpyenv);
 }
 
 char	**elp(t_lex *lex, t_var *var, t_init *ine, char	**cpyenv)
 {
-	while (var->cpyenv[ine->i])
+	while (g_global.cpyenv[ine->i])
 	{
-		if ((ft_strncmp(var->cpyenv[ine->i], lex->s[var->z][ine->exper],
-				equalfinder(var->cpyenv[ine->i])) == 0))
+		if ((ft_strncmp(g_global.cpyenv[ine->i], lex->s[var->z][ine->exper],
+				equalfinder(g_global.cpyenv[ine->i])) == 0))
 			(n(), ine->check = 1, free(ine->exp_env[ine->j]),
 				ine->exp_env[ine->j] = ft_strdup(lex->s[var->z][ine->exper]),
 					ine->j++);
@@ -90,11 +91,12 @@ char	**export(char **cpyenv, t_lex *lex, t_var *var, int exp)
 char	**unset(char **cpyenvp, char *unsetstr, t_var *var)
 {
 	t_init	ini;
+	(void)var;
 
 	if (!unsetstr[0])
-		return (var->cpyenv);
+		return (g_global.cpyenv);
 	(n(), ini.k = 0, ini.i = 0, ini.c = ft_strlen(unsetstr),
-		ini.cpycpy = ft_strcpy_env(cpyenvp, cpyenvp));
+		ini.cpycpy = ft_strcpy_env(cpyenvp));
 	while (ini.cpycpy[ini.i])
 	{
 		if (ft_strncmp(ini.cpycpy[ini.i], unsetstr, ini.c) == 0)
@@ -110,7 +112,7 @@ char	**unset(char **cpyenvp, char *unsetstr, t_var *var)
 		if (ft_strncmp(ini.cpycpy[ini.i], unsetstr, ini.c) == 0)
 			ini.i++;
 		else
-			(n(), ini.new_envp[ini.j] = ft_strdup(ini.cpycpy[ini.i]), ini.i++, ini.j++);
+			(n(), ini.new_envp[ini.j] = ft_strdup_f(ini.cpycpy[ini.i]), ini.i++, ini.j++);
 	}
 	return (ini.new_envp[ini.j] = NULL, free_2(ini.cpycpy), ini.new_envp);
 }

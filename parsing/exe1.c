@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:47:01 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 13:22:20 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 14:09:41 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	execute_final(char **s, t_var *var, t_lex *lex, t_pipe *pip)
 		return ;
 	}
 	else
-		execute_final22(cmdpath, s, var->cpyenv);
+		execute_final22(cmdpath, s, g_global.cpyenv);
 }
 
 int	check_eq2(char *str, t_var *var)
@@ -62,7 +62,7 @@ int	check_eq2(char *str, t_var *var)
 
 	i = 0;
 	if (str[0] == '$')
-		return (exportprint(var->cpyenv, var), 1);
+		return (exportprint(g_global.cpyenv, var), 1);
 	while (str[i])
 	{
 		if (isalpha(str[i]) == 0 && !str[i + 1])

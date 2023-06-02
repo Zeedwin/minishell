@@ -45,10 +45,11 @@ int	equalfinder(char *path)
 	return (i);
 }
 
-char	**ft_strcpy_env(char **cpyenv, char **envp)
+char	**ft_strcpy_env(char **envp)
 {
 	int	i;
-	int	len;
+	int		len;
+	char	**cpyenv;
 
 	i = 0;
 	len = 0;

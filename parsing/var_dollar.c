@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:43:50 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 13:22:20 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 14:09:41 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	*change_value(char *s, char **env, t_var *var)
 	int		j;
 	int		o;
 	char	*s2;
+	(void)var;
 
 	o = ft_strlen(s);
 	i = 0;
@@ -28,7 +29,7 @@ char	*change_value(char *s, char **env, t_var *var)
 		if (ft_strncmp(env[i], s, ft_strlen(s)) == 0)
 		{
 			s2 = malloc(sizeof(char) * (ft_strlen(env[i]) - ft_strlen(s) + 1));
-			while (var->cpyenv[i][o] != '\0')
+			while (g_global.cpyenv[i][o] != '\0')
 			{
 				s2[j] = env[i][o];
 				j++;

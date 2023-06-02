@@ -20,7 +20,7 @@ int	exec_builtin_out(char **s, t_var *var, t_lex *lex, t_pipe *pip)
 		var->last_err_com = 0;
 	}
 	else if (ft_strcmp(*s, "env") == 0 || ft_strcmp(*s, "ENV") == 0)
-		env(var->cpyenv);
+		env(g_global.cpyenv);
 	else if (ft_strcmp(*s, "echo") == 0)
 		echo(var, lex);
 	else if (ft_strcmp(lex->s[var->z][0], "exit") == 0)
@@ -60,7 +60,7 @@ void	execve_builtin(char **s, t_var *var, t_lex *lex)
 	if (ft_strcmp(*s, "export") == 0)
 	{
 		if (!lex->s[var->z][1])
-			exportprint(var->cpyenv, var);
+			exportprint(g_global.cpyenv, var);
 		else
 		{
 			while (lex->s[var->z] && lex->s[var->z][p.i]
@@ -68,9 +68,9 @@ void	execve_builtin(char **s, t_var *var, t_lex *lex)
 			{
 				if (check_eq2(lex->s[var->z][p.i], var) == 0)
 				{
-					envtmp = export2(var->cpyenv, lex, var, p.i);
-					free_2(var->cpyenv);
-					var->cpyenv = ft_strcpy_env(var->cpyenv, envtmp);
+					envtmp = export2(g_global.cpyenv, lex, var, p.i);
+					free_2(g_global.cpyenv);
+					g_global.cpyenv = ft_strcpy_env(envtmp);
 					free_2(envtmp);
 				}
 				p.i++;
