@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_dollar2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:47:41 by jgirard-          #+#    #+#             */
-/*   Updated: 2023/06/02 18:22:01 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/06/02 19:43:04 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,10 @@ char	***del_brak(char ***s)
 		while (s[i][j] != NULL)
 		{
 			if (check_empty(s[i][j]) == 0)
+			{
+				free(s[i][j]);
 				s[i][j] = NULL;
+			}
 			else
 				s[i][j] = del_brak2(s[i][j]);
 			j++;

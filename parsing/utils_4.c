@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:00:20 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 19:05:55 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 19:40:07 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	miniredir_s4(t_lex *lex, t_var *var)
 				printf("bash: permission denied: %s\n",
 					lex->s[var->z + var->i + 1][0]);
 			var->fail_dir = 1;
-			return (0);
+			g_global.last_err_com = 1;
+			return (1);
 		}
 		var->memo = var->z + var->i + 1;
 	}
