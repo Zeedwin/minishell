@@ -23,9 +23,9 @@ int	exec_builtin_out(char **s, t_var *var, t_lex *lex, t_pipe *pip)
 		env(g_global.cpyenv);
 	else if (ft_strcmp(*s, "echo") == 0)
 		echo(var, lex);
-	else if (ft_strcmp(lex->s[var->z][0], "exit") == 0)
+	else if (ft_strcmp(lex->s[var->z - 1][0], "exit") == 0)
 		ft_exit(var, lex, pip, 0);
-	if (lex->s[var->z + 1] == NULL)
+	if (lex->s[var->z] == NULL)
 	{
 		close(var->fd);
 		wait_pid(var, pip);

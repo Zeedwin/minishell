@@ -6,7 +6,7 @@
 /*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/24 12:51:32 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 14:09:41 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 16:36:34 by hdelmann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	fd_reinit(t_var	*var)
 {
 	close(var->fd);
 	var->fd = open("tmp/tmp.txt", O_RDONLY, 0777);
+	printf("spopop\n");
 }
 
 void	child_pro(t_lex *lex, t_var *var, t_pipe *pip)

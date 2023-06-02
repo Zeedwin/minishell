@@ -1,13 +1,1 @@
-Makefile
-R
-a
-b
-built-ins
-d
-includes
-minishell
-minishell.dSYM
-parsing
-s
-tmp
-w
+okokdd 
