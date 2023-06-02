@@ -6,7 +6,7 @@
 /*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 12:47:41 by jgirard-          #+#    #+#             */
-/*   Updated: 2023/05/29 15:11:41 by jgirard-         ###   ########.fr       */
+/*   Updated: 2023/06/02 18:22:01 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,10 @@ char	***del_brak(char ***s)
 		j = 0;
 		while (s[i][j] != NULL)
 		{
-			s[i][j] = del_brak2(s[i][j]);
+			if (check_empty(s[i][j]) == 0)
+				s[i][j] = NULL;
+			else
+				s[i][j] = del_brak2(s[i][j]);
 			j++;
 		}
 		i++;

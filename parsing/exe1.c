@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exe1.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 13:47:01 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 14:09:41 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 19:02:46 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,28 +56,67 @@ void	execute_final(char **s, t_var *var, t_lex *lex, t_pipe *pip)
 		execute_final22(cmdpath, s, g_global.cpyenv);
 }
 
-int	check_eq2(char *str, t_var *var)
+int	check_alpha_num(char *s)
 {
 	int	i;
 
+	i = 1;
+	while (s[i] != '\0')
+	{
+		if (s[i] < 48)
+			return (1);
+		if (s[i] > 122)
+			return (1);
+		if (s[i] > 57 && s[i] < 65)
+			return (1);
+		if (s[i] > 90 && s[i] < 97)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	printerr(char *str, t_var *var)
+{
+	if (str[0] == '$' && (check_alpha_num(str) == 1
+			|| str[1] == ' ' || str[1] == '\0'))
+	{
+		printf("bash: export: `%s': not a valid identifier\n", str);
+		g_global.last_err_com = 1;
+		return (1);
+	}
+	else if (str[0] == '$' && check_alpha_num(str) == 0)
+	{
+		exportprint(g_global.cpyenv, var);
+		return (1);
+	}
+	if (str[0] == '=')
+	{
+		printf("bash: export: `%s': not a valid identifier\n", str);
+		g_global.last_err_com = 1;
+		return (1);
+	}
+	return (0);
+}
+
+int	check_eq2(char *str, t_var *var)
+{
+	int	i;
+	int	ret;
+
 	i = 0;
-	if (str[0] == '$')
-		return (exportprint(g_global.cpyenv, var), 1);
-	while (str[i])
+	ret = printerr(str, var);
+	if (ret == 1)
+		return (1);
+	while (str[i] && str[i] != '=')
 	{
 		if (isalpha(str[i]) == 0 && !str[i + 1])
 		{
-			printf("bash: export: `%c': not a valid identifier\n", str[i]);
+			printf("bash: export: `%s': not a valid identifier\n", str);
 			g_global.last_err_com = 1;
 			return (1);
 		}
 		i++;
 	}
 	return (0);
-}
-
-void	init_sign(void)
-{
-	signal(SIGINT, ctrlc);
-	signal(SIGQUIT, ctrlbs);
 }
