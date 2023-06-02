@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:01:30 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 19:14:26 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 19:43:40 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,8 @@ void	find_path(char **env, t_var *var)
 				path2 = ft_split(&env[i][5], ':');
 				var->path = (char **)malloc((c_s(path2) + 1) * sizeof(char *));
 				while (path2[j] != NULL)
-				{
-					var->path[j] = ft_strjoin(path2[j], "/");
-					j++;
-				}
-				var->path[j] = NULL;
-				free_2(path2);
-				var->nopath = 1;
+					(n(), var->path[j] = ft_strjoin(path2[j], "/"), j++);
+				(n(), var->path[j] = NULL, free_2(path2), var->nopath = 1);
 				i++;
 			}
 		}

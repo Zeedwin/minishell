@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_dollar_1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 10:32:16 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 19:25:17 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 20:11:57 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,11 @@ char	*dol_replace2(char *s, t_var *var, int p)
 		{
 			i++;
 			while (s[i] != '\0' && s[i] != '\'')
-			{
 				i++;
-			}
 			i++;
 		}
 		else if (s[i] == '$' && s[i + 1] == '?')
-		{
 			s = ft_replace_dol_in(s, res);
-		}
 		else
 			i++;
 	}

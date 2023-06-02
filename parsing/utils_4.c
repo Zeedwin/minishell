@@ -3,52 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:00:20 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 19:40:07 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 20:32:51 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/shell.h"
-
-int	miniredir_s4(t_lex *lex, t_var *var)
-{
-	if (lex->supatok[var->z + var->i] == TK_REDIR_S2)
-	{
-		if (var->fd_s != -2)
-			close (var->fd_s);
-		var->fd_s = open(lex->s[var->z + var->i + 1][0],
-				O_CREAT | O_APPEND | O_WRONLY, 0777);
-		if (var->fd_s == -1 && errno == EACCES)
-		{
-			if (var->fail_dir == 0)
-				printf("bash: permission denied: %s\n",
-					lex->s[var->z + var->i + 1][0]);
-			var->fail_dir = 1;
-			g_global.last_err_com = 1;
-			return (1);
-		}
-		var->memo = var->z + var->i + 1;
-	}
-	else if (lex->supatok[var->z + var->i] == TK_REDIR_E2)
-	{
-		var->did_fail |= break_p(lex, var);
-		if (var->fd_e != -2)
-			close (var->fd_e);
-		var->fd_e = open("/tmp/tmp.txt", O_RDWR, 0777);
-	}
-	if (var->z > 0 && var->check_after_redir == 0)
-		lex->s[var->z - 1] = add_after_redir(
-				lex->s[var->z - 1],
-				lex->s[var->z + var->i + 1], var->c);
-	if (var->z > 0 && var->check_after_redir == 1 && var->i > 0)
-		lex->s[var->z - 1] = add_after_redir(
-				lex->s[var->z - 1],
-				lex->s[var->z + var->i + 1], var->o);
-	(n(), var->i += 2, var->o = 0);
-	return (0);
-}
 
 void	miniredir_s5(t_lex	*lex, t_var *var, t_pipe *pip)
 {
@@ -156,4 +118,13 @@ int	miniredir_s7(t_lex *lex, t_var *var, t_pipe *pip)
 	else
 		var->z = var->z + 1 + var->i;
 	return (1);
+}
+
+int	ini_i(char *s, int i)
+{
+	i++;
+	while (s[i] != '\0' && s[i] != '\'')
+			i++;
+	i++;
+	return (i);
 }

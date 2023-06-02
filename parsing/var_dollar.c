@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_dollar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:43:50 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 19:36:18 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 20:30:30 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,42 +95,11 @@ char	*replace_dol_fi(char *s, char *s1, char *s2)
 	return (free(s), s3[k] = '\0', s3);
 }
 
-int	ini_i(char *s, int i)
+char	*dolr_n(char *s1, char *s2, char *s)
 {
-	i++;
-	while (s[i] != '\0' && s[i] != '\'')
-			i++;
-	i++;
-	return (i);
-}
-
-char	*dol_replace3(char *s, char **env, int p)
-{
-	char	*s1;
-	char	*s2;
-	int		i;
-
-	i = 0;
-	if (p == 1)
-		while (s[i] != '\0' && s[i] != '=')
-			i++;
-	while (s[i] != '\0')
-	{
-		if (s[i] == '\'')
-				i = ini_i(s, i);
-		else if (s[i] == '$' && s[i + 1] != ' ' && s[i + 1] != '\0'
-			&& s[i + 1] != '"' && s[i + 1] != '\'' && s[i + 1] != '$')
-		{
-			(n(), s1 = replace_dol_env(s, i), s2 = replace_dol_env2(s1, env));
-			if (ft_strlen(s2) != 0)
-				s = replace_dol_fi(s, s1, s2);
-			else
-				s = replace_no_dol(s, s1);
-			(n(), free(s2), free(s1));
-			i += ft_strlen(s2);
-		}
-		else
-			i++;
-	}
+	if (ft_strlen(s2) != 0)
+		s = replace_dol_fi(s, s1, s2);
+	else
+		s = replace_no_dol(s, s1);
 	return (s);
 }

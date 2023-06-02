@@ -183,7 +183,9 @@ char	*ft_replace_dol_in(char *s, char *res);
 int		check_export(char *s);
 char	**exportprint(char	**cpyenv, t_var *var);
 int		check_redir(char *s);
+char	*dolr_n(char *s1, char *s2, char *s);
 void	ctrlc(int sig);
+char	*replace_dol_env2(char *s, char **env);
 char	*space_change(char *s);
 void	ctrld(int sig);
 void	init_sign(void);
@@ -324,5 +326,6 @@ void	pwd(void);
 char	**ft_strcpy_env(char **envp);
 void	env(char **cpyenv);
 void	ft_exit(t_var *var, t_lex *lex, t_pipe *pip, int exitcd);
+int		ini_i(char *s, int i);
 
 #endif

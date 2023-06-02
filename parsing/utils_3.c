@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:37:26 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 18:02:06 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 20:26:46 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,6 @@ char	**add_after_redir(char **s1, char **s2, int c)
 	return (s3);
 }
 
-char	**add_if_after(char **s1)
-{
-	int		i;
-	int		j;
-	char	**s2;
-
-	i = 0;
-	j = 1;
-	s2 = malloc(sizeof(char *) * (ft_strstrlen(s1) + 1));
-	while (s1[j] != NULL)
-	{
-		s2[i] = malloc(sizeof(char) * (ft_strlen(s1[j]) + 1));
-		s2[i] = ft_strcpy(s2[i], s1[j]);
-		i++;
-		j++;
-	}
-	s2[i] = NULL;
-	return (s2);
-}
-
 int	miniredir_s1(t_lex *lex, t_var *var)
 {
 	if ((lex->supatok[var->z + var->i] == TK_REDIR_S
@@ -77,6 +57,23 @@ int	miniredir_s1(t_lex *lex, t_var *var)
 		return (1);
 	}
 	return (0);
+}
+
+int	redir_n(t_var *var, t_lex *lex)
+{
+	if (var->fd_e != -2)
+		close(var->fd_e);
+	var->fd_e = open(lex->s[var->z + var->i + 1][0], O_RDWR, 0777);
+	if (var->fd_e == -1 && errno == ENOENT)
+	{	
+		if (var->fail_dir == 0)
+			printf("minishell: no such file or directory: %s\n",
+				lex->s[var->z + var->i + 1][0]);
+		var->fail_dir = 1;
+		g_global.last_err_com = 1;
+		return (1);
+	}
+	return (1);
 }
 
 int	miniredir_s3(t_lex *lex, t_var *var)
@@ -102,17 +99,7 @@ int	miniredir_s3(t_lex *lex, t_var *var)
 	}
 	else if (lex->supatok[var->z + var->i] == TK_REDIR_E)
 	{
-		if (var->fd_e != -2)
-			close(var->fd_e);
-		var->fd_e = open(lex->s[var->z + var->i + 1][0], O_RDWR, 0777);
-		if (var->fd_e == -1 && errno == ENOENT)
-		{
-			if (var->fail_dir == 0)
-				printf("minishell: no such file or directory: %s\n",
-					lex->s[var->z + var->i + 1][0]);
-			var->fail_dir = 1;
-			return (0);
-		}
+		redir_n(var, lex);
 	}
 	return (1);
 }

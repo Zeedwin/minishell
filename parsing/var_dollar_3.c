@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_dollar_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hdelmann <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgirard- <jgirard-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 15:35:19 by hdelmann          #+#    #+#             */
-/*   Updated: 2023/06/02 19:26:47 by hdelmann         ###   ########.fr       */
+/*   Updated: 2023/06/02 20:26:03 by jgirard-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,20 @@ char	*replace_no_dol(char *s, char *s1)
 	return (free(s), s2);
 }
 
+char	***dolrep_n(t_var	*var, char ***s, t_ini *i, char **env)
+{
+	if (check_export(s[i->i][i->j]))
+		i->p = 1;
+	s[i->i][i->j] = dol_replace2(s[i->i][i->j], var, i->p);
+	s[i->i][i->j] = dol_replace3(s[i->i][i->j], env, i->p);
+	return (s);
+}
+
 char	***dol_replace1(char ***s, t_var *var, char **env)
 {
 	t_ini	i;
-	int		p;
 
-	i.i = 0;
-	p = 0;
+	(n(), i.p = 0, i.i = 0);
 	while (s != NULL && s[i.i] != NULL)
 	{
 		i.j = 0;
@@ -57,13 +64,8 @@ char	***dol_replace1(char ***s, t_var *var, char **env)
 				break ;
 			}
 			else
-			{
-				if (check_export(s[i.i][i.j]))
-					p = 1;
-				s[i.i][i.j] = dol_replace2(s[i.i][i.j], var, p);
-				s[i.i][i.j] = dol_replace3(s[i.i][i.j], env, p);
-			}
-			i.j++;
+				s = dolrep_n(var, s, &i, env);
+		i.j++;
 		}
 		if (s[i.i] == NULL)
 			break ;
